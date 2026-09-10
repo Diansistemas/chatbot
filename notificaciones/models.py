@@ -21,4 +21,4 @@ class Resumen(models.Model):
     # Traduccimos en español y comentario en la base de datos
     class Meta:
         verbose_name = "Resumen"
-        verbose_name_plural = "Resúmenes"
+        verbose_name_plural = "Resúmenes"                                                                                                                                                                                                                                                                                                                                                 

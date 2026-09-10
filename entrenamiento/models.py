@@ -65,5 +65,5 @@ class Ejemplo(models.Model):
     origen = models.CharField(max_length=20, choices = origen_choices, default="chatbot")
 
     class Meta:
-        verboses_name = "Ejemplo"
+        verbose_name = "Ejemplo"
         verbose_name_plural = "Ejemplos"
