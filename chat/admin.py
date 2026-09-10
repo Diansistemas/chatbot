@@ -11,4 +11,4 @@ class ConversacionAdmin(admin.ModelAdmin):
 class MensajeAdmin(admin.ModelAdmin):
 
     search_fields = ("conversacion","texto", "remitente")
-    list_filter = ("conversacion")
+    list_filter = ("conversacion",)

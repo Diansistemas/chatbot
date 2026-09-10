@@ -20,6 +20,5 @@ class Resumen(models.Model):
     
     # Traduccimos en español y comentario en la base de datos
     class Meta:
-        db_table_comment = "Tabla que almacena los resúmenes de las conversaciones"
         verbose_name = "Resumen"
         verbose_name_plural = "Resúmenes"

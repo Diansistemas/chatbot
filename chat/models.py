@@ -29,7 +29,6 @@ class Conversacion(models.Model):
 
     # Traduccimos en español y comentario en la base de datos
     class Meta:
-        db_table_comment = "Tabla que almacena las conversaciones entre el usuario y el chatbot"
         verbose_name = "Conversacion"
         verbose_name_plural = "Conversaciones"
 
@@ -54,6 +53,5 @@ class Mensaje(models.Model):
 
     # Traduccimos en español y comentario en la base de datos
     class Meta:
-        db_table_comment = "Tabla que almacena las mensajes de una conversacion"
         verbose_name = "Mensaje"
         verbose_name_plural = "Mensajes"

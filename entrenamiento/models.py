@@ -17,6 +17,5 @@ class Servicio(models.Model):
     
     # Traduccimos en español y comentario en la base de datos
     class Meta:
-        db_table_comment = "Tabla que almacena los servicios ofrecidos por Dian Sistemas"
         verbose_name = "Servicio"
         verbose_name_plural = "Servicios"
