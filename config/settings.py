@@ -140,6 +140,12 @@ MAILERS = {
     },
 }
 
+#Dominio que tiene permitido usar esa app
+if DEBUG:
+    DOMINIO_PERMITIDO = "http://localhost:8000"
+else:
+    DOMINIO_PERMITIDO = "https://www.diansistemas.com"
+
 #CONFIGURACIÓN JAZZMIN
 JAZZMIN_SETTINGS = {
     # title of the window (Will default to current_admin_site.site_title if absent or None)

@@ -1,0 +1,77 @@
+:root {
+  --chatbot-primary: #0d6efd;
+  --chatbot-radius: 16px;
+}
+
+html, body {
+  margin: 0;
+  background: transparent !important; /* imprescindible: si no, el iframe se ve como un rectángulo blanco */
+}
+
+/* --- Botón flotante --- */
+#chat-btn {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--chatbot-primary);
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,.2);
+}
+
+/* --- Panel de chat --- */
+#chat-panel {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  display: none;              /* JS cambia a flex al abrir */
+  flex-direction: column;
+  background: #fff;
+  border-radius: var(--chatbot-radius);
+  overflow: hidden;
+
+  /* estado inicial de la animación */
+  opacity: 0;
+  transform: translateY(20px) scale(.95);
+  transition: opacity .25s ease, transform .25s ease;
+}
+
+#chat-panel.abierto {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+#mensajes {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.msg-bot, .msg-user {
+  max-width: 80%;
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+}
+.msg-bot { align-self: flex-start; background: #f1f1f1; }
+.msg-user { align-self: flex-end; background: var(--chatbot-primary); color: #fff; }
+
+/* En pantallas pequeñas, el chat ocupa toda la pantalla en vez de un panel flotante */
+@media (max-width: 480px) {
+  #chat-panel {
+    border-radius: 0;
+  }
+}
