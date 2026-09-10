@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class ResumenConfig(AppConfig):
-    name = 'resumen'
+class NotificacionesConfig(AppConfig):
+    name = 'notificaciones'

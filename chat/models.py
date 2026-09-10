@@ -33,7 +33,7 @@ class Conversacion(models.Model):
         verbose_name = "Conversacion"
         verbose_name_plural = "Conversaciones"
 
-class Mensajes(models.Model):
+class Mensaje(models.Model):
     # Relacion con la conversacion
     conversacion = models.ForeignKey(Conversacion, on_delete=models.CASCADE, related_name="mensajes")
 
