@@ -94,6 +94,10 @@ SPACY_MODEL_BASE = "es_core_news_sm"
 # Cuando tengamos modelo propio, el path va aqui
 SPACY_MODEL_PATH = None
 
+# Configuración de CSRF para que funcione en el iframe
+if not DEBUG:
+    CSRF_COOKIE_SAMESITE = "None"
+    CSRF_COOKIE_SECURE = True
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators

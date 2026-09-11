@@ -2,52 +2,50 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-<head>
-  {% bootstrap_css %}
+  <head>
+    {% bootstrap_css %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
+    <link href="{% static 'css/chatbot.css' %}" rel="stylesheet">
+  </head>
+  <body>
+    <button id="chat-btn" class="btn btn-primary rounded-circle" onclick="abrir()">💬</button>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
+    <div id="chat-panel">
+      <div id="chat-header" class="p-2 border-bottom d-flex justify-content-between">
+        <strong>Asistente Virtual</strong>
+        <button onclick="cerrar()" class="btn btn-sm">✕</button>
+      </div>
 
-  <link href="{% static 'css/chatbot.css' %}" rel="stylesheet">
-</head>
-<body>
-  <button id="chat-btn" class="btn btn-primary rounded-circle" onclick="abrir()">💬</button>
+      <div id="mensajes" class="flex-grow-1 p-2 overflow-auto"></div>
 
-  <div id="chat-panel">
-    <div id="chat-header" class="p-2 border-bottom d-flex justify-content-between">
-      <strong>Asistente Virtual</strong>
-      <button onclick="cerrar()" class="btn btn-sm">✕</button>
+      <form id="form-chat" class="d-flex p-2 border-top">
+        <input id="input-msg" class="form-control me-2" placeholder="Escribe un mensaje">
+        <button class="btn btn-primary">Enviar</button>
+      </form>
     </div>
 
-    <div id="mensajes" class="flex-grow-1 p-2 overflow-auto"></div>
-
-    <form id="form-chat" class="d-flex p-2 border-top">
-      <input id="input-msg" class="form-control me-2" placeholder="Escribe un mensaje">
-      <button class="btn btn-primary">Enviar</button>
-    </form>
-  </div>
-
-  <script>
-    function abrir() {
-      document.getElementById('chat-btn').style.display = 'none';
-      const panel = document.getElementById('chat-panel');
-      panel.style.display = 'flex';
-      requestAnimationFrame(() => panel.classList.add('abierto'));
-      window.parent.postMessage('chatbot:open', '*');
-    }
-    function cerrar() {
-      const panel = document.getElementById('chat-panel');
-      panel.classList.remove('abierto');
-      panel.addEventListener('transitionend', function ocultar() {
-        panel.style.display = 'none';
-        document.getElementById('chat-btn').style.display = 'flex';
-        panel.removeEventListener('transitionend', ocultar);
-      });
-      window.parent.postMessage('chatbot:close', '*');
-    }
-  </script>
-  {% bootstrap_javascript %}
-</body>
+    <script>
+      function abrir() {
+        document.getElementById('chat-btn').style.display = 'none';
+        const panel = document.getElementById('chat-panel');
+        panel.style.display = 'flex';
+        requestAnimationFrame(() => panel.classList.add('abierto'));
+        window.parent.postMessage('chatbot:open', '*');
+      }
+      function cerrar() {
+        const panel = document.getElementById('chat-panel');
+        panel.classList.remove('abierto');
+        panel.addEventListener('transitionend', function ocultar() {
+          panel.style.display = 'none';
+          document.getElementById('chat-btn').style.display = 'flex';
+          panel.removeEventListener('transitionend', ocultar);
+        });
+        window.parent.postMessage('chatbot:close', '*');
+      }
+    </script>
+    {% bootstrap_javascript %}
+  </body>
 </html>

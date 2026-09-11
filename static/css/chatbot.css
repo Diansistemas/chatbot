@@ -1,5 +1,6 @@
 :root {
-  --chatbot-primary: #003481;
+  --chatbot-primary: #4B81AE;
+  --chatbot-secondary: #BC6E2C;
   --font-titulo: 'Michroma', sans-serif;
   --font-texto: 'Raleway', sans-serif;
 }
@@ -16,10 +17,14 @@ body {
   height: 56px;
   border-radius: 50%;
   background: var(--chatbot-primary);
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 24px;
+}
+#chat-btn:hover {
+  background: var(--chatbot-secondary);
 }
 
 /* --- Panel de chat --- */
@@ -65,8 +70,15 @@ body {
   border-radius: 12px;
   font-size: 14px;
 }
-.msg-bot { align-self: flex-start; background: #f1f1f1; }
-.msg-user { align-self: flex-end; background: var(--chatbot-primary); color: #fff; }
+.msg-bot {
+  align-self: flex-start;
+  background: #f1f1f1;
+}
+.msg-user { 
+  align-self: flex-end;
+  background: var(--chatbot-primary);
+  color: #fff;
+}
 
 /* En pantallas pequeñas, el chat ocupa toda la pantalla en vez de un panel flotante */
 @media (max-width: 480px) {
