@@ -87,6 +87,13 @@ DATABASES = {
     }
 }
 
+# Configuracion de spaCy
+# Modelo base que vamos a usar
+SPACY_MODEL_BASE = "es_core_news_sm"
+
+# Cuando tengamos modelo propio, el path va aqui
+SPACY_MODEL_PATH = None
+
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
