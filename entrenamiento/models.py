@@ -21,6 +21,9 @@ class Servicio(models.Model):
         verbose_name = "Servicio"
         verbose_name_plural = "Servicios"
 
+    def __str__(self):
+        return (f"Nombre: {self.nombre} \n Descripcion: {self.descripcion} \n Coste: {self.coste} \n Tiempo: {self.tiempo_aproximado}")
+
 # Etiquetas para las entidades de entrenamiento de la IA
 class EtiquetaEntidad(models.Model):    
     # Nombre de la etiqueta
@@ -67,3 +70,16 @@ class Ejemplo(models.Model):
     class Meta:
         verbose_name = "Ejemplo"
         verbose_name_plural = "Ejemplos"
+
+# Respuestas para spaCy
+class Respuesta(models.Model):
+
+    # Para que tipo de mensaje es
+    intencion = models.ForeignKey(Intencion, on_delete=models.CASCADE, related_name="respuestas")
+
+    # Que respuesta
+    texto = models.TextField()
+
+    class Meta:
+        verbose_name = "Respuesta"
+        verbose_name_plural = "Respuestas"

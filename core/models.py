@@ -1,7 +1,9 @@
 from django.db import models
 from chat.models import Mensaje
-from entrenamiento.models import Intencion, EtiquetaEntidad
-from .nlp import get_nlp
+from entrenamiento.models import Intencion, EtiquetaEntidad, Respuesta, Servicio
+from .acceso import get_nlp, get_llm
+from django.conf import settings
+import random
 
 #Analisis de cada mensaje
 class Analisis(models.Model):
@@ -47,15 +49,75 @@ def procesar_mensaje(mensaje_recibido):
         intencion = Intencion.objects.filter(nombre = nombre_intencion, activa=True).first()
 
     # Creamos el analisis
-    analisis = Analisis.objects.create(mensaje=mensaje_recibido, intecion=intencion, confianza=confianza)
+    analisis = Analisis.objects.create(mensaje=mensaje_recibido, intencion=intencion, confianza=confianza)
 
     # Buscamos y creamos las entidades
     entidades = []
-    for entidad in doc.ents():
-        etiqueta = EtiquetaEntidad.objects.get_or_create(nombre=entidad.label_)
+    for entidad in doc.ents:
+        etiqueta, _ = EtiquetaEntidad.objects.get_or_create(nombre=entidad.label_)
         entidades.append(EntidadDetectada(analisis=analisis, etiqueta=etiqueta, texto_detectado=entidad.text))
 
     EntidadDetectada.objects.bulk_create(entidades)
 
     return analisis
 
+# Respuestas predefinidas del nlm
+def generar_respuesta_nlm(analisis):
+
+    conversacion = analisis.mensaje.conversacion
+
+    if not analisis.intencion:
+        return"Lo siento, no te he entendido bien. ¿Puedes reformular tu mensaje?"
+  
+    else:
+        respuestas = list(Respuesta.objects.filter(intencion=analisis.intencion))
+
+        if not respuestas:
+            return "No hay respuestas para tu consulta"
+
+    plantilla =  random.choice(respuestas)
+
+    return plantilla.texto
+
+
+# Respuestas generadas del llm
+def generar_respuesta_llm(mensaje, analisis, servicio):
+    llm = get_llm()
+    if llm is None:
+        return None
+
+    intencion = analisis.intencion.nombre
+
+    if not intencion:
+        intencion = "desconocida"
+
+    contexto = str(servicio)
+
+    prompt = ""
+
+    # Mandamos el promot al llm y construimos le mensaje segun los settings
+    try:
+        salida = llm(
+            prompt,
+            max_tokens=getattr(settings, "LLM_MAX_TOKENS", 200),
+            stop=["\n\n", "Mensaje del usuario:"],
+            temperature=0.4,
+        )
+        texto = salida["choices"][0]["text"].strip()
+        return texto or None
+
+    #En caso de error no devolvemos nada
+    except Exception:
+        return None
+
+# Funcion a llamar para responder en el chatbot
+def responder(mensaje):
+    analisis = procesar_mensaje(mensaje)
+
+    conversacion =  analisis.mensaje.conversacion
+
+    # Dependiendo de donde estemos generamos el texto de una forma y otra
+    # texto_respuesta = generar_respuesta_llm(analisis)
+    # texto_respuesta = generar_respuesta_nlm(analisis)
+
+    #return Mensaje.object.create(conversacion=conversacion, texto = texto_respuesta, remitente="chatbot")

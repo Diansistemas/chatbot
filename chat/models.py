@@ -1,4 +1,5 @@
 from django.db import models
+from entrenamiento.models import Servicio
 
 class Conversacion(models.Model):
 
@@ -55,3 +56,33 @@ class Mensaje(models.Model):
     class Meta:
         verbose_name = "Mensaje"
         verbose_name_plural = "Mensajes"
+
+# Donde debería estar esto
+class Pedido(models.Model):
+
+    # Relacion con la conversacion
+    conversacion = models.ForeignKey(Conversacion, on_delete=models.CASCADE, related_name="mensajes")
+
+    # Datos minimos de un pedido
+    nombre = models.CharField(max_length=100)
+    direccion = models.CharField(max_length=100)
+    # Quizas un textField en vez de una foreignkey 
+    #servicio = models.ForeignKey(Servicio)
+
+    class Meta:
+        verbose_name = "Pedido"
+        verbose_name_plural = "Pedidos"
+
+    def checkCampos(self):
+        mensaje = ""
+        if not self.nombre:
+            mensaje = mensaje + "Falta nombre \n"
+
+        if not self.direccion:
+            mensaje = mensaje + "Falta dirección \n"
+
+        if mensaje == "":
+            return True
+
+        else:
+            return (False,mensaje)
