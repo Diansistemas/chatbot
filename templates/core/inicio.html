@@ -1,8 +1,57 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
-<head><title>Web cliente (simulada)</title></head>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+  <title>DIAN Sistemas (simulación para pruebas)</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 <body>
-  <h1>Contenido de ejemplo de la web del cliente</h1>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">DIAN Sistemas</a>
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link" href="#">Inicio</a>
+        <a class="nav-link" href="#">Servicios</a>
+        <a class="nav-link" href="#">Sobre nosotros</a>
+        <a class="nav-link" href="#">Blog</a>
+        <a class="nav-link" href="#">Contacto</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="text-center py-5 bg-light">
+    <div class="container">
+      <h1 class="fw-bold">Soluciones tecnológicas</h1>
+      <p class="lead">Consigue la tecnología que necesitas hoy para hacer crecer tu negocio mañana.</p>
+    </div>
+  </header>
+
+  <section class="container py-5">
+    <h2 class="text-center mb-4">Somos expertos en...</h2>
+    <div class="row g-4 text-center">
+      <div class="col-md-3">
+        <h5>Mantenimiento informático</h5>
+      </div>
+      <div class="col-md-3">
+        <h5>Estrategias de marketing digital</h5>
+      </div>
+      <div class="col-md-3">
+        <h5>Diseño de páginas web y branding</h5>
+      </div>
+      <div class="col-md-3">
+        <h5>Servicios en la nube</h5>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-dark text-white text-center py-4">
+    <p class="mb-0">Avenida Gran Vía de San Marcos 10-Bis, Primero, 24002 León · info@diansistemas.com · 987 103 820</p>
+  </footer>
+
+  <!-- aquí va tu widget -->
   <script src="http://localhost:8000/static/js/loader.js"></script>
+
 </body>
 </html>

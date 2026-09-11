@@ -144,7 +144,7 @@ MAILERS = {
 if DEBUG:
     DOMINIO_PERMITIDO = "http://localhost:8000"
 else:
-    DOMINIO_PERMITIDO = "https://www.diansistemas.com"
+    DOMINIO_PERMITIDO = "https://diansistemas.com/"
 
 #CONFIGURACIÓN JAZZMIN
 JAZZMIN_SETTINGS = {

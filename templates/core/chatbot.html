@@ -1,45 +1,45 @@
+{% load django_bootstrap5 %}
 {% load static %}
 <!DOCTYPE html>
 <html>
 <head>
+  {% bootstrap_css %}
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
+
   <link href="{% static 'css/chatbot.css' %}" rel="stylesheet">
-  <style>
-    html, body { background: transparent !important; margin: 0; }
-    #chat-panel {
-      display: none;
-      flex-direction: column;
-      height: 100vh;
-    }
-  </style>
 </head>
 <body>
   <button id="chat-btn" class="btn btn-primary rounded-circle" onclick="abrir()">💬</button>
 
   <div id="chat-panel">
-    <div class="p-2 border-bottom d-flex justify-content-between">
-      <strong>Chatbot</strong>
+    <div id="chat-header" class="p-2 border-bottom d-flex justify-content-between">
+      <strong>Asistente Virtual</strong>
       <button onclick="cerrar()" class="btn btn-sm">✕</button>
     </div>
+
     <div id="mensajes" class="flex-grow-1 p-2 overflow-auto"></div>
+
     <form id="form-chat" class="d-flex p-2 border-top">
       <input id="input-msg" class="form-control me-2" placeholder="Escribe un mensaje">
       <button class="btn btn-primary">Enviar</button>
     </form>
   </div>
+
   <script>
     function abrir() {
       document.getElementById('chat-btn').style.display = 'none';
       const panel = document.getElementById('chat-panel');
       panel.style.display = 'flex';
-      // esperamos un frame para que el navegador aplique display:flex
-      // antes de añadir la clase que dispara la transición de opacity/transform
       requestAnimationFrame(() => panel.classList.add('abierto'));
       window.parent.postMessage('chatbot:open', '*');
     }
     function cerrar() {
       const panel = document.getElementById('chat-panel');
       panel.classList.remove('abierto');
-      // esperamos a que termine la transición antes de ocultarlo del todo
       panel.addEventListener('transitionend', function ocultar() {
         panel.style.display = 'none';
         document.getElementById('chat-btn').style.display = 'flex';
@@ -48,5 +48,6 @@
       window.parent.postMessage('chatbot:close', '*');
     }
   </script>
+  {% bootstrap_javascript %}
 </body>
 </html>
