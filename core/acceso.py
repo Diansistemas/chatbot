@@ -29,9 +29,9 @@ MAPA_MODELO = {
 
 # Punto de acceso a llama
 @lru_cache(maxsize=1)
-def llamar_llm(intencion, mensaje, hisoria, contexto):
+def llamar_llm(intencion, mensaje, historico, contexto):
     modelo = MAPA_MODELO[intencion]
-    mensajes = hisoria + [{
+    mensajes = historico + [{
         "role": "user",
         "contenido": f"{contexto}\n\n{mensaje}"
     }]
