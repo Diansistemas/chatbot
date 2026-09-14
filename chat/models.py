@@ -68,6 +68,8 @@ class Pedido(models.Model):
     direccion = models.CharField(max_length=100)
     # Quizas un textField en vez de una foreignkey 
     #servicio = models.ForeignKey(Servicio)
+    # Presupuesto?
+    # Metodo de contacto?
 
     class Meta:
         verbose_name = "Pedido"
