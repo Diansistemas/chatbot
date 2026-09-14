@@ -81,43 +81,42 @@ def generar_respuesta_nlm(analisis):
 
 
 # Respuestas generadas del llm
+from .acceso import get_nlp, llamar_llm
+
 def generar_respuesta_llm(mensaje, analisis, servicio):
-    llm = llamar_llm()
-    if llm is None:
-        return None
-
+    conversacion = mensaje.conversacion
     intencion = analisis.intencion.nombre
-
-    if not intencion:
-        intencion = "desconocida"
-
     contexto = str(servicio)
 
-    prompt = ""
+    # Generamos el historico excluyendo el mensaje que genera al respuesta
+    historico = [
+        {"role": "user" if mensaje.remitente == "usuario" else "assistant", "content": mensaje.texto}
+        for mensaje in conversacion.mensajes.exclude(pk=mensaje.pk).order_by("fecha_mensaje")
+    ]
 
-    # Mandamos el promot al llm y construimos le mensaje segun los settings
     try:
-        salida = llm(
-            prompt,
-            max_tokens=getattr(settings, "LLM_MAX_TOKENS", 200),
-            stop=["\n\n", "Mensaje del usuario:"],
-            temperature=0.4,
-        )
-        texto = salida["choices"][0]["text"].strip()
-        return texto or None
-
-    #En caso de error no devolvemos nada
+        texto = llamar_llm(intencion, mensaje.texto, historico, contexto)
+        return texto.strip() or None
     except Exception:
         return None
 
-# Funcion a llamar para responder en el chatbot
+# Funcion a llamar para generar una respuesta
 def responder(mensaje):
     analisis = procesar_mensaje(mensaje)
+    conversacion = analisis.mensaje.conversacion
 
-    conversacion =  analisis.mensaje.conversacion 
+    servicio = None
 
-    # Dependiendo de donde estemos generamos el texto de una forma y otra
-    # texto_respuesta = generar_respuesta_llm(analisis)
-    # texto_respuesta = generar_respuesta_nlm(analisis)
+    # Generemos en el llm
+    texto_respuesta = generar_respuesta_llm(mensaje, analisis, servicio)
 
-    #return Mensaje.object.create(conversacion=conversacion, texto = texto_respuesta, remitente="chatbot")
+    # Si falla, mensaje de error por defecto
+    if not texto_respuesta:
+        texto_respuesta = ""
+
+    # 
+    return Mensaje.objects.create(
+        conversacion=conversacion,
+        texto=texto_respuesta,
+        remitente="chatbot"
+    )
