@@ -14,6 +14,8 @@ Este projecto esta estructurado como una aplicacion web de Django.
 - **Backend:** Python, Django
 - **Database:** SQLite
 - **Frontend:** Bootstrap5
+- **NTL:** spaCy
+- **LLM:** Ollama, Llama
 
 ## Creditos
 - Victor Herrero
