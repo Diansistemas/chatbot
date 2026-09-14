@@ -1,15 +1,15 @@
 from django.db import models
 from chat.models import Mensaje
 from entrenamiento.models import Intencion, EtiquetaEntidad, Respuesta, Servicio
-from .acceso import get_nlp, get_llm
+from .acceso import get_nlp, llamar_llm
 from django.conf import settings
 import random
 
 #Analisis de cada mensaje
 class Analisis(models.Model):
 
-    mensaje = models.OneToOneField(Mensaje, on_delete = models.CASCADE, related_name="mensaje_detectado")
-    intencion = models.ForeignKey(Intencion, on_delete = models.SET_NULL, null=True, blank=True, related_name="intencion_detectada")
+    mensaje = models.OneToOneField(Mensaje, on_delete = models.CASCADE, related_name="mensaje_analisis")
+    intencion = models.ForeignKey(Intencion, on_delete = models.SET_NULL, null=True, blank=True, related_name="intencion_analisis")
 
     # Cuanta confianza tenemos en que el analisis es correcto
     confianza  = models.FloatField(null=True, blank=True)
@@ -22,9 +22,9 @@ class Analisis(models.Model):
 # Entidades y etiquetas detectadas en el analsis
 class EntidadDetectada(models.Model):
 
-    analisis = models.ForeignKey(Analisis, on_delete=models.CASCADE, related_name="entidades")
+    analisis = models.ForeignKey(Analisis, on_delete=models.CASCADE, related_name="analisis_entidad")
 
-    etiqueta = models.ForeignKey(EtiquetaEntidad, on_delete=models.PROTECT, related_name="etiquetas_detectadas")
+    etiqueta = models.ForeignKey(EtiquetaEntidad, on_delete=models.PROTECT, related_name="etiqueta_entidad")
 
     texto_detectado = models.TextField()
     
@@ -82,7 +82,7 @@ def generar_respuesta_nlm(analisis):
 
 # Respuestas generadas del llm
 def generar_respuesta_llm(mensaje, analisis, servicio):
-    llm = get_llm()
+    llm = llamar_llm()
     if llm is None:
         return None
 
@@ -114,7 +114,7 @@ def generar_respuesta_llm(mensaje, analisis, servicio):
 def responder(mensaje):
     analisis = procesar_mensaje(mensaje)
 
-    conversacion =  analisis.mensaje.conversacion
+    conversacion =  analisis.mensaje.conversacion 
 
     # Dependiendo de donde estemos generamos el texto de una forma y otra
     # texto_respuesta = generar_respuesta_llm(analisis)

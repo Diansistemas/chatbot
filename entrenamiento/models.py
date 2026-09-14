@@ -75,7 +75,7 @@ class Ejemplo(models.Model):
 class Respuesta(models.Model):
 
     # Para que tipo de mensaje es
-    intencion = models.ForeignKey(Intencion, on_delete=models.CASCADE, related_name="respuestas")
+    intencion = models.ForeignKey(Intencion, on_delete=models.CASCADE, related_name="intencion_respuesta")
 
     # Que respuesta
     texto = models.TextField()

@@ -1,5 +1,4 @@
 from django.db import models
-from entrenamiento.models import Servicio
 
 class Conversacion(models.Model):
 
@@ -35,7 +34,7 @@ class Conversacion(models.Model):
 
 class Mensaje(models.Model):
     # Relacion con la conversacion
-    conversacion = models.ForeignKey(Conversacion, on_delete=models.CASCADE, related_name="mensajes")
+    conversacion = models.ForeignKey(Conversacion, on_delete=models.CASCADE, related_name="converascion_mensajes")
 
     # Texto del mensaje
     texto = models.TextField()
@@ -61,7 +60,7 @@ class Mensaje(models.Model):
 class Pedido(models.Model):
 
     # Relacion con la conversacion
-    conversacion = models.ForeignKey(Conversacion, on_delete=models.CASCADE, related_name="mensajes")
+    conversacion = models.ForeignKey(Conversacion, on_delete=models.CASCADE, related_name="conversacion_pedido")
 
     # Datos minimos de un pedido
     nombre = models.CharField(max_length=100)
