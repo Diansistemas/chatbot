@@ -27,8 +27,7 @@ MAPA_MODELO = {
     "otro": "chatbot-otro",
 }
 
-# Punto de aceso al modelo de spaCy, de momentos solo cargamos 1 modelo
-# Si en algun momento cargamos mas de uno, hay que cambiar el max_size y cargarlos todos
+# Punto de acceso a llama
 @lru_cache(maxsize=1)
 def llamar_llm(intencion, mensaje, hisoria, contexto):
     modelo = MAPA_MODELO[intencion]
