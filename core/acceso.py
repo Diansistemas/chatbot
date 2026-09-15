@@ -37,7 +37,7 @@ def llamar_llm(intencion, mensaje, historico, contexto):
     }]
     resp = requests.post(
         f"{settings.OLLAMA_HOST}/api/chat",
-        json={"modelo": modelo, "mensajes": mensajes, "stream": False},
+        json={"model": modelo, "messages": mensajes, "stream": False},
         timeout=60,
     )
     resp.raise_for_status()

@@ -32,9 +32,13 @@ class Conversacion(models.Model):
         verbose_name = "Conversacion"
         verbose_name_plural = "Conversaciones"
 
+    # Contamos cuantos mensajes tiene la conversacion
+    def contar_mensajes(self):
+        return self.conversacion_mensajes.count()
+
 class Mensaje(models.Model):
     # Relacion con la conversacion
-    conversacion = models.ForeignKey(Conversacion, on_delete=models.CASCADE, related_name="converascion_mensajes")
+    conversacion = models.ForeignKey(Conversacion, on_delete=models.CASCADE, related_name="conversacion_mensajes")
 
     # Texto del mensaje
     texto = models.TextField()
@@ -49,9 +53,9 @@ class Mensaje(models.Model):
 
     # Cuadno se manda el mensaje
     # Nos permite recrear la conversacion
-    fecha_mensaje = models.DateTimeField(auto_now_add=True)
+    fecha_mensaje = models.DateTimeField(auto_now_add=True)  
 
-    # Traduccimos en español y comentario en la base de datos
+    # Traduccimos en español  y comentario en la base de datos
     class Meta:
         verbose_name = "Mensaje"
         verbose_name_plural = "Mensajes"
