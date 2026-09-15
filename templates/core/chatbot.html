@@ -19,9 +19,13 @@
         <button onclick="cerrar()" class="btn btn-sm">✕</button>
       </div>
 
-      <div id="mensajes" class="flex-grow-1 p-2 overflow-auto"></div>
+      <div id="mensajes" class="flex-grow-1 p-2 overflow-auto">
+        {% for mensaje in mensajes %}
+          <p> {{ mensaje.texto }} </p>
+        {% endif %}
+      </div>
 
-      <form id="form-chat" class="d-flex p-2 border-top">
+      <form id="form-chat" class="d-flex p-2 border-top" onsubmit="event.preventDefault();">
         <input id="input-msg" class="form-control me-2" placeholder="Escribe un mensaje">
         <button class="btn btn-primary">Enviar</button>
       </form>

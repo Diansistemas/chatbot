@@ -1,15 +1,36 @@
 from django.shortcuts import render
+from django.views.generic import ListView,TemplateView
 from django.views.decorators.clickjacking import xframe_options_exempt
+from django.utils.decorators import method_decorator
 from django.conf import settings
+from chat.models import Mensaje, Conversacion
 
-def inicio(request):
-    return render(
-        request,
-        "core/inicio.html",
-    )
+class InicioView(TemplateView):
+    template_name = 'core/inicio.html'
 
-@xframe_options_exempt
-def chat_widget_view(request):
-    response = render(request, "core/chatbot.html")
-    response["Content-Security-Policy"] = f"frame-ancestors {settings.DOMINIO_PERMITIDO}"
-    return response
+def build_chat_context(conversacion):
+    context = {"conversacion" : conversacion}
+    context["Content-Security-Policy"] = f"frame-ancestors {settings.DOMINIO_PERMITIDO}"
+    return context
+
+#View del chat
+#@xframe_options_exempt
+@method_decorator(xframe_options_exempt, name='dispatch')
+class ChatWidgetView(ListView):
+    model = Mensaje
+    template_name = "core/chatbot.html"
+    context_object_name = "mensajes"
+
+    def setup(self, request, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
+        self.conversacion = Conversacion.objects.create()
+
+    #Filtros para el mensaje
+    def get_queryset(self):
+        return Mensaje.objects.filter(conversacion = self.conversacion).order_by("fecha_mensaje")
+
+    # Contexto del chat
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(build_chat_context(self.conversacion))
+        return context
