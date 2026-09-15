@@ -1,6 +1,6 @@
 from django.db import models
 from chat.models import Mensaje
-from entrenamiento.models import Intencion, EtiquetaEntidad, Respuesta, Servicio
+from entrenamiento.models import Intencion, EtiquetaEntidad, Respuesta, Servicio, detectar_servicio
 from .acceso import get_nlp, llamar_llm
 from django.conf import settings
 import random
@@ -84,9 +84,8 @@ def responder(mensaje):
     analisis = procesar_mensaje(mensaje)
     conversacion = mensaje.conversacion
 
-    # Generar los servicios
-    # Deberian salir del analisis
-    servicio = None
+    # Que servicio esta consultando
+    servicio = detectar_servicio(analisis)
 
     # Generemos los mensajes
     # Si es el primer mensaje real, vamos con un mensaje fijo
