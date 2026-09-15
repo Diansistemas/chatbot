@@ -21,8 +21,12 @@
 
       <div id="mensajes" class="flex-grow-1 p-2 overflow-auto">
         {% for mensaje in mensajes %}
-          <p> {{ mensaje.texto }} </p>
-        {% endif %}
+          {% if mensaje.remitente == "chatbot" %}
+            <p class="msg-bot"> {{ mensaje.texto }} </p>
+          {% else %}
+            <p class="msg-user"> {{ mensaje.texto }} </p>
+          {% endif %}
+        {% endfor %}
       </div>
 
       <form id="form-chat" class="d-flex p-2 border-top" onsubmit="event.preventDefault();">

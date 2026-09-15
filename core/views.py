@@ -14,7 +14,6 @@ def build_chat_context(conversacion):
     return context
 
 #View del chat
-#@xframe_options_exempt
 @method_decorator(xframe_options_exempt, name='dispatch')
 class ChatWidgetView(ListView):
     model = Mensaje
@@ -24,6 +23,7 @@ class ChatWidgetView(ListView):
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         self.conversacion = Conversacion.objects.create()
+        primer_mensaje = Mensaje.objects.create(conversacion = self.conversacion, texto = "", remitente = "usuario")
 
     #Filtros para el mensaje
     def get_queryset(self):
