@@ -1,5 +1,5 @@
 from django.db import models
-from chat.models import Conversacion
+from chat.models import Mensaje
 
 class Servicio(models.Model):
 
@@ -51,11 +51,32 @@ class Intencion(models.Model):
         verbose_name =  "Intencion"
         verbose_name_plural = "Intenciones"
 
+
+class Par_Mensaje_Respuesta(models.Model):
+
+    intencion = models.ForeignKey(Intencion, on_delete=models.PROTECT, related_name="intencion_par_mensaje_respuesta")
+
+    mensaje_usuario = models.ForeignKey(Mensaje, on_delete=models.SET_NULL, null=True, related_name="mensaje_usuario_par_mensaje_resupuesta")
+    texto_usuario = models.TextField()
+    mensaje_chatbot = models.ForeignKey(Mensaje, on_delete=models.SET_NULL, null=True, related_name="mensaje_chatbot_par_mensaje_resupuesta")
+    texto_chatbot = models.TextField()
+
+    class Meta:
+        verbose_name = "Par de Entranamiento"
+        verbose_name_plural = "Pares de Entrenamiento"
+
+    def save(self, *args, **kwargs):
+
+        self.texto_usuario = self.mensaje_usuario.texto
+        self.texto_chatbot = self.mensaje_chatbot.texto
+
+        super().save(*args, **kwargs)
+
 # Ejemplos de conversaciones para entrenar al chatbot
 class Ejemplo(models.Model):
 
     # La conversacion 
-    conversacion = models.ForeignKey(Conversacion, on_delete=models.PROTECT)
+    conversacion = models.ForeignKey(Par_Mensaje_Respuesta, on_delete=models.PROTECT)
 
     # El origen de la conversacion
     # Manual: Creada manualmente, ya sea desde administracion o con el chatbot

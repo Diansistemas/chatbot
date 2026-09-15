@@ -36,6 +36,7 @@ class Conversacion(models.Model):
     def contar_mensajes(self):
         return self.conversacion_mensajes.count()
 
+
 class Mensaje(models.Model):
     # Relacion con la conversacion
     conversacion = models.ForeignKey(Conversacion, on_delete=models.CASCADE, related_name="conversacion_mensajes")

@@ -61,7 +61,7 @@ def procesar_mensaje(mensaje_recibido):
 
     return analisis
 
-def generar_respuesta_llm(mensaje, analisis, servicio):
+def generar_respuesta_llm(mensaje, analisis, servicio): 
     conversacion = mensaje.conversacion
     intencion = analisis.intencion.nombre
     contexto = str(servicio)
