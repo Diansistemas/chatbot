@@ -28,12 +28,11 @@ MAPA_MODELO = {
 }
 
 # Punto de acceso a llama
-@lru_cache(maxsize=1)
 def llamar_llm(intencion, mensaje, historico, contexto):
-    modelo = MAPA_MODELO[intencion]
+    modelo = MAPA_MODELO[intencion, MAPA_MODELO["otro"]]
     mensajes = historico + [{
         "role": "user",
-        "contenido": f"{contexto}\n\n{mensaje}"
+        "content": f"{contexto}\n\n{mensaje}"
     }]
     resp = requests.post(
         f"{settings.OLLAMA_HOST}/api/chat",
@@ -41,4 +40,4 @@ def llamar_llm(intencion, mensaje, historico, contexto):
         timeout=60,
     )
     resp.raise_for_status()
-    return resp.json()["mensajes"]["contenido"]
+    return resp.json()["message"]["content"]

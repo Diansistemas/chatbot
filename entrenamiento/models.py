@@ -37,7 +37,7 @@ class EtiquetaEntidad(models.Model):
         verbose_name_plural = "Etiquetas de Entidades"
 
 # Equivalente a labels, nos sirve para distinguir entre una consulta tecnica o una compra
-class Intencion(models.Model):
+class Intencion(models.Model): 
     # Nombre de la intencion
     nombre = models.CharField(max_length=50, unique=True)
 
@@ -83,3 +83,11 @@ class Respuesta(models.Model):
     class Meta:
         verbose_name = "Respuesta"
         verbose_name_plural = "Respuestas"
+
+def detectar_servicio(analisis):
+
+    entidad_servicio = analisis.analisis_entidad.filter(etiqueta__nombre="SERVICIO").first()
+    if not entidad_servicio:
+        return None
+    
+    return Servicio.objects.filter(nombre__icontains=entidad_servicio.texto_detectado).first()

@@ -1,6 +1,6 @@
 from django.db import models
 from chat.models import Mensaje
-from entrenamiento.models import Intencion, EtiquetaEntidad, Respuesta, Servicio
+from entrenamiento.models import Intencion, EtiquetaEntidad, Respuesta, Servicio, detectar_servicio
 from .acceso import get_nlp, llamar_llm
 from django.conf import settings
 import random
@@ -61,28 +61,6 @@ def procesar_mensaje(mensaje_recibido):
 
     return analisis
 
-# Respuestas predefinidas del nlm
-def generar_respuesta_nlm(analisis):
-
-    conversacion = analisis.mensaje.conversacion
-
-    if not analisis.intencion:
-        return"Lo siento, no te he entendido bien. ¿Puedes reformular tu mensaje?"
-  
-    else:
-        respuestas = list(Respuesta.objects.filter(intencion=analisis.intencion))
-
-        if not respuestas:
-            return "No hay respuestas para tu consulta"
-
-    plantilla =  random.choice(respuestas)
-
-    return plantilla.texto
-
-
-# Respuestas generadas del llm
-from .acceso import get_nlp, llamar_llm
-
 def generar_respuesta_llm(mensaje, analisis, servicio):
     conversacion = mensaje.conversacion
     intencion = analisis.intencion.nombre
@@ -99,31 +77,28 @@ def generar_respuesta_llm(mensaje, analisis, servicio):
         return texto.strip() or None
     except Exception:
         return None
-
+    
 # Funcion a llamar para generar una respuesta
 def responder(mensaje):
 
-    #analisis = procesar_mensaje(mensaje)
+    analisis = procesar_mensaje(mensaje)
     conversacion = mensaje.conversacion
-    texto_respuesta = "Hola"
 
-    #servicio = None
+    # Que servicio esta consultando
+    servicio = detectar_servicio(analisis)
 
-    # Generemos en el llm
-    #texto_respuesta = generar_respuesta_llm(mensaje, analisis, servicio)
+    # Generemos los mensajes
+    # Si es el primer mensaje real, vamos con un mensaje fijo
+    if conversacion.contar_mensajes() == 2:
+        # Un tipo de respuesta por intencion
+        texto_respuesta="Hola, soy una prueba"
 
-    # Si falla, mensaje de error por defecto
-    #if not texto_respuesta:
-    #    texto_respuesta = "Hola soy una prueba"
+    else:
+        texto_respuesta= generar_respuesta_llm(mensaje, analisis, servicio)
 
-    # Comrpobamos si es el primer mensaje de la conversacion
-    # El primer mensaje es siempre el mismo para cada modelo
-    #if conversacion.contar_mensajes()==1:
-        #if analisis == "":
-        #    texto_respuesta = ""
-        # elif analis == ... 
-        # 1 por modelo
-
+    # Si generar texto falla
+    if not texto_respuesta:
+        texto_respuesta="Ha habido un error, ¿puedes intentarlo de nuevo?"
 
     return Mensaje.objects.create(
         conversacion=conversacion,
