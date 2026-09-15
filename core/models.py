@@ -102,17 +102,19 @@ def generar_respuesta_llm(mensaje, analisis, servicio):
 
 # Funcion a llamar para generar una respuesta
 def responder(mensaje):
-    analisis = procesar_mensaje(mensaje)
-    conversacion = mensaje.conversacion
 
-    servicio = None
+    #analisis = procesar_mensaje(mensaje)
+    conversacion = mensaje.conversacion
+    texto_respuesta = "Hola"
+
+    #servicio = None
 
     # Generemos en el llm
-    texto_respuesta = generar_respuesta_llm(mensaje, analisis, servicio)
+    #texto_respuesta = generar_respuesta_llm(mensaje, analisis, servicio)
 
     # Si falla, mensaje de error por defecto
-    if not texto_respuesta:
-        texto_respuesta = "Hola soy una prueba"
+    #if not texto_respuesta:
+    #    texto_respuesta = "Hola soy una prueba"
 
     # Comrpobamos si es el primer mensaje de la conversacion
     # El primer mensaje es siempre el mismo para cada modelo
