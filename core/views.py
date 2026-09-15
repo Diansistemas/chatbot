@@ -4,6 +4,7 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 from django.utils.decorators import method_decorator
 from django.conf import settings
 from chat.models import Mensaje, Conversacion
+from .models import responder
 
 class InicioView(TemplateView):
     template_name = 'core/inicio.html'
@@ -23,7 +24,7 @@ class ChatWidgetView(ListView):
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         self.conversacion = Conversacion.objects.create()
-        primer_mensaje = Mensaje.objects.create(conversacion = self.conversacion, texto = "", remitente = "usuario")
+        Mensaje.objects.create(conversacion = self.conversacion, texto = "Hola, soy el chatbor de Dian Sistemas ¿que necesitas?", remitente = "chatbot")
 
     #Filtros para el mensaje
     def get_queryset(self):
