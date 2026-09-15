@@ -91,7 +91,7 @@ def generar_respuesta_llm(mensaje, analisis, servicio):
     # Generamos el historico excluyendo el mensaje que genera al respuesta
     historico = [
         {"role": "user" if mensaje.remitente == "usuario" else "assistant", "content": mensaje.texto}
-        for mensaje in conversacion.mensajes.exclude(pk=mensaje.pk).order_by("fecha_mensaje")
+        for mensaje in conversacion.conversacion_mensajes.exclude(pk=mensaje.pk).order_by("fecha_mensaje")
     ]
 
     try:
@@ -103,7 +103,7 @@ def generar_respuesta_llm(mensaje, analisis, servicio):
 # Funcion a llamar para generar una respuesta
 def responder(mensaje):
     analisis = procesar_mensaje(mensaje)
-    conversacion = analisis.mensaje.conversacion
+    conversacion = mensaje.conversacion
 
     servicio = None
 
@@ -116,9 +116,9 @@ def responder(mensaje):
 
     # Comrpobamos si es el primer mensaje de la conversacion
     # El primer mensaje es siempre el mismo para cada modelo
-    if conversacion.contar_mensajes()==1:
-        if analisis == "":
-            texto_respuesta = ""
+    #if conversacion.contar_mensajes()==1:
+        #if analisis == "":
+        #    texto_respuesta = ""
         # elif analis == ... 
         # 1 por modelo
 
