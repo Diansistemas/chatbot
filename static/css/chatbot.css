@@ -34,7 +34,7 @@ body {
   right: 0;
   width: 100%;
   height: 100%;
-  display: none;              /* JS cambia a flex al abrir */
+  display: none;
   flex-direction: column;
   border-radius: 16px;
   overflow: hidden;
@@ -69,15 +69,19 @@ body {
   padding: 8px 12px;
   border-radius: 12px;
   font-size: 14px;
+  font-family: var(--font-texto);
 }
 .msg-bot {
   align-self: flex-start;
-  background: #f1f1f1;
+  background: var(--chatbot-secondary);
+  color: #fff;
+  border-bottom-left-radius: 0px;
 }
 .msg-user { 
   align-self: flex-end;
   background: var(--chatbot-primary);
   color: #fff;
+  border-bottom-right-radius: 0px;
 }
 
 /* En pantallas pequeñas, el chat ocupa toda la pantalla en vez de un panel flotante */

@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- Enlaces a recursos que necesita la página -->
     {% bootstrap_css %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,16 +12,21 @@
     <link href="{% static 'css/chatbot.css' %}" rel="stylesheet">
   </head>
   <body>
+    <!-- Boton inicial para el widget -->
     <button id="chat-btn" class="btn btn-primary rounded-circle" onclick="abrir()">💬</button>
 
+    <!-- Panel completo del chat -->
     <div id="chat-panel">
+      <!-- Header del chat (Título del chat y boton de cerrar) -->
       <div id="chat-header" class="p-2 border-bottom d-flex justify-content-between">
         <strong>Asistente Virtual</strong>
         <button onclick="cerrar()" class="btn btn-sm">✕</button>
       </div>
 
+      <!-- Historico de mensajes -->
       <div id="mensajes" class="flex-grow-1 p-2 overflow-auto">
         {% for mensaje in mensajes %}
+          <!-- Lógica para presentar el mensaje en funcion del remitente -->
           {% if mensaje.remitente == "chatbot" %}
             <p class="msg-bot"> {{ mensaje.texto }} </p>
           {% else %}
@@ -29,6 +35,7 @@
         {% endfor %}
       </div>
 
+      <!-- Formulario del chat (Caja para insertar texto y botón de envío) -->
       <form id="form-chat" class="d-flex p-2 border-top" onsubmit="event.preventDefault();">
         <input id="input-msg" class="form-control me-2" placeholder="Escribe un mensaje">
         <button class="btn btn-primary">Enviar</button>
@@ -36,6 +43,7 @@
     </div>
 
     <script>
+      //Función que abre el panel del chat
       function abrir() {
         document.getElementById('chat-btn').style.display = 'none';
         const panel = document.getElementById('chat-panel');
@@ -43,6 +51,7 @@
         requestAnimationFrame(() => panel.classList.add('abierto'));
         window.parent.postMessage('chatbot:open', '*');
       }
+      //Función que cierra el panel del chat y vuelve al botón
       function cerrar() {
         const panel = document.getElementById('chat-panel');
         panel.classList.remove('abierto');

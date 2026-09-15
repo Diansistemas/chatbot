@@ -24,7 +24,8 @@ class ChatWidgetView(ListView):
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         self.conversacion = Conversacion.objects.create()
-        Mensaje.objects.create(conversacion = self.conversacion, texto = "Hola, soy el chatbor de Dian Sistemas ¿que necesitas?", remitente = "chatbot")
+        Mensaje.objects.create(conversacion = self.conversacion, texto = "Hola, soy el asistente virtual de Dian Sistemas ¿que necesitas?", remitente = "chatbot")
+        Mensaje.objects.create(conversacion = self.conversacion, texto = "Hola, soy un usuario", remitente = "usuario")
 
     #Filtros para el mensaje
     def get_queryset(self):
