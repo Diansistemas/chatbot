@@ -94,10 +94,17 @@ SPACY_MODEL_BASE = "es_core_news_sm"
 # Cuando tengamos modelo propio, el path va aqui
 SPACY_MODEL_PATH = None
 
-# Configuración de CSRF para que funcione en el iframe
-if not DEBUG:
-    CSRF_COOKIE_SAMESITE = "None"
-    CSRF_COOKIE_SECURE = True
+# Configuracion de la LLM
+# Modelo base que vamos a usar
+LLM_MODEL_BASE = ""
+
+# Cuadndo tengamos modelos propios, el path va aqui
+LLM_MODEL_PATH = None
+
+# Variables del LLM
+LLM_CONTEXT_SIZE = 2048
+LLM_THREADS = 4
+LLM_MAX_TOKENS = 200
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators

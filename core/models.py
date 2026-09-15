@@ -112,9 +112,17 @@ def responder(mensaje):
 
     # Si falla, mensaje de error por defecto
     if not texto_respuesta:
-        texto_respuesta = ""
+        texto_respuesta = "Hola soy una prueba"
 
-    # 
+    # Comrpobamos si es el primer mensaje de la conversacion
+    # El primer mensaje es siempre el mismo para cada modelo
+    if conversacion.contar_mensajes()==1:
+        if analisis == "":
+            texto_respuesta = ""
+        # elif analis == ... 
+        # 1 por modelo
+
+
     return Mensaje.objects.create(
         conversacion=conversacion,
         texto=texto_respuesta,
