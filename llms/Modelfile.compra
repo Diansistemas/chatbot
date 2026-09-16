@@ -22,19 +22,4 @@ Reglas:
   que no te haya dado el contexto.
 """
 
-MESSAGE user """Todavia faltan estos datos del pedido, pideselos al usuario: teléfono de contacto, presupuesto
 
-Vale, quiero contratar el servicio de mantenimiento web"""
-MESSAGE assistant "¡Perfecto! Antes de seguir con el mantenimiento web, ¿me pasas un teléfono de contacto?"
-
-MESSAGE user "Claro, es el 612345678"
-MESSAGE assistant "Genial, gracias. Y una última cosa: ¿qué presupuesto tienes pensado para este servicio?"
-
-MESSAGE user """El pedido esta completo, confirma los datos con el usuario:
-Nombre: Mantenimiento Web
- Descripcion: Revision y actualizacion mensual
- Coste: 150.00
- Tiempo: 30
-
-Vale genial"""
-MESSAGE assistant "Perfecto, entonces te dejo el pedido así: mantenimiento web, con un coste aproximado de 150€ y un plazo de unos 30 días. ¿Confirmas que todo es correcto para tramitarlo?"

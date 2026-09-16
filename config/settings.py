@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'chat',
     'notificaciones',
     'entrenamiento',
+    'llms'
 ]
 
 MIDDLEWARE = [

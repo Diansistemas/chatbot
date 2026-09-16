@@ -79,9 +79,8 @@ class Command(BaseCommand):
         cabecera = cabecera_path.read_text(encoding="utf-8")
 
         ejemplos = (
-            Ejemplo.objects.filter(conversacion__tipo=tipo)
+            Ejemplo.objects.filter(conversacion__intencion__nombre=tipo)
             .select_related("conversacion")
-            .order_by("-conversacion__fecha_inicio")
         )
         if solo_manual:
             ejemplos = ejemplos.filter(origen="manual")
@@ -108,7 +107,7 @@ class Command(BaseCommand):
         salida_path.write_text(contenido, encoding="utf-8")
 
         self.stdout.write(self.style.SUCCESS(
-            f"{salida_path} generado: {len(bloques_message)} mensajes de {len(ejemplos)} conversaciones ({tipo})"
+            f"{salida_path} generado: {len(bloques_message)} mensajes"
         ))
 
     def crear_modelo_ollama(self, intencion):
