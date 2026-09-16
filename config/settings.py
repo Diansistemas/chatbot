@@ -96,10 +96,7 @@ SPACY_MODEL_PATH = None
 
 # Configuracion de la LLM
 # Modelo base que vamos a usar
-LLM_MODEL_BASE = ""
-
-# Cuadndo tengamos modelos propios, el path va aqui
-LLM_MODEL_PATH = None
+OLLAMA_HOST = os.getenv("OLLAMA_HOST")
 
 # Variables del LLM
 LLM_CONTEXT_SIZE = 2048

@@ -7,3 +7,6 @@ __pycache__/
 .env
 media/
 *.log
+
+entrenamiento/spacy/*.spacy
+entrenamiento/spacy/modelo/

@@ -29,7 +29,7 @@ MAPA_MODELO = {
 
 # Punto de acceso a llama
 def llamar_llm(intencion, mensaje, historico, contexto):
-    modelo = MAPA_MODELO[intencion, MAPA_MODELO["otro"]]
+    modelo = MAPA_MODELO.get(intencion, MAPA_MODELO["otro"])
     mensajes = historico + [{
         "role": "user",
         "content": f"{contexto}\n\n{mensaje}"

@@ -31,7 +31,7 @@ TIPO_A_INTENCION = {
 }
 
 # Carpeta donde viven los Modelfile.* y crear_modelos.bash/.ps1
-LLMS_DIR = Path(settings.BASE_DIR) / "llms"
+LLMS_DIR = Path(settings.BASE_DIR) / "entrenamiento" / "llms"
 CABECERAS_DIR = LLMS_DIR / "cabeceras"
 
 # Limite de conversaciones de ejemplo por modelo, para no disparar el tamano
@@ -109,6 +109,8 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS(
             f"{salida_path} generado: {len(bloques_message)} mensajes"
         ))
+
+        return True
 
     def crear_modelo_ollama(self, intencion):
         modelfile = LLMS_DIR / f"Modelfile.{intencion}"
