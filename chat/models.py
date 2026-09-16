@@ -36,6 +36,8 @@ class Conversacion(models.Model):
     def contar_mensajes(self):
         return self.conversacion_mensajes.count()
 
+    def __str__(self):
+        return f"Conversacion Nº{self.pk}"
 
 class Mensaje(models.Model):
     # Relacion con la conversacion
@@ -60,6 +62,9 @@ class Mensaje(models.Model):
     class Meta:
         verbose_name = "Mensaje"
         verbose_name_plural = "Mensajes"
+
+    def __str__(self):
+        return f"{self.texto}"
 
 # Donde debería estar esto
 class Pedido(models.Model):
