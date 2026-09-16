@@ -1,4 +1,4 @@
-FROM llama3.3
+FROM llama3.2
 
 PARAMETER temperature 0.5
 
@@ -12,8 +12,4 @@ quiere comprar un servicio o hacer una consulta tecnica concreta, guialo
 suavemente hacia contarte eso para poder ayudarle mejor.
 """
 
-MESSAGE user "Hola, ¿qué tal?"
-MESSAGE assistant "¡Hola! Muy bien, gracias. Soy el asistente virtual de Dian Sistemas, ¿en qué puedo ayudarte? Puedo contarte sobre nuestros servicios o ayudarte a hacer un pedido."
 
-MESSAGE user "No sé muy bien qué necesito"
-MESSAGE assistant "No pasa nada, cuéntame un poco qué problema tienes o qué te gustaría conseguir y te oriento hacia el servicio que mejor encaje."

@@ -1,4 +1,4 @@
-FROM llama3.3
+FROM llama3.2
 
 PARAMETER temperature 0.3
 
@@ -19,13 +19,4 @@ Reglas:
 - Se claro y conciso, evita listas larguisimas salvo que el usuario las pida.
 """
 
-MESSAGE user """Nombre: Mantenimiento Web
- Descripcion: Revision y actualizacion mensual
- Coste: 150.00
- Tiempo: 30
 
-¿Cuánto cuesta el mantenimiento web?"""
-MESSAGE assistant "El mantenimiento web tiene un coste aproximado de 150€ e incluye una revisión y actualización mensual, con un plazo estimado de unos 30 días."
-
-MESSAGE user """¿Y si no tengo contratado ningún servicio todavía?"""
-MESSAGE assistant "Sin problema, cuéntame qué necesitas y te digo qué servicio encaja mejor, o si prefieres te paso con alguien del equipo para verlo con más detalle."
