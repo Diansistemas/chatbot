@@ -5,11 +5,14 @@
   <head>
     <!-- Enlaces a recursos que necesita la página -->
     {% bootstrap_css %}
+    <!-- Enlace para introducir los iconos de bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">   
+    <!-- Enlaces para las fuentes tipográficas -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
+    <!-- Enlace al css de chatbot -->
     <link href="{% static 'css/chatbot.css' %}" rel="stylesheet">
   </head>
   <body>
@@ -34,6 +37,7 @@
             <p class="msg-user"> {{ mensaje.texto }} </p>
           {% endif %}
         {% endfor %}
+        <!-- Mensaje de carga -->
         <div id="escribiendo" class="msg-bot" style="display:none;">
           <span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>
         </div>

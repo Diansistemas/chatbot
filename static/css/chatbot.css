@@ -113,10 +113,3 @@ body {
 #btn-enviar:hover {
   background: var(--chatbot-secondary);
 }
-
-/* En pantallas pequeñas, el chat ocupa toda la pantalla en vez de un panel flotante */
-@media (max-width: 480px) {
-  #chat-panel {
-    border-radius: 0;
-  }
-}
