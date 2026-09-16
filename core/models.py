@@ -63,6 +63,10 @@ def procesar_mensaje(mensaje_recibido):
 
 def generar_respuesta_llm(mensaje, analisis, servicio): 
     conversacion = mensaje.conversacion
+
+    if analisis.intencion is None:
+        return None
+    
     intencion = analisis.intencion.nombre
     contexto = str(servicio)
 

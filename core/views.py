@@ -32,6 +32,7 @@ class ChatWidgetView(DominioPermitidoMixin, ListView):
     # Contexto del chat
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["conversacion"] = self.conversacion
         return context
 
     # NUEVO — atiende el POST del AJAX en la misma URL
