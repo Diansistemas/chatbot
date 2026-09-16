@@ -60,12 +60,15 @@ def procesar_mensaje(mensaje_recibido):
     return analisis
 
 def generar_respuesta_llm(mensaje, analisis, servicio): 
+
     conversacion = mensaje.conversacion
 
-    if analisis.intencion is None:
-        return None
-    
-    intencion = analisis.intencion.nombre
+    if analisis.intencion:    
+        intencion = analisis.intencion.nombre
+
+    else:
+        intencion = "otro"
+
     contexto = str(servicio)
 
     # Generamos el historico excluyendo el mensaje que genera al respuesta
@@ -74,11 +77,8 @@ def generar_respuesta_llm(mensaje, analisis, servicio):
         for mensaje in conversacion.conversacion_mensajes.exclude(pk=mensaje.pk).order_by("fecha_mensaje")
     ]
 
-    try:
-        texto = llamar_llm(intencion, mensaje.texto, historico, contexto)
-        return texto.strip() or None
-    except Exception:
-        return None
+    texto = llamar_llm(intencion, mensaje.texto, historico, contexto)
+    return texto.strip() 
     
 # Funcion a llamar para generar una respuesta
 def responder(mensaje):
