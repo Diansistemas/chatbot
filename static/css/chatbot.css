@@ -73,13 +73,13 @@ body {
 }
 .msg-bot {
   align-self: flex-start;
-  background: var(--chatbot-secondary);
+  background: var(--chatbot-primary);
   color: #fff;
   border-bottom-left-radius: 0px;
 }
 .msg-user { 
   align-self: flex-end;
-  background: var(--chatbot-primary);
+  background: var(--chatbot-secondary);
   color: #fff;
   border-bottom-right-radius: 0px;
 }

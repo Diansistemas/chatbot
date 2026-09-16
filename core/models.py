@@ -4,6 +4,7 @@ from entrenamiento.models import Intencion, EtiquetaEntidad, Respuesta, Servicio
 from .acceso import get_nlp, llamar_llm
 from django.conf import settings
 import random
+import time
 
 #Analisis de cada mensaje
 class Analisis(models.Model):
