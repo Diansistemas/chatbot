@@ -11,6 +11,11 @@ body {
   justify-content: center;
 }
 
+#chat-panel.abierto {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
 /* --- Botón flotante --- */
 #chat-btn {
   width: 56px;
@@ -45,16 +50,14 @@ body {
   transition: opacity .25s ease, transform .25s ease;
 }
 
-#chat-panel.abierto {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
+/* Cabecera del chat */
 #chat-header {
   font-family: var(--font-titulo);
   align-items: center;
 }
 
+
+/* Mensajes */
 #mensajes {
   flex: 1;
   overflow-y: auto;
@@ -96,6 +99,19 @@ body {
 @keyframes typing-bounce {
   0%, 60%, 100% { transform: translateY(0); }
   30% { transform: translateY(-4px); }
+}
+
+/* Formulario del chat */
+#input-msg {
+  font-family: var(--font-texto);
+}
+#btn-enviar {
+  border: none;
+  background: var(--chatbot-primary);
+  font-size: 16px;
+}
+#btn-enviar:hover {
+  background: var(--chatbot-secondary);
 }
 
 /* En pantallas pequeñas, el chat ocupa toda la pantalla en vez de un panel flotante */

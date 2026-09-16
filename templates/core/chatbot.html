@@ -5,6 +5,7 @@
   <head>
     <!-- Enlaces a recursos que necesita la página -->
     {% bootstrap_css %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">   
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,7 +14,7 @@
   </head>
   <body>
     <!-- Boton inicial para el widget -->
-    <button id="chat-btn" class="btn btn-primary rounded-circle" onclick="abrir()">💬</button>
+    <button id="chat-btn" class="btn btn-primary rounded-circle bi bi-chat-fill" onclick="abrir()"></button>
 
     <!-- Panel completo del chat -->
     <div id="chat-panel">
@@ -42,7 +43,7 @@
       <form id="form-chat" class="d-flex p-2 border-top">
         {% csrf_token %}
         <input id="input-msg" class="form-control me-2" placeholder="Escribe un mensaje" autocomplete="off" required>
-        <button id="btn-enviar" class="btn btn-primary">Enviar</button>
+        <button id="btn-enviar" class="btn btn-primary bi bi-send-fill"></button>
       </form>
     </div>
 
