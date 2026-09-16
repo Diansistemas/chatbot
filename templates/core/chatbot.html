@@ -33,6 +33,9 @@
             <p class="msg-user"> {{ mensaje.texto }} </p>
           {% endif %}
         {% endfor %}
+        <div id="escribiendo" class="msg-bot" style="display:none;">
+          <span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>
+        </div>
       </div>
 
       <!-- Formulario del chat (Caja para insertar texto y botón de envío) -->
@@ -41,10 +44,6 @@
         <input id="input-msg" class="form-control me-2" placeholder="Escribe un mensaje" autocomplete="off" required>
         <button id="btn-enviar" class="btn btn-primary">Enviar</button>
       </form>
-
-      <div id="escribiendo" class="msg-bot" style="display:none;">
-        <span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>
-      </div>
     </div>
 
     <script>
@@ -60,7 +59,7 @@
         const texto = inputMsg.value.trim();
         if (!texto) return;
 
-        mensajesDiv.insertAdjacentHTML('beforeend', `<p class="msg-user">${escaparHtml(texto)}</p>`);
+        escribiendoDiv.insertAdjacentHTML('beforebegin', `<p class="msg-user">${escaparHtml(texto)}</p>`);
         inputMsg.value = '';
         mensajesDiv.scrollTop = mensajesDiv.scrollHeight;
 
@@ -77,10 +76,18 @@
             },
             body: `texto=${encodeURIComponent(texto)}&conversacion={{ conversacion.pk }}`,
           });
+
+          if (!resp.ok) {
+            const textoError = await resp.text();
+            console.error(`Error ${resp.status}:`, textoError);
+            throw new Error(`HTTP ${resp.status}`);
+          }
+
           const data = await resp.json();
-          mensajesDiv.insertAdjacentHTML('beforeend', `<p class="msg-bot">${escaparHtml(data.bot)}</p>`);
+          escribiendoDiv.insertAdjacentHTML('beforebegin', `<p class="msg-bot">${escaparHtml(data.bot)}</p>`);
         } catch (err) {
-          mensajesDiv.insertAdjacentHTML('beforeend', `<p class="msg-bot">Ha habido un error, inténtalo de nuevo.</p>`);
+          console.error(err);
+          escribiendoDiv.insertAdjacentHTML('beforebegin', `<p class="msg-bot">Ha habido un error, inténtalo de nuevo.</p>`);
         } finally {
           btnEnviar.disabled = false;
           inputMsg.disabled = false;
