@@ -84,6 +84,20 @@ body {
   border-bottom-right-radius: 0px;
 }
 
+/* Animación escribiendo */
+.typing-dot {
+  display: inline-block;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #fff; margin: 0 2px;
+  animation: typing-bounce 1s infinite ease-in-out;
+}
+.typing-dot:nth-child(2) { animation-delay: .15s; }
+.typing-dot:nth-child(3) { animation-delay: .3s; }
+@keyframes typing-bounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-4px); }
+}
+
 /* En pantallas pequeñas, el chat ocupa toda la pantalla en vez de un panel flotante */
 @media (max-width: 480px) {
   #chat-panel {

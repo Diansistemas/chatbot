@@ -36,11 +36,66 @@
       </div>
 
       <!-- Formulario del chat (Caja para insertar texto y botón de envío) -->
-      <form id="form-chat" class="d-flex p-2 border-top" onsubmit="event.preventDefault();">
-        <input id="input-msg" class="form-control me-2" placeholder="Escribe un mensaje">
-        <button class="btn btn-primary">Enviar</button>
+      <form id="form-chat" class="d-flex p-2 border-top">
+        {% csrf_token %}
+        <input id="input-msg" class="form-control me-2" placeholder="Escribe un mensaje" autocomplete="off" required>
+        <button id="btn-enviar" class="btn btn-primary">Enviar</button>
       </form>
+
+      <div id="escribiendo" class="msg-bot" style="display:none;">
+        <span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>
+      </div>
     </div>
+
+    <script>
+      const formChat = document.getElementById('form-chat');
+      const inputMsg = document.getElementById('input-msg');
+      const btnEnviar = document.getElementById('btn-enviar');
+      const mensajesDiv = document.getElementById('mensajes');
+      const escribiendoDiv = document.getElementById('escribiendo');
+      const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+      formChat.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        const texto = inputMsg.value.trim();
+        if (!texto) return;
+
+        mensajesDiv.insertAdjacentHTML('beforeend', `<p class="msg-user">${escaparHtml(texto)}</p>`);
+        inputMsg.value = '';
+        mensajesDiv.scrollTop = mensajesDiv.scrollHeight;
+
+        btnEnviar.disabled = true;
+        inputMsg.disabled = true;
+        escribiendoDiv.style.display = 'flex';
+
+        try {
+          const resp = await fetch(window.location.pathname, {
+            method: 'POST',
+            headers: {
+              'X-CSRFToken': csrftoken,
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `texto=${encodeURIComponent(texto)}&conversacion={{ conversacion.pk }}`,
+          });
+          const data = await resp.json();
+          mensajesDiv.insertAdjacentHTML('beforeend', `<p class="msg-bot">${escaparHtml(data.bot)}</p>`);
+        } catch (err) {
+          mensajesDiv.insertAdjacentHTML('beforeend', `<p class="msg-bot">Ha habido un error, inténtalo de nuevo.</p>`);
+        } finally {
+          btnEnviar.disabled = false;
+          inputMsg.disabled = false;
+          escribiendoDiv.style.display = 'none';
+          mensajesDiv.scrollTop = mensajesDiv.scrollHeight;
+          inputMsg.focus();
+        }
+      });
+
+      function escaparHtml(texto) {
+        const div = document.createElement('div');
+        div.textContent = texto;
+        return div.innerHTML;
+      }
+    </script>
 
     <script>
       //Función que abre el panel del chat
