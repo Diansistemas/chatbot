@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Conversacion, Mensaje
+from .models import Conversacion, Mensaje, Pedido
 
 @admin.register(Conversacion)
 class ConversacionAdmin(admin.ModelAdmin):
@@ -11,4 +11,10 @@ class ConversacionAdmin(admin.ModelAdmin):
 class MensajeAdmin(admin.ModelAdmin):
 
     search_fields = ("conversacion","texto", "remitente")
+    list_filter = ("conversacion",)
+
+@admin.register(Pedido)
+class Pedido(admin.ModelAdmin):
+
+    search_fields = ("nombre", "conversacion", "direccion")
     list_filter = ("conversacion",)

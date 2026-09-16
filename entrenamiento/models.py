@@ -57,9 +57,9 @@ class Par_Mensaje_Respuesta(models.Model):
     intencion = models.ForeignKey(Intencion, on_delete=models.PROTECT, related_name="intencion_par_mensaje_respuesta")
 
     mensaje_usuario = models.ForeignKey(Mensaje, on_delete=models.SET_NULL, null=True, related_name="mensaje_usuario_par_mensaje_resupuesta")
-    texto_usuario = models.TextField()
+    texto_usuario = models.TextField(null=True, blank=True)
     mensaje_chatbot = models.ForeignKey(Mensaje, on_delete=models.SET_NULL, null=True, related_name="mensaje_chatbot_par_mensaje_resupuesta")
-    texto_chatbot = models.TextField()
+    texto_chatbot = models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name = "Par de Entranamiento"
@@ -91,19 +91,6 @@ class Ejemplo(models.Model):
     class Meta:
         verbose_name = "Ejemplo"
         verbose_name_plural = "Ejemplos"
-
-# Respuestas para spaCy
-class Respuesta(models.Model):
-
-    # Para que tipo de mensaje es
-    intencion = models.ForeignKey(Intencion, on_delete=models.CASCADE, related_name="intencion_respuesta")
-
-    # Que respuesta
-    texto = models.TextField()
-
-    class Meta:
-        verbose_name = "Respuesta"
-        verbose_name_plural = "Respuestas"
 
 def detectar_servicio(analisis):
 

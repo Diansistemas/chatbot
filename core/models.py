@@ -1,9 +1,7 @@
 from django.db import models
 from chat.models import Mensaje
-from entrenamiento.models import Intencion, EtiquetaEntidad, Respuesta, Servicio, detectar_servicio
+from entrenamiento.models import Intencion, EtiquetaEntidad, detectar_servicio
 from .acceso import get_nlp, llamar_llm
-from django.conf import settings
-import random
 
 #Analisis de cada mensaje
 class Analisis(models.Model):
