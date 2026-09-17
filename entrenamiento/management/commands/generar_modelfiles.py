@@ -18,13 +18,13 @@ from pathlib import Path
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
-from entrenamiento.models import Ejemplo
+from entrenamiento.models import EjemploLLM
 
 # Conversacion.tipo (chat.models) -> nombre de intencion usado en MAPA_MODELO
 # (acceso.py) y en los nombres Modelfile.<intencion> / chatbot-<intencion>.
 # OJO: si cambias los "choices" de Conversacion.tipo o las claves de
 # MAPA_MODELO, actualiza este mapa tambien.
-TIPO_A_INTENCION = {
+TIPO_INTENCION = {
     "compra": "compra",
     "consulta_tecnica": "consulta",
     "sin_clasificar": "otro",
@@ -63,7 +63,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         LLMS_DIR.mkdir(parents=True, exist_ok=True)
 
-        for tipo, intencion in TIPO_A_INTENCION.items():
+        for tipo, intencion in TIPO_INTENCION.items():
             ok = self.generar_modelfile(tipo, intencion, solo_manual=options["solo_manual"])
             if ok and options["crear"]:
                 self.crear_modelo_ollama(intencion)
@@ -79,7 +79,7 @@ class Command(BaseCommand):
         cabecera = cabecera_path.read_text(encoding="utf-8")
 
         ejemplos = (
-            Ejemplo.objects.filter(conversacion__intencion__nombre=tipo)
+            EjemploLLM.objects.filter(conversacion__intencion__nombre=tipo)
             .select_related("conversacion")
         )
         if solo_manual:

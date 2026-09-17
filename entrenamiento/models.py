@@ -1,6 +1,7 @@
 from django.db import models
 from chat.models import Mensaje
 
+# Servicios que ofrece DianSistemas
 class Servicio(models.Model):
 
     # Nombre del servicio 
@@ -24,7 +25,18 @@ class Servicio(models.Model):
     def __str__(self):
         return (f"Nombre: {self.nombre} \n Descripcion: {self.descripcion} \n Coste: {self.coste} \n Tiempo: {self.tiempo_aproximado}")
 
-# Etiquetas para las entidades de entrenamiento de la IA
+# Como detectamos los servicios en el analisis.
+# Es mas para debuggear que para otra cosa.
+# TODO: Cambiar el metodo  para que pille la informacion de la base de datos y los añada como EtiquetasEtnidad
+def detectar_servicio(analisis):
+
+    entidad_servicio = analisis.analisis_entidad.filter(etiqueta__nombre="SERVICIO").first()
+    if not entidad_servicio:
+        return None
+    
+    return Servicio.objects.filter(nombre__icontains=entidad_servicio.texto_detectado).first()
+
+# Etiquetas para las entidades de entrenamiento de spaCy
 class EtiquetaEntidad(models.Model):    
     # Nombre de la etiqueta
     nombre = models.CharField(max_length=50, unique=True)
@@ -36,7 +48,8 @@ class EtiquetaEntidad(models.Model):
         verbose_name = "Etiqueta de Entidad"
         verbose_name_plural = "Etiquetas de Entidades"
 
-# Equivalente a labels, nos sirve para distinguir entre una consulta tecnica o una compra
+# Intencion de una conversacion.
+# Compra, Consulta u Otro. Admitimos mas valores en caso de que, en el futuro, queramos ampliar
 class Intencion(models.Model): 
     # Nombre de la intencion
     nombre = models.CharField(max_length=50, unique=True)
@@ -51,7 +64,9 @@ class Intencion(models.Model):
         verbose_name =  "Intencion"
         verbose_name_plural = "Intenciones"
 
-
+# Entrenamiento del LLM
+# Pares de mensaje de usuario + respuesta del bot
+# Dividimos las conversaciones para que el llm los entienda mejor
 class Par_Mensaje_Respuesta(models.Model):
 
     intencion = models.ForeignKey(Intencion, on_delete=models.PROTECT, related_name="intencion_par_mensaje_respuesta")
@@ -72,8 +87,8 @@ class Par_Mensaje_Respuesta(models.Model):
 
         super().save(*args, **kwargs)
 
-# Ejemplos de conversaciones para entrenar al chatbot
-class Ejemplo(models.Model):
+# Pares que queremos usar en nuestro Modelfile
+class EjemploLLM(models.Model):
 
     # La conversacion 
     conversacion = models.ForeignKey(Par_Mensaje_Respuesta, on_delete=models.PROTECT)
@@ -92,10 +107,49 @@ class Ejemplo(models.Model):
         verbose_name = "Ejemplo"
         verbose_name_plural = "Ejemplos"
 
-def detectar_servicio(analisis):
+# NLP
+#
 
-    entidad_servicio = analisis.analisis_entidad.filter(etiqueta__nombre="SERVICIO").first()
-    if not entidad_servicio:
-        return None
-    
-    return Servicio.objects.filter(nombre__icontains=entidad_servicio.texto_detectado).first()
+class EjemploNLP(models.Model):
+
+    mensaje = models.ForeignKey(Mensaje, on_delete=models.SET_NULL, null=True, related_name="mensaje_ejemploNLP")
+    texto = models.TextField(null=True, blank=True)
+
+    origen_choices = [
+        ("manual", "Manual"),
+        ("chatbot", "Chatbot")
+    ]
+
+    origen = models.CharField(max_length=20, choices = origen_choices, default="chatbot")
+
+    class Meta:
+        verbose_name = "Par de Entranamiento"
+        verbose_name_plural = "Pares de Entrenamiento"
+
+    def save(self, *args, **kwargs):
+
+        self.texto = self.mensaje.texto
+
+        super().save(*args, **kwargs)
+
+# El span de las etiquetas que hay en un ejemplo para la NLP
+# Formato de spaCy: offset de caracteres
+class SpanEntidad(models.Model):
+
+    ejemplo = models.ForeignKey(EjemploNLP, on_delete=models.CASCADE, related_name="ejemplo_spansEntidad")
+    etiqueta = models.ForeignKey(EtiquetaEntidad, on_delete=models.PROTECT, related_name="etiqueta_spanEntidad")
+    inicio = models.PositiveSmallIntegerField()
+    fin = models.PositiveSmallIntegerField()
+
+    class Meta:
+        verbose_name = "Entidad anotada"
+        verbose_name_plural = "Entidades anotadas"
+        constraints = [
+            models.CheckConstraint(check=models.Q(fin__gt=models.F("inicio")), name="fin_mayor_que_inicio"),
+        ]
+
+    def texto_detectado(self):
+        return self.ejemplo.texto[self.inicio:self.fin]
+
+    def __str__(self):
+        return f"{self.etiqueta.nombre}: {self.texto_detectado()}"

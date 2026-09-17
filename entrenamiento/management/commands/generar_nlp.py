@@ -3,34 +3,59 @@ from pathlib import Path
 
 import spacy
 from spacy.tokens import DocBin
+from spacy.util import filter_spans
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
-from entrenamiento.models import Par_Mensaje_Respuesta, Intencion
+from entrenamiento.models import EjemploNLP, Intencion
 
 SPACY_DIR = Path(settings.BASE_DIR) / "entrenamiento" / "spacy"
 
 
 class Command(BaseCommand):
-    help = "Exporta Par_Mensaje_Respuesta a formato .spacy para entrenar textcat"
+    help = "Exporta EjemploEntrenamiento (texto + intencion + spans) a .spacy para textcat + ner"
 
     def handle(self, *args, **options):
-        nlp = spacy.blank("es")  # solo para el tokenizador, no carga pipeline
+        nlp = spacy.blank("es")
 
-        etiquetas = list(Intencion.objects.values_list("nombre", flat=True))
-        if not etiquetas:
-            self.stderr.write(self.style.ERROR("No hay Intenciones en la BD."))
+        etiquetas_intencion = list(Intencion.objects.filter(activa=True).values_list("nombre", flat=True))
+        if not etiquetas_intencion:
+            self.stderr.write(self.style.ERROR("No hay Intenciones activas en la BD."))
             return
 
-        pares = list(Par_Mensaje_Respuesta.objects.select_related("intencion"))
-        random.shuffle(pares)
-        corte = int(len(pares) * 0.8)  # 80/20 train/dev
+        ejemplos = list(
+            EjemploNLP.objects
+            .select_related("intencion")
+            .prefetch_related("spans__etiqueta")
+        )
+        random.shuffle(ejemplos)
+        corte = int(len(ejemplos) * 0.8)
 
-        for nombre_split, subset in [("train", pares[:corte]), ("dev", pares[corte:])]:
+        for nombre_split, subset in [("train", ejemplos[:corte]), ("dev", ejemplos[corte:])]:
             db = DocBin()
-            for par in subset:
-                doc = nlp.make_doc(par.texto_usuario)
-                doc.cats = {etq: 1.0 if etq == par.intencion.nombre else 0.0 for etq in etiquetas}
+            for ejemplo in subset:
+                doc = nlp.make_doc(ejemplo.texto)
+
+                # textcat: solo si el ejemplo tiene intencion asignada
+                if ejemplo.intencion_id:
+                    doc.cats = {
+                        etq: 1.0 if etq == ejemplo.intencion.nombre else 0.0
+                        for etq in etiquetas_intencion
+                    }
+
+                # ner: offsets de caracteres -> Span de spaCy
+                spans = []
+                for s in ejemplo.spans.all():
+                    span = doc.char_span(s.inicio, s.fin, label=s.etiqueta.nombre, alignment_mode="contract")
+                    if span is None:
+                        self.stderr.write(self.style.WARNING(
+                            f"Ejemplo #{ejemplo.id}: offsets ({s.inicio},{s.fin}) no alinean con ningun token, se ignora"
+                        ))
+                        continue
+                    spans.append(span)
+
+                doc.ents = filter_spans(spans)  # descarta solapamientos
                 db.add(doc)
+
             db.to_disk(SPACY_DIR / f"{nombre_split}.spacy")
             self.stdout.write(self.style.SUCCESS(f"{nombre_split}.spacy: {len(subset)} ejemplos"))
