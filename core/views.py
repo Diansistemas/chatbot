@@ -6,6 +6,7 @@ from chat.models import Mensaje, Conversacion
 from .models import responder
 from .mixins import DominioPermitidoMixin
 from django.http import JsonResponse
+from django.utils import timezone
 
 class InicioView(TemplateView):
     template_name = 'core/inicio.html'
@@ -35,15 +36,32 @@ class ChatWidgetView(DominioPermitidoMixin, ListView):
         context["conversacion"] = self.conversacion
         return context
 
-    # NUEVO — atiende el POST del AJAX en la misma URL
     def post(self, request, *args, **kwargs):
-        texto = request.POST.get("texto", "").strip()
-        if not texto:
-            return JsonResponse({"error": "Mensaje vacío"}, status=400)
+        accion = request.POST.get("accion")
 
-        mensaje_usuario = Mensaje.objects.create(
-            conversacion=self.conversacion, texto=texto, remitente="usuario"
-        )
-        mensaje_bot = responder(mensaje_usuario)  # se queda "pensando" lo que tarde el LLM
+        # PASO 1 — crea el mensaje del usuario y devuelve su hora al instante
+        if accion == "usuario":
+            texto = request.POST.get("texto", "").strip()
+            if not texto:
+                return JsonResponse({"error": "Mensaje vacío"}, status=400)
 
-        return JsonResponse({"bot": mensaje_bot.texto})
+            mensaje_usuario = Mensaje.objects.create(
+                conversacion=self.conversacion, texto=texto, remitente="usuario"
+            )
+            return JsonResponse({
+                "mensaje_id": mensaje_usuario.pk,
+                "hora_usuario": timezone.localtime(mensaje_usuario.fecha_mensaje).strftime("%H:%M"),
+            })
+
+        # PASO 2 — genera la respuesta del bot para ese mensaje
+        elif accion == "bot":
+            mensaje_id = request.POST.get("mensaje_id")
+            mensaje_usuario = Mensaje.objects.get(pk=mensaje_id, conversacion=self.conversacion)
+            mensaje_bot = responder(mensaje_usuario)  # se queda "pensando" lo que tarde el LLM
+
+            return JsonResponse({
+                "bot": mensaje_bot.texto,
+                "hora_bot": timezone.localtime(mensaje_bot.fecha_mensaje).strftime("%H:%M"),
+            })
+
+        return JsonResponse({"error": "Acción no válida"}, status=400)
