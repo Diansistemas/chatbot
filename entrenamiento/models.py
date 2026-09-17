@@ -77,8 +77,8 @@ class Par_Mensaje_Respuesta(models.Model):
     texto_chatbot = models.TextField(null=True, blank=True)
 
     class Meta:
-        verbose_name = "Par de Entranamiento"
-        verbose_name_plural = "Pares de Entrenamiento"
+        verbose_name = "Par LLM"
+        verbose_name_plural = "Pares LLM"
 
     def save(self, *args, **kwargs):
 
@@ -134,8 +134,8 @@ class EjemploLLM(models.Model):
     origen = models.CharField(max_length=20, choices = origen_choices, default="chatbot")
 
     class Meta:
-        verbose_name = "Ejemplo"
-        verbose_name_plural = "Ejemplos"
+        verbose_name = "Ejemplo LLM"
+        verbose_name_plural = "Ejemplos LLM"
 
 # NLP
 #
@@ -154,8 +154,8 @@ class EjemploNLP(models.Model):
     origen = models.CharField(max_length=20, choices = origen_choices, default="chatbot")
 
     class Meta:
-        verbose_name = "Par de Entranamiento"
-        verbose_name_plural = "Pares de Entrenamiento"
+        verbose_name = "Ejemplo NLP"
+        verbose_name_plural = "Ejemplos NLP"
 
     def save(self, *args, **kwargs):
 
