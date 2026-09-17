@@ -193,6 +193,6 @@ class SpanEntidad(models.Model):
 
 def promover_par_a_ejemplo(par, origen="chatbot"):
     return EjemploLLM.objects.create(
-        conversacion=par,
+        mensaje_respuesta=par,
         origen=origen,
     )
