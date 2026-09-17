@@ -31,7 +31,7 @@ class Command(BaseCommand):
         creados = 0
 
         with ruta.open(encoding="utf-8-sig") as f, transaction.atomic():
-            for n_fila, fila in enumerate(csv.DictReader(f), start=2):
+            for n_fila, fila in enumerate(csv.DictReader(f), start=2,  delimiter=";"):
                 texto = fila["texto"].strip()
                 nombre_intencion = fila.get("intencion", "").strip()
                 intencion = cache_intenciones.get(nombre_intencion) if nombre_intencion else None

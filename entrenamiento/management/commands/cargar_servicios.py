@@ -24,7 +24,7 @@ class Command(BaseCommand):
 
         creados = actualizados = 0
         with ruta.open(encoding="utf-8-sig") as f, transaction.atomic():
-            for fila in csv.DictReader(f):
+            for fila in csv.DictReader(f,  delimiter=";"):
                 _, creado = Servicio.objects.update_or_create(
                     nombre=fila["nombre"].strip(),
                     defaults={

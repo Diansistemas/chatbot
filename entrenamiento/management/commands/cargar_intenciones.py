@@ -24,7 +24,7 @@ class Command(BaseCommand):
         contadores = {"intencion_c": 0, "intencion_a": 0, "entidad_c": 0, "entidad_a": 0}
 
         with ruta.open(encoding="utf-8-sig") as f, transaction.atomic():
-            for fila in csv.DictReader(f):
+            for fila in csv.DictReader(f,  delimiter=";"):
                 nombre = fila["nombre"].strip()
                 descripcion = fila.get("descripcion", "").strip()
                 activa = fila.get("activa", "").strip().lower() in ("1", "true", "si", "sí")

@@ -32,7 +32,7 @@ class Command(BaseCommand):
         creados = 0
 
         with ruta.open(encoding="utf-8-sig") as f, transaction.atomic():
-            for n_fila, fila in enumerate(csv.DictReader(f), start=2):
+            for n_fila, fila in enumerate(csv.DictReader(f), start=2,  delimiter=";"):
                 intencion = cache_intenciones.get(fila["intencion"].strip())
                 if intencion is None:
                     self.stderr.write(self.style.WARNING(
