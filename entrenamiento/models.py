@@ -42,7 +42,7 @@ class EtiquetaEntidad(models.Model):
     nombre = models.CharField(max_length=50, unique=True)
 
     #Que representa la etiqueta
-    desripcion = models.TextField(blank=True, null=True)
+    descripcion = models.TextField(blank=True, null=True)
 
     class Meta:
         verbose_name = "Etiqueta de Entidad"
@@ -63,6 +63,9 @@ class Intencion(models.Model):
     class Meta:
         verbose_name =  "Intencion"
         verbose_name_plural = "Intenciones"
+
+    def __str__(self):
+        return self.nombre
 
 # Entrenamiento del LLM
 # Pares de mensaje de usuario + respuesta del bot
@@ -88,6 +91,9 @@ class Par_Mensaje_Respuesta(models.Model):
             self.texto_chatbot = self.mensaje_chatbot.texto
 
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.texto_usuario} | {self.texto_chatbot}"
 
 # Creamos los pares desde una conversacion
 def generar_pares_desde_conversacion(conversacion):
@@ -121,7 +127,7 @@ def generar_pares_desde_conversacion(conversacion):
 class EjemploLLM(models.Model):
 
     # La conversacion 
-    conversacion = models.ForeignKey(Par_Mensaje_Respuesta, on_delete=models.PROTECT)
+    mensaje_respuesta = models.ForeignKey(Par_Mensaje_Respuesta, on_delete=models.PROTECT, related_name="mensaje_respuesta_ejemploLLM")
 
     # El origen de la conversacion
     # Manual: Creada manualmente, ya sea desde administracion o con el chatbot
