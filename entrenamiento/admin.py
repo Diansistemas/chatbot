@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Servicio, EtiquetaEntidad, Intencion, Par_Mensaje_Respuesta, Ejemplo
+from .models import Servicio, EtiquetaEntidad, Intencion, Par_Mensaje_Respuesta, EjemploLLM, EjemploNLP, SpanEntidad
 
 @admin.register(Servicio)
 class ServicioAdmin(admin.ModelAdmin):
@@ -23,8 +23,17 @@ class ParAdmin(admin.ModelAdmin):
     search_fields = ("intencion", "texto_usuario", "texto_chatbot")
     list_filter = ("intencion",)
 
-@admin.register(Ejemplo)
-class EjemploAdmin(admin.ModelAdmin):
+@admin.register(EjemploLLM)
+class EjemploLLMAdmin(admin.ModelAdmin):
 
     search_fields = ("conversacion", "origen")
     list_filter = ("origen",)
+
+class SpanEntidadInline(admin.TabularInline):
+    model = SpanEntidad
+    extra = 1
+
+@admin.register(EjemploNLP)
+class EjemploEntrenamientoAdmin(admin.ModelAdmin):
+    list_display = ("texto", "intencion", "origen")
+    inlines = [SpanEntidadInline]
