@@ -89,6 +89,34 @@ class Par_Mensaje_Respuesta(models.Model):
 
         super().save(*args, **kwargs)
 
+# Creamos los pares desde una conversacion
+def generar_pares_desde_conversacion(conversacion):
+    mensajes = list(conversacion.conversacion_mensajes.order_by("fecha_mensaje"))
+
+    # Ignoramos el mensaje de introducción (hardcodeado, siempre el primero)
+    mensajes = mensajes[1:]
+
+    # Por si acaso el analisis ha fallado y no tenemos una intencion
+    intencion_otro = Intencion.objects.get(nombre="otro")
+
+    pares = []
+    for i in range(0, len(mensajes), 2):
+        mensaje_usuario = mensajes[i]
+        mensaje_chatbot = mensajes[i + 1]
+
+        analisis = getattr(mensaje_usuario, "mensaje_analisis", None)
+        intencion = analisis.intencion if (analisis and analisis.intencion) else intencion_otro
+
+        pares.append(Par_Mensaje_Respuesta(
+            intencion=intencion,
+            mensaje_usuario=mensaje_usuario,
+            texto_usuario=mensaje_usuario.texto,
+            mensaje_chatbot=mensaje_chatbot,
+            texto_chatbot=mensaje_chatbot.texto,
+        ))
+
+    return Par_Mensaje_Respuesta.objects.bulk_create(pares)
+
 # Pares que queremos usar en nuestro Modelfile
 class EjemploLLM(models.Model):
 
@@ -115,6 +143,7 @@ class EjemploLLM(models.Model):
 class EjemploNLP(models.Model):
 
     mensaje = models.ForeignKey(Mensaje, on_delete=models.SET_NULL, null=True, related_name="mensaje_ejemploNLP")
+    intencion = models.ForeignKey(Intencion, on_delete=models.PROTECT, related_name="intencion_ejemploNLP")
     texto = models.TextField(null=True, blank=True)
 
     origen_choices = [
@@ -155,3 +184,9 @@ class SpanEntidad(models.Model):
 
     def __str__(self):
         return f"{self.etiqueta.nombre}: {self.texto_detectado()}"
+
+def promover_par_a_ejemplo(par, origen="chatbot"):
+    return EjemploLLM.objects.create(
+        conversacion=par,
+        origen=origen,
+    )

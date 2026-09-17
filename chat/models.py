@@ -32,10 +32,6 @@ class Conversacion(models.Model):
         verbose_name = "Conversacion"
         verbose_name_plural = "Conversaciones"
 
-    # Contamos cuantos mensajes tiene la conversacion
-    def contar_mensajes(self):
-        return  self.conversacion_mensajes.count()
-
     def __str__(self):
         return f"Conversacion Nº{self.pk}"
 

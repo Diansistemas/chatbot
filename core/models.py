@@ -1,6 +1,6 @@
 from django.db import models
 from chat.models import Mensaje
-from entrenamiento.models import Intencion, EtiquetaEntidad, detectar_servicio
+from entrenamiento.models import Intencion, EtiquetaEntidad, detectar_servicio, EjemploNLP, SpanEntidad, generar_pares_desde_conversacion
 from .acceso import get_nlp, llamar_llm
 
 #Analisis de cada mensaje
@@ -21,10 +21,12 @@ class Analisis(models.Model):
 class EntidadDetectada(models.Model):
 
     analisis = models.ForeignKey(Analisis, on_delete=models.CASCADE, related_name="analisis_entidad")
-
     etiqueta = models.ForeignKey(EtiquetaEntidad, on_delete=models.PROTECT, related_name="etiqueta_entidad")
 
     texto_detectado = models.TextField()
+
+    inicio = models.PositiveSmallIntegerField()
+    fin = models.PositiveSmallIntegerField()
     
     class Meta:
         verbose_name = "Entidad Detectada"
@@ -53,7 +55,13 @@ def procesar_mensaje(mensaje_recibido):
     entidades = []
     for entidad in doc.ents:
         etiqueta, _ = EtiquetaEntidad.objects.get_or_create(nombre=entidad.label_)
-        entidades.append(EntidadDetectada(analisis=analisis, etiqueta=etiqueta, texto_detectado=entidad.text))
+        entidades.append(EntidadDetectada(
+            analisis=analisis,
+            etiqueta=etiqueta,
+            texto_detectado=entidad.text,
+            inicio=entidad.start_char,
+            fin=entidad.end_char,
+        ))
 
     EntidadDetectada.objects.bulk_create(entidades)
 
@@ -89,16 +97,10 @@ def responder(mensaje):
     # Que servicio esta consultando
     servicio = detectar_servicio(analisis)
 
-    # Generemos los mensajes
-    # Si es el primer mensaje real, vamos con un mensaje fijo
-    if conversacion.contar_mensajes() == 2:
-        # Un tipo de respuesta por intencion
-        texto_respuesta="Hola, soy una prueba"
+    # Generamos el texto
+    texto_respuesta= generar_respuesta_llm(mensaje, analisis, servicio)
 
-    else:
-        texto_respuesta= generar_respuesta_llm(mensaje, analisis, servicio)
-
-    # Si generar texto falla
+    # Si generar texto falla creamos un mensaje de error
     if not texto_respuesta:
         texto_respuesta="Ha habido un error, ¿puedes intentarlo de nuevo?"
 
@@ -107,3 +109,30 @@ def responder(mensaje):
         texto=texto_respuesta,
         remitente="chatbot"
     )
+
+def promover_analisis_a_ejemplo(analisis, origen="chatbot"):
+    ejemplo = EjemploNLP.objects.create(
+        mensaje=analisis.mensaje,
+        intencion=analisis.intencion,
+        origen=origen,
+    )  # texto se rellena solo en el save()
+
+    spans = [
+        SpanEntidad(
+            ejemplo=ejemplo,
+            etiqueta=entidad.etiqueta,
+            inicio=entidad.inicio,
+            fin=entidad.fin,
+        )
+        for entidad in analisis.analisis_entidad.all()
+    ]
+    SpanEntidad.objects.bulk_create(spans)
+    return ejemplo
+
+# Cerramos una conversacion y guardamos los mensajes en pares
+def cerrar_conversacion(conversacion):
+
+    conversacion.estado = "cerrada"
+    conversacion.fecha_fin = conversacion.conversacion_mensajes.order_by("-fecha_mensaje").first().fecha_mensaje
+    conversacion.save()
+    generar_pares_desde_conversacion(conversacion)

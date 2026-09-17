@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Servicio, EtiquetaEntidad, Intencion, Par_Mensaje_Respuesta, EjemploLLM, EjemploNLP, SpanEntidad
+from .models import Servicio, EtiquetaEntidad, Intencion, Par_Mensaje_Respuesta, EjemploLLM, EjemploNLP, SpanEntidad, promover_par_a_ejemplo
 
 @admin.register(Servicio)
 class ServicioAdmin(admin.ModelAdmin):
@@ -37,3 +37,13 @@ class SpanEntidadInline(admin.TabularInline):
 class EjemploEntrenamientoAdmin(admin.ModelAdmin):
     list_display = ("texto", "intencion", "origen")
     inlines = [SpanEntidadInline]
+
+@admin.action(description="Promover a EjemploNLP")
+def promover_a_ejemplo_nlp(modeladmin, request, queryset):
+    for analisis in queryset:
+        promover_analisis_a_ejemplo(analisis, origen="chatbot")
+
+@admin.action(description="Promover a EjemploLLM")
+def promover_a_ejemplo_llm(modeladmin, request, queryset):
+    for par in queryset:
+        promover_par_a_ejemplo(par, origen="chatbot")
