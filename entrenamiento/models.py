@@ -164,9 +164,8 @@ class EjemploNLP(models.Model):
         verbose_name_plural = "Ejemplos NLP"
 
     def save(self, *args, **kwargs):
-
-        self.texto = self.mensaje.texto
-
+        if self.mensaje:
+            self.texto = self.mensaje.texto
         super().save(*args, **kwargs)
 
 # El span de las etiquetas que hay en un ejemplo para la NLP

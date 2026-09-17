@@ -29,7 +29,7 @@ class Command(BaseCommand):
                 descripcion = fila.get("descripcion", "").strip()
 
                 _, creado = EtiquetaEntidad.objects.update_or_create(
-                    nombre=nombre, defaults={"desripcion": descripcion}
+                    nombre=nombre, defaults={"descripcion": descripcion}
                 )
                 contadores["entidad_c" if creado else "entidad_a"] += 1
 
