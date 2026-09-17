@@ -6,7 +6,7 @@ from django.db import transaction
 
 from entrenamiento.models import Intencion, Par_Mensaje_Respuesta, EjemploLLM
 
-RUTA_POR_DEFECTO = Path(settings.BASE_DIR) / "entrenamiento" / "dats" / "llm.csv"
+RUTA_POR_DEFECTO = Path(settings.BASE_DIR) / "entrenamiento" / "datos" / "llm.csv"
 
 
 class Command(BaseCommand):
@@ -32,7 +32,7 @@ class Command(BaseCommand):
         creados = 0
 
         with ruta.open(encoding="utf-8-sig") as f, transaction.atomic():
-            for n_fila, fila in enumerate(csv.DictReader(f), start=2,  delimiter=";"):
+            for n_fila, fila in enumerate(csv.DictReader(f, delimiter=";"), start=2):
                 intencion = cache_intenciones.get(fila["intencion"].strip())
                 if intencion is None:
                     self.stderr.write(self.style.WARNING(
@@ -47,7 +47,7 @@ class Command(BaseCommand):
                 )
                 par.save()
 
-                EjemploLLM.objects.create(conversacion=par, origen=fila.get("origen", "manual").strip() or "manual")
+                EjemploLLM.objects.create(mensaje_respuesta=par, origen=fila.get("origen", "manual").strip() or "manual")
                 creados += 1
 
         self.stdout.write(self.style.SUCCESS(f"LLM: {creados} ejemplos cargados"))

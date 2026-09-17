@@ -6,7 +6,7 @@ from django.db import transaction
 
 from entrenamiento.models import Intencion, EtiquetaEntidad, EjemploNLP, SpanEntidad
 
-RUTA_POR_DEFECTO = Path(settings.BASE_DIR) / "entrenamiento" / "datos_iniciales" / "nlp.csv"
+RUTA_POR_DEFECTO = Path(settings.BASE_DIR) / "entrenamiento" / "datos" / "nlp.csv"
 
 
 class Command(BaseCommand):
@@ -31,7 +31,7 @@ class Command(BaseCommand):
         creados = 0
 
         with ruta.open(encoding="utf-8-sig") as f, transaction.atomic():
-            for n_fila, fila in enumerate(csv.DictReader(f), start=2,  delimiter=";"):
+            for n_fila, fila in enumerate(csv.DictReader(f, delimiter=";"), start=2):
                 texto = fila["texto"].strip()
                 nombre_intencion = fila.get("intencion", "").strip()
                 intencion = cache_intenciones.get(nombre_intencion) if nombre_intencion else None
