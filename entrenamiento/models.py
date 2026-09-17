@@ -176,7 +176,7 @@ class SpanEntidad(models.Model):
         verbose_name = "Entidad anotada"
         verbose_name_plural = "Entidades anotadas"
         constraints = [
-            models.CheckConstraint(check=models.Q(fin__gt=models.F("inicio")), name="fin_mayor_que_inicio"),
+            models.CheckConstraint(condition=models.Q(fin__gt=models.F("inicio")), name="fin_mayor_que_inicio"),
         ]
 
     def texto_detectado(self):
