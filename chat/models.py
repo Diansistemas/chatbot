@@ -35,7 +35,6 @@ class Conversacion(models.Model):
     def __str__(self):
         return f"Conversacion Nº{self.pk}"
 
-
 class Mensaje(models.Model):
     # Relacion con la conversacion
     conversacion = models.ForeignKey(Conversacion, on_delete=models.CASCADE, related_name="conversacion_mensajes")
