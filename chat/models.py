@@ -34,10 +34,11 @@ class Conversacion(models.Model):
 
     # Contamos cuantos mensajes tiene la conversacion
     def contar_mensajes(self):
-        return self.conversacion_mensajes.count()
+        return  self.conversacion_mensajes.count()
 
     def __str__(self):
         return f"Conversacion Nº{self.pk}"
+
 
 class Mensaje(models.Model):
     # Relacion con la conversacion

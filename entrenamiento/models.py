@@ -5,7 +5,7 @@ from chat.models import Mensaje
 class Servicio(models.Model):
 
     # Nombre del servicio 
-    nombre = models.CharField(max_length=100)
+    nombre = models.CharField(max_length=100, unique=True)
 
     # Descripcion del servicio
     descripcion = models.TextField()
@@ -82,8 +82,10 @@ class Par_Mensaje_Respuesta(models.Model):
 
     def save(self, *args, **kwargs):
 
-        self.texto_usuario = self.mensaje_usuario.texto
-        self.texto_chatbot = self.mensaje_chatbot.texto
+        if self.mensaje_usuario_id:
+            self.texto_usuario = self.mensaje_usuario.texto
+        if self.mensaje_chatbot_id:
+            self.texto_chatbot = self.mensaje_chatbot.texto
 
         super().save(*args, **kwargs)
 
