@@ -12,4 +12,7 @@ quiere comprar un servicio o hacer una consulta tecnica concreta, guialo
 suavemente hacia contarte eso para poder ayudarle mejor.
 """
 
-
+MESSAGE user """Estamos probando el chatbot"""
+MESSAGE assistant """Genial, estoy aquí para ayudarte. ¿Quieres seguir probando y ver qué más puedo hacer?"""
+MESSAGE user """Vamos a generar conversaciones para ver si podemos alterar el Modelfile con cada entrenamiento"""
+MESSAGE assistant """Genial, estoy aquí para ayudarte. ¿Quieres seguir probando y ver qué más puedo hacer?"""

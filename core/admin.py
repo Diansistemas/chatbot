@@ -14,6 +14,7 @@ class AnalisisAdmin(admin.ModelAdmin):
     search_fields = ("mensaje", "intencion")
     list_filter = ("intencion",)
     actions = [promover_a_ejemplo_nlp]
+    
 @admin.register(EntidadDetectada)
 class EntidadDetectadaAdmin(admin.ModelAdmin):
 

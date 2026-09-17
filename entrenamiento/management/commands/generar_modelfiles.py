@@ -79,8 +79,8 @@ class Command(BaseCommand):
         cabecera = cabecera_path.read_text(encoding="utf-8")
 
         ejemplos = (
-            EjemploLLM.objects.filter(conversacion__intencion__nombre=tipo)
-            .select_related("conversacion")
+            EjemploLLM.objects.filter(mensaje_respuesta__intencion__nombre=intencion)
+            .select_related("mensaje_respuesta")
         )
         if solo_manual:
             ejemplos = ejemplos.filter(origen="manual")
@@ -95,8 +95,8 @@ class Command(BaseCommand):
         bloques_message = []
         for ejemplo in ejemplos:
 
-            mensaje_usuario = ejemplo.conversacion.texto_usuario
-            mensaje_chat = ejemplo.conversacion.texto_chatbot
+            mensaje_usuario = ejemplo.mensaje_respuesta.texto_usuario
+            mensaje_chat = ejemplo.mensaje_respuesta.texto_chatbot
 
             bloques_message.append(f'MESSAGE user """{mensaje_usuario}"""')
             bloques_message.append(f'MESSAGE assistant """{mensaje_chat}"""')
