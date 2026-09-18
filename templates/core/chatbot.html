@@ -50,7 +50,7 @@
       </div>
 
       <!-- Formulario del chat (Caja para insertar texto y botón de envío) -->
-      <form id="form-chat" class="d-flex p-2 border-top" data-conversacion="{{ conversacion.pk }}">
+      <form id="form-chat" class="d-flex p-2 border-top" data-conversacion="{{ conversacion.token }}">
         {% csrf_token %}
         <input id="input-msg" class="form-control me-2" placeholder="Escribe un mensaje" autocomplete="off" required>
         <button id="btn-enviar" class="btn btn-primary bi bi-send-fill"></button>
