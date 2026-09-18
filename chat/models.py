@@ -21,6 +21,8 @@ class Conversacion(models.Model):
 
     estado = models.CharField(max_length=20, choices=estado_choices, default='abierta')
 
+    dominio = models.CharField(max_length=100, blank=True, default="")
+    
     # Tipo de conversacion
     # Auto clasificado por el chatbot
     # Si el chatbot se queda en sin clasificar

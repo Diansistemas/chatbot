@@ -8,7 +8,6 @@ class DominioPermitidoMixin:
 
     def dispatch(self, request, *args, **kwargs):
         referer = request.META.get("HTTP_REFERER", "")
-        print(f"REFERER RECIBIDO: {referer!r}")
         if not self._referer_permitido(referer):
             return HttpResponseForbidden("NO >:(")
         return super().dispatch(request, *args, **kwargs)
