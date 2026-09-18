@@ -11,6 +11,9 @@ from django.utils import timezone
 class InicioView(TemplateView):
     template_name = 'core/inicio.html'
 
+class PruebaView(TemplateView):
+    template_name = 'core/subdominio.html'
+
 #View del chat
 @method_decorator(xframe_options_exempt, name='dispatch')
 class ChatWidgetView(DominioPermitidoMixin, ListView):
@@ -20,11 +23,25 @@ class ChatWidgetView(DominioPermitidoMixin, ListView):
 
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
+
         if request.method == "POST":
-            self.conversacion = Conversacion.objects.get(pk=request.POST.get("conversacion"))
+            self.conversacion = Conversacion.objects.get(token=request.POST.get("conversacion"))
+            return
+
+        token_recibido = request.GET.get("conversacion")
+        conversacion = None
+        if token_recibido:
+            conversacion = Conversacion.objects.filter(token=token_recibido, estado="abierta").first()
+
+        if conversacion:
+            self.conversacion = conversacion
         else:
             self.conversacion = Conversacion.objects.create()
-            Mensaje.objects.create(conversacion=self.conversacion, texto="Hola, soy el asistente virtual de Dian Sistemas ¿que necesitas?", remitente="chatbot")
+            Mensaje.objects.create(
+                conversacion=self.conversacion,
+                texto="Hola, soy el asistente virtual de Dian Sistemas ¿que necesitas?",
+                remitente="chatbot",
+            )
 
     #Filtros para el mensaje
     def get_queryset(self):

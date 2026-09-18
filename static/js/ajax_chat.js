@@ -4,6 +4,7 @@ const btnEnviar = document.getElementById('btn-enviar');
 const mensajesDiv = document.getElementById('mensajes');
 const escribiendoDiv = document.getElementById('escribiendo');
 const conversacionId = formChat.dataset.conversacion;
+window.parent.postMessage({ tipo: 'chatbot:token', token: conversacionId }, '*');
 const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 formChat.addEventListener('submit', async function (e) {
     e.preventDefault();

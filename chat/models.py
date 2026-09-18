@@ -1,6 +1,10 @@
 from django.db import models
+import uuid
 
 class Conversacion(models.Model):
+
+    # Token de sesión
+    token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
     # Fechas de inicio y fin de la conversacion
     # Permite la busqueda y filtro  de conversacion por linea de tiempo
