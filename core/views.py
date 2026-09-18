@@ -11,6 +11,9 @@ from django.utils import timezone
 class InicioView(TemplateView):
     template_name = 'core/inicio.html'
 
+class PruebaView(TemplateView):
+    template_name = 'core/subdominio.html'
+
 #View del chat
 @method_decorator(xframe_options_exempt, name='dispatch')
 class ChatWidgetView(DominioPermitidoMixin, ListView):
