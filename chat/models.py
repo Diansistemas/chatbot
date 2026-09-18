@@ -1,5 +1,8 @@
 from django.db import models
 import uuid
+from django.utils import timezone
+from datetime import timedelta
+
 
 class Conversacion(models.Model):
 
@@ -22,7 +25,7 @@ class Conversacion(models.Model):
     estado = models.CharField(max_length=20, choices=estado_choices, default='abierta')
 
     dominio = models.CharField(max_length=100, blank=True, default="")
-    
+
     # Tipo de conversacion
     # Auto clasificado por el chatbot
     # Si el chatbot se queda en sin clasificar
@@ -33,6 +36,21 @@ class Conversacion(models.Model):
     ]
     tipo  = models.CharField(max_length=20, choices=tipo_choices, default="sin_clasificar")
 
+    # Comprobamos que esta inactiva
+    # El timeout esta en minutos
+    def estaInactiva(self, timeout=30):
+        # Pillamos el mensaje mas reciente
+        ultimo_mensaje = self.conversacion_mensajes.order_by('-fecha_mensaje').first()
+
+        # Calcmalos cuando estaria la conversacion en tiemout
+        tiempo_limite = timezone.now() - timedelta(minutes=timeout)
+
+        # Si ha pasado, devolvemos TRUE
+        if ultimo_mensaje.fecha_mensaje < tiempo_limite:
+            return True
+        else:
+            return False
+        
     # Traduccimos en español y comentario en la base de datos
     class Meta:
         verbose_name = "Conversacion"

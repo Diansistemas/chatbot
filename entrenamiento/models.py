@@ -95,7 +95,7 @@ class Par_Mensaje_Respuesta(models.Model):
     def __str__(self):
         return f"{self.texto_usuario} | {self.texto_chatbot}"
 
-# Creamos los pares desde una conversacion
+# Creamos los pares desde una conversacion  
 def generar_pares_desde_conversacion(conversacion):
     mensajes = list(conversacion.conversacion_mensajes.order_by("fecha_mensaje"))
 
@@ -144,7 +144,7 @@ class EjemploLLM(models.Model):
         verbose_name_plural = "Ejemplos LLM"
 
 # NLP
-# 
+# Sirve para la deteccion de intenciones en un mensaje
 
 class EjemploNLP(models.Model):
 
