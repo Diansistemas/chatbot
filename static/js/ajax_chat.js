@@ -3,9 +3,13 @@ const inputMsg = document.getElementById('input-msg');
 const btnEnviar = document.getElementById('btn-enviar');
 const mensajesDiv = document.getElementById('mensajes');
 const escribiendoDiv = document.getElementById('escribiendo');
-const conversacionId = formChat.dataset.conversacion;
-window.parent.postMessage({ tipo: 'chatbot:token', token: conversacionId }, '*');
+let conversacionId = formChat.dataset.conversacion || '';
 const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+if (conversacionId) {
+    window.parent.postMessage({ tipo: 'chatbot:token', token: conversacionId }, '*');
+}
+
 formChat.addEventListener('submit', async function (e) {
     e.preventDefault();
     const texto = inputMsg.value.trim();
@@ -33,6 +37,23 @@ formChat.addEventListener('submit', async function (e) {
         }
 
         const dataUsuario = await respUsuario.json();
+
+        if (!conversacionId) {
+            conversacionId = dataUsuario.conversacion;
+            window.parent.postMessage({ tipo: 'chatbot:token', token: conversacionId }, '*');
+        }
+
+        if (dataUsuario.bienvenida) {
+            const bienvenidaEstatica = document.getElementById('bienvenida-inicial');
+            if (bienvenidaEstatica) bienvenidaEstatica.remove();
+
+            escribiendoDiv.insertAdjacentHTML('afterend', `
+                <div class="mensaje-grupo mensaje-grupo--bot">
+                    <p class="msg-bot">${escaparHtml(dataUsuario.bienvenida.texto)}</p>
+                    <small class="msg-hora">${dataUsuario.bienvenida.hora}</small>
+                </div>
+            `);
+        }
 
         escribiendoDiv.insertAdjacentHTML('afterend', `
             <div class="mensaje-grupo mensaje-grupo--user">

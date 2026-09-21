@@ -33,20 +33,26 @@
         <div id="escribiendo" class="msg-bot" style="display:none;">
           <span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>
         </div>
-        {% for mensaje in mensajes reversed %}
-          <!-- Lógica para saber si es mensaje el cliente o del bot -->
-          {% if mensaje.remitente == "chatbot" %}
-            <div class="mensaje-grupo mensaje-grupo--bot">
-              <p class="msg-bot">{{ mensaje.texto }}</p>
-              <small class="msg-hora">{{ mensaje.fecha_mensaje|date:"H:i" }}</small>
-            </div>
-          {% else %}
-            <div class="mensaje-grupo mensaje-grupo--user">
-              <p class="msg-user">{{ mensaje.texto }}</p>
-              <small class="msg-hora">{{ mensaje.fecha_mensaje|date:"H:i" }}</small>
-            </div>
-          {% endif %}
-        {% endfor %}
+        {% if conversacion %}
+          {% for mensaje in mensajes reversed %}
+            <!-- Lógica para saber si es mensaje el cliente o del bot -->
+            {% if mensaje.remitente == "chatbot" %}
+              <div class="mensaje-grupo mensaje-grupo--bot">
+                <p class="msg-bot">{{ mensaje.texto }}</p>
+                <small class="msg-hora">{{ mensaje.fecha_mensaje|date:"H:i" }}</small>
+              </div>
+            {% else %}
+              <div class="mensaje-grupo mensaje-grupo--user">
+                <p class="msg-user">{{ mensaje.texto }}</p>
+                <small class="msg-hora">{{ mensaje.fecha_mensaje|date:"H:i" }}</small>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          <div id="bienvenida-inicial" class="mensaje-grupo mensaje-grupo--bot">
+            <p class="msg-bot">Hola, soy el asistente virtual de Dian Sistemas ¿que necesitas?</p>
+          </div>
+        {% endif %}
       </div>
 
       <!-- Formulario del chat (Caja para insertar texto y botón de envío) -->

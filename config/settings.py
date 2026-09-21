@@ -158,7 +158,6 @@ MAILERS = {
 #Dominio que tiene permitido usar esa app
 if DEBUG:
     DOMINIOS_PERMITIDOS = (
-        "http://localhost:8000",
         "http://127.0.0.1:8000",
     )
 else:

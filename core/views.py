@@ -25,29 +25,21 @@ class ChatWidgetView(DominioPermitidoMixin, ListView):
         super().setup(request, *args, **kwargs)
 
         if request.method == "POST":
-            self.conversacion = Conversacion.objects.get(token=request.POST.get("conversacion"))
+            token = request.POST.get("conversacion")
+            self.conversacion = Conversacion.objects.filter(token=token).first() if token else None
             return
 
         token_recibido = request.GET.get("conversacion")
-        conversacion = None
+        self.conversacion = None
         if token_recibido:
-            conversacion = Conversacion.objects.filter(token=token_recibido, estado="abierta").first()
+            self.conversacion = Conversacion.objects.filter(token=token_recibido, estado="abierta").first()
+        # Si no hay token válido, self.conversacion se queda en None — NO se crea nada todavía
 
-        if conversacion:
-            self.conversacion = conversacion
-        else:
-            self.conversacion = Conversacion.objects.create()
-            Mensaje.objects.create(
-                conversacion=self.conversacion,
-                texto="Hola, soy el asistente virtual de Dian Sistemas ¿que necesitas?",
-                remitente="chatbot",
-            )
-
-    #Filtros para el mensaje
     def get_queryset(self):
-        return Mensaje.objects.filter(conversacion = self.conversacion).order_by("fecha_mensaje")
+        if self.conversacion is None:
+            return Mensaje.objects.none()
+        return Mensaje.objects.filter(conversacion=self.conversacion).order_by("fecha_mensaje")
 
-    # Contexto del chat
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["conversacion"] = self.conversacion
@@ -56,26 +48,40 @@ class ChatWidgetView(DominioPermitidoMixin, ListView):
     def post(self, request, *args, **kwargs):
         accion = request.POST.get("accion")
 
-        # PASO 1 — crea el mensaje del usuario y devuelve su hora al instante
         if accion == "usuario":
             texto = request.POST.get("texto", "").strip()
             if not texto:
                 return JsonResponse({"error": "Mensaje vacío"}, status=400)
+
+            bienvenida = None
+            if self.conversacion is None:
+                self.conversacion = Conversacion.objects.create()
+                mensaje_bienvenida = Mensaje.objects.create(
+                    conversacion=self.conversacion,
+                    texto="Hola, soy el asistente virtual de Dian Sistemas ¿que necesitas?",
+                    remitente="chatbot",
+                )
+                bienvenida = {
+                    "texto": mensaje_bienvenida.texto,
+                    "hora": timezone.localtime(mensaje_bienvenida.fecha_mensaje).strftime("%H:%M"),
+                }
 
             mensaje_usuario = Mensaje.objects.create(
                 conversacion=self.conversacion, texto=texto, remitente="usuario"
             )
             return JsonResponse({
                 "mensaje_id": mensaje_usuario.pk,
+                "conversacion": str(self.conversacion.token),
                 "hora_usuario": timezone.localtime(mensaje_usuario.fecha_mensaje).strftime("%H:%M"),
+                "bienvenida": bienvenida,
             })
 
-        # PASO 2 — genera la respuesta del bot para ese mensaje
         elif accion == "bot":
+            if self.conversacion is None:
+                return JsonResponse({"error": "Conversación no encontrada"}, status=400)
             mensaje_id = request.POST.get("mensaje_id")
             mensaje_usuario = Mensaje.objects.get(pk=mensaje_id, conversacion=self.conversacion)
-            mensaje_bot = responder(mensaje_usuario)  # se queda "pensando" lo que tarde el LLM
-
+            mensaje_bot = responder(mensaje_usuario)
             return JsonResponse({
                 "bot": mensaje_bot.texto,
                 "hora_bot": timezone.localtime(mensaje_bot.fecha_mensaje).strftime("%H:%M"),
