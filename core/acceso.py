@@ -1,9 +1,9 @@
-from functools import lru_cache
 import spacy
-from django.conf import settings
 import requests
-
 import re
+
+from django.conf import settings
+from functools import lru_cache
 
 # Esquema de los nombres 
 _ESQUEMA_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*://")
@@ -11,9 +11,6 @@ _ESQUEMA_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*://")
 # Intenciones de cada modelo
 INTENCIONES_VALIDAS = {"compra", "consulta", "otro"}
  
- 
- 
-
 # Punto de aceso al modelo de spaCy, de momentos solo cargamos 1 modelo
 # Si en algun momento cargamos mas de uno, hay que cambiar el max_size y cargarlos todos
 @lru_cache(maxsize=1)
@@ -73,25 +70,24 @@ def llamar_llm(intencion, mensaje, historico, contexto, dominio=None):
 
 # Tratamiento de nombres del domino
 def normalizar_dominio(host):
-    """
-    Dado un host (con o sin protocolo, con o sin puerto, con o sin
-    subdominio), devuelve el dominio base en minusculas.
- 
-    Devuelve "" si no se puede extraer nada util (host vacio, "*", etc).
-    """
+    
     if not host:
         return ""
  
     host = host.strip().lower()
     if host == "*":
         return ""
- 
-    host = _ESQUEMA_RE.sub("", host)      # quita "https://" si viene
-    host = host.split("/")[0]             # quita cualquier ruta ("/algo")
+
+    # Quitamos "https://"
+    host = _ESQUEMA_RE.sub("", host)
+    #Quitamos cualquier subruta ("/algo")
+    host = host.split("/")[0]
+
+    # ALLOWED_HOSTS admite ".dominio.com" 
     if host.startswith("."):
-        host = host[1:]                   # ALLOWED_HOSTS admite ".dominio.com"
+        host = host[1:]
  
-    # Quita el puerto, con cuidado de no romper direcciones IPv6 ([::1]:8000)
+    # Quitamos el puerto
     if host.startswith("["):
         host = host.split("]")[0].lstrip("[")
     else:
@@ -99,7 +95,8 @@ def normalizar_dominio(host):
  
     if not host:
         return ""
- 
+
+    # Montamos el nombre real
     partes = host.split(".")
     if len(partes) >= 2:
         return partes[-2]
@@ -108,11 +105,6 @@ def normalizar_dominio(host):
 
 # Importar los nombres del ALLOWED HOST
 def dominios_desde_allowed_hosts(allowed_hosts):
-    """
-    Deriva la lista (ordenada, sin duplicados) de dominios base a partir de
-    una lista tipo settings.ALLOWED_HOSTS. Ignora entradas vacias y el
-    comodin "*".
-    """
     dominios = set()
     for host in allowed_hosts or []:
         base = normalizar_dominio(host)

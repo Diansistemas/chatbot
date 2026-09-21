@@ -1,4 +1,5 @@
 import csv
+
 from decimal import Decimal
 from pathlib import Path
 from django.conf import settings
@@ -7,15 +8,17 @@ from django.db import transaction
 
 from entrenamiento.models import Servicio
 
+# Donde estan los servicios
 RUTA_POR_DEFECTO = Path(settings.BASE_DIR) / "entrenamiento" / "datos" / "servicios.csv"
 
-
+# Que hacemos
 class Command(BaseCommand):
-    help = "Carga Servicios desde un CSV (idempotente, por nombre unico)"
 
+    # Por si quieres añadir mas csv
     def add_arguments(self, parser):
         parser.add_argument("--csv", default=str(RUTA_POR_DEFECTO))
 
+    # Que hacemos
     def handle(self, *args, **options):
         ruta = Path(options["csv"])
         if not ruta.exists():

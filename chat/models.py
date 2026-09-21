@@ -1,9 +1,10 @@
-from django.db import models
 import uuid
+
+from django.db import models
 from django.utils import timezone
 from datetime import timedelta
 
-
+# Cada conversacion
 class Conversacion(models.Model):
 
     # Token de sesión
@@ -22,8 +23,11 @@ class Conversacion(models.Model):
         ("cerrada", "Cerrada")
     ]
 
+    # Si es una conversacion activa o no
     estado = models.CharField(max_length=20, choices=estado_choices, default='abierta')
 
+    # A que dominio pertenece
+    # Dependiendo de como lidiemos con varios dominios y su entrenamiento puede resultar irrelevante
     dominio = models.CharField(max_length=100, blank=True, default="")
 
     # Tipo de conversacion
@@ -50,8 +54,7 @@ class Conversacion(models.Model):
             return True
         else:
             return False
-        
-    # Traduccimos en español y comentario en la base de datos
+
     class Meta:
         verbose_name = "Conversacion"
         verbose_name_plural = "Conversaciones"
@@ -59,6 +62,7 @@ class Conversacion(models.Model):
     def __str__(self):
         return f"Conversacion Nº{self.pk}"
 
+# Mensajjes de cada conversacion
 class Mensaje(models.Model):
     # Relacion con la conversacion
     conversacion = models.ForeignKey(Conversacion, on_delete=models.CASCADE, related_name="conversacion_mensajes")
@@ -78,7 +82,6 @@ class Mensaje(models.Model):
     # Nos permite recrear la conversacion
     fecha_mensaje = models.DateTimeField(auto_now_add=True)  
 
-    # Traduccimos en español  y comentario en la base de datos
     class Meta:
         verbose_name = "Mensaje"
         verbose_name_plural = "Mensajes"
@@ -86,7 +89,8 @@ class Mensaje(models.Model):
     def __str__(self):
         return f"{self.texto}"
 
-# Donde debería estar esto
+# De momento no lo usmaos
+# En principio existe solo para asegurarnos de que una compra tiene todos los datos necesarios
 class Pedido(models.Model):
 
     # Relacion con la conversacion

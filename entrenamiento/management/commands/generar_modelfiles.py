@@ -1,47 +1,34 @@
-"""
-Regenera los bloques MESSAGE de los Modelfile.* a partir de las conversaciones
-de ejemplo (entrenamiento.Ejemplo) guardadas en la base de datos.
-
-La cabecera (FROM / PARAMETER / SYSTEM) de cada modelo NO se toca: se lee tal
-cual de llms/cabeceras/cabecera.<intencion>, que se edita a mano. Este comando
-solo se encarga de anadir los ejemplos de conversacion reales.
-
-Uso:
-    python manage.py generar_modelfiles
-    python manage.py generar_modelfiles --solo-manual
-    python manage.py generar_modelfiles --crear      # ademas ejecuta "ollama create"
-"""
-
 import subprocess
-from pathlib import Path
 
+from pathlib import Path
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from core.acceso import nombre_modelo, dominios_desde_allowed_hosts
 
 from entrenamiento.models import EjemploLLM
 
-# Conversacion.tipo (chat.models) -> nombre de intencion usado en MAPA_MODELO
-# (acceso.py) y en los nombres Modelfile.<intencion> / chatbot-<intencion>.
-# OJO: si cambias los "choices" de Conversacion.tipo o las claves de
-# MAPA_MODELO, actualiza este mapa tambien.
+# Que intenciones reconocemos en el modelo
 TIPO_INTENCION = {
     "compra": "compra",
     "consulta_tecnica": "consulta",
     "sin_clasificar": "otro",
 }
 
-# Carpeta donde viven los Modelfile.* y crear_modelos.bash/.ps1
+# Carpeta donde tenemos los Modelfile.*
 LLMS_DIR = Path(settings.BASE_DIR) / "entrenamiento" / "llms"
 CABECERAS_DIR = LLMS_DIR / "cabeceras"
 CABECERAS_DEFAULT_DIR = CABECERAS_DIR / "default"
 CABECERAS_DOMINIOS_DIR = CABECERAS_DIR / "dominios"
 
-# Limite de conversaciones de ejemplo por modelo, para no disparar el tamano
-# del prompt fijo que se antepone en cada llamada al LLM
-MAX_EJEMPLOS_POR_MODELO = 9999
+# Limite de conversaciones de ejemplo por modelo
+# Ajustar el tamaño segun la potencia del ordenador
+MAX_EJEMPLOS_POR_MODELO = 100
 
 # Cabereceras por defecto
+# FROM --- es el modelo base
+# PARAMETER temperature -- va de 0 a 1, es la variabilidad del chat
+# 1 -> Super variable, ,0 -> Siempre la misma. Alrededor de 0.7 es una conversacion "natural"
+# SYSTEM es el "prompt" inicial 
 CABECERAS_POR_DEFECTO = {
     "compra": '''FROM llama3.2
  
@@ -82,38 +69,39 @@ Se breve, cercano y profesional.
 ''',
 }
 
+# Los MESSAGE de Ollama se delimitan con """
+# Si se nos escapa en el texto real lo saltamos
 def escapar_triple_comillas(texto):
-    # Los MESSAGE de Ollama se delimitan con """; si el texto real contuviera
-    # ese literal (muy raro) rompemos la secuencia para no cerrar el bloque antes de tiempo
     return texto.replace('"""', '\\"\\"\\"')
 
-
+# El comadno real
 class Command(BaseCommand):
-    help = "Genera los Modelfile.* (default + uno por dominio de ALLOWED_HOSTS) a partir de las conversaciones de ejemplo guardadas en la BD"
- 
+
+    # Que ejemplos vamos a usar, si hay que hacer el ollama o si solo vamos a crear un dominio
     def add_arguments(self, parser):
         parser.add_argument(
             "--solo-manual",
             action="store_true",
-            help="Usar unicamente ejemplos con origen='manual' (curados a mano), ignorando los que vienen del propio chatbot",
         )
         parser.add_argument(
             "--crear",
             action="store_true",
-            help="Ademas de generar los Modelfile.*, ejecuta 'ollama create' para cada uno",
         )
         parser.add_argument(
             "--dominio",
             action="append",
             default=None,
-            help="Genera solo para este dominio (repite la opcion para varios). Por defecto: 'default' + todos los dominios de settings.ALLOWED_HOSTS.",
         )
  
+
+    # Que hacemos
     def handle(self, *args, **options):
+        # Donde estamos guardando las cosas
         LLMS_DIR.mkdir(parents=True, exist_ok=True)
         CABECERAS_DEFAULT_DIR.mkdir(parents=True, exist_ok=True)
         CABECERAS_DOMINIOS_DIR.mkdir(parents=True, exist_ok=True)
- 
+
+        # Tratamos los arguemtnos
         if options["dominio"]:
             dominios = list(options["dominio"])
         else:
@@ -129,22 +117,15 @@ class Command(BaseCommand):
                 ok = self.generar_modelfile(intencion, dominio, solo_manual=options["solo_manual"])
                 if ok and options["crear"]:
                     self.crear_modelo_ollama(intencion, dominio)
- 
-    # ------------------------------------------------------------------
-    # Cabeceras
-    # ------------------------------------------------------------------
- 
+
+    #  Donde estan las cabezeras
     def ruta_cabecera(self, intencion, dominio):
         if dominio:
             return CABECERAS_DOMINIOS_DIR / dominio / f"cabecera.{intencion}"
         return CABECERAS_DEFAULT_DIR / f"cabecera.{intencion}"
- 
+
+    # Como tratamos las rutas y leemos la cabezera correcta
     def resolver_cabecera(self, intencion, dominio):
-        """
-        Texto de la cabecera a usar para (intencion, dominio): la propia del
-        dominio si existe, si no la de default/ (creandola con una plantilla
-        basica si tampoco existe todavia).
-        """
         ruta_default = self.ruta_cabecera(intencion, None)
         if not ruta_default.exists():
             if not self.crear_cabecera_basica(ruta_default, intencion):
@@ -162,7 +143,8 @@ class Command(BaseCommand):
             f"[{dominio}] No hay {ruta_dominio}; uso la cabecera de default/ para '{intencion}'."
         ))
         return cabecera_default
- 
+
+    # Cabezeras por defecto si no existen
     def crear_cabecera_basica(self, cabecera_path, intencion):
         plantilla = CABECERAS_POR_DEFECTO.get(intencion)
         if plantilla is None:
@@ -181,10 +163,7 @@ class Command(BaseCommand):
         ))
         return True
  
-    # ------------------------------------------------------------------
-    # Ejemplos
-    # ------------------------------------------------------------------
- 
+    # Pillamos los ejemplos para añadir al modelfile
     def obtener_ejemplos(self, intencion, dominio, solo_manual):
         base = EjemploLLM.objects.filter(
             mensaje_respuesta__intencion__nombre=intencion
@@ -203,18 +182,14 @@ class Command(BaseCommand):
         if ejemplos_dominio:
             return ejemplos_dominio
  
-        # El dominio todavia no tiene ejemplos propios: usamos los generales
-        # como semilla, para que el modelo del dominio no se quede vacio.
+        # El dominio todavia no tiene ejemplos propios usamos los generales para que el modelo del dominio no se quede vacio.
         self.stdout.write(self.style.WARNING(
             f"[{dominio}] No tiene ejemplos propios para '{intencion}'; "
             f"uso los ejemplos generales como semilla."
         ))
         return list(base[:MAX_EJEMPLOS_POR_MODELO])
  
-    # ------------------------------------------------------------------
-    # Generacion
-    # ------------------------------------------------------------------
- 
+    # Creamos el modelfile
     def generar_modelfile(self, intencion, dominio, solo_manual):
         cabecera = self.resolver_cabecera(intencion, dominio)
         if cabecera is None:
@@ -247,7 +222,8 @@ class Command(BaseCommand):
         ))
  
         return True
- 
+
+    # Creamos la instancia del modelo en ollama
     def crear_modelo_ollama(self, intencion, dominio):
         etiqueta = dominio or "default"
         modelfile = LLMS_DIR / f"Modelfile.{etiqueta}.{intencion}"

@@ -72,10 +72,15 @@ class Intencion(models.Model):
 # Dividimos las conversaciones para que el llm los entienda mejor
 class Par_Mensaje_Respuesta(models.Model):
 
+    # Que intencion hemos detectao
     intencion = models.ForeignKey(Intencion, on_delete=models.PROTECT, related_name="intencion_par_mensaje_respuesta")
 
+    # El mensaje del usuario
+    # Si borramos el mensaje, el texto sobrevive
     mensaje_usuario = models.ForeignKey(Mensaje, on_delete=models.SET_NULL, null=True, related_name="mensaje_usuario_par_mensaje_resupuesta")
     texto_usuario = models.TextField(null=True, blank=True)
+    # El mensaje del chatbot
+    # Si borramos el mensaje, el texto sobrevive
     mensaje_chatbot = models.ForeignKey(Mensaje, on_delete=models.SET_NULL, null=True, related_name="mensaje_chatbot_par_mensaje_resupuesta")
     texto_chatbot = models.TextField(null=True, blank=True)
 
@@ -145,13 +150,16 @@ class EjemploLLM(models.Model):
 
 # NLP
 # Sirve para la deteccion de intenciones en un mensaje
-
 class EjemploNLP(models.Model):
 
+    # Que mensaje
     mensaje = models.ForeignKey(Mensaje, on_delete=models.SET_NULL, null=True, related_name="mensaje_ejemploNLP")
+    # Que intencion si la hay
     intencion = models.ForeignKey(Intencion, on_delete=models.PROTECT, null=True, blank=True, related_name="intencion_ejemploNLP")
+    # Que texto
     texto = models.TextField(null=True, blank=True)
 
+    # De donde viene
     origen_choices = [
         ("manual", "Manual"),
         ("chatbot", "Chatbot")
@@ -173,14 +181,18 @@ class EjemploNLP(models.Model):
 # Formato de spaCy: offset de caracteres
 class SpanEntidad(models.Model):
 
+    # A que ejemplo pertenece
     ejemplo = models.ForeignKey(EjemploNLP, on_delete=models.CASCADE, related_name="ejemplo_spansEntidad")
+    # Que etiqueta
     etiqueta = models.ForeignKey(EtiquetaEntidad, on_delete=models.PROTECT, related_name="etiqueta_spanEntidad")
+    # Donde empieza y donde acaba
     inicio = models.PositiveSmallIntegerField()
     fin = models.PositiveSmallIntegerField()
 
     class Meta:
         verbose_name = "Entidad anotada"
         verbose_name_plural = "Entidades anotadas"
+        # Nada de que el texto acabe antes de empezar
         constraints = [
             models.CheckConstraint(condition=models.Q(fin__gt=models.F("inicio")), name="fin_mayor_que_inicio"),
         ]
@@ -191,6 +203,7 @@ class SpanEntidad(models.Model):
     def __str__(self):
         return f"{self.etiqueta.nombre}: {self.texto_detectado()}"
 
+# Promovemos un par de mensajes a un ejemplo
 def promover_par_a_ejemplo(par, origen="chatbot"):
     return EjemploLLM.objects.create(
         mensaje_respuesta=par,

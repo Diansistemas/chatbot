@@ -1,8 +1,8 @@
 import hashlib
+import spacy
+
 from collections import Counter
 from pathlib import Path
-
-import spacy
 from spacy.tokens import DocBin
 from spacy.util import filter_spans
 from django.conf import settings
@@ -10,6 +10,7 @@ from django.core.management.base import BaseCommand
 
 from entrenamiento.models import EjemploNLP, Intencion
 
+# Donde vamos a guardar el nlp
 SPACY_DIR = Path(settings.BASE_DIR) / "entrenamiento" / "spacy"
 
 
@@ -21,12 +22,17 @@ def es_dev(texto, ratio_dev):
     return (h % 10_000) < ratio_dev * 10_000
 
 
+# Crea el "doc" de spaCy
+# Si solo tiene intent va a cat
+# Si solo tiene entidades va a ent
 class Command(BaseCommand):
     help = "Exporta EjemploNLP a .spacy: ejemplos de intencion -> textcat, de entidades -> ner"
 
+    # Ajustar el dev ratio
     def add_arguments(self, parser):
         parser.add_argument("--dev-ratio", type=float, default=0.2)
 
+    # El comando real
     def handle(self, *args, **options):
         nlp = spacy.blank("es")
 
