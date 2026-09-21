@@ -27,7 +27,7 @@ class ChatWidgetView(DominioPermitidoMixin, ListView):
         if request.method == "POST":
             self.conversacion = Conversacion.objects.get(token=request.POST.get("conversacion"))
             return
-
+  
         token_recibido = request.GET.get("conversacion")
         conversacion = None
         if token_recibido:

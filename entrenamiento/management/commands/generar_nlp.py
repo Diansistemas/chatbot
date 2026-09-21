@@ -1,4 +1,5 @@
-import random
+import hashlib
+from collections import Counter
 from pathlib import Path
 
 import spacy
@@ -12,50 +13,104 @@ from entrenamiento.models import EjemploNLP, Intencion
 SPACY_DIR = Path(settings.BASE_DIR) / "entrenamiento" / "spacy"
 
 
+# Divide el texto para los ejemplos
+# Siempre el mismo split
+def es_dev(texto, ratio_dev):
+    normalizado = " ".join(texto.lower().split())
+    h = int(hashlib.sha1(normalizado.encode("utf-8")).hexdigest(), 16)
+    return (h % 10_000) < ratio_dev * 10_000
+
+
 class Command(BaseCommand):
-    help = "Exporta EjemploEntrenamiento (texto + intencion + spans) a .spacy para textcat + ner"
+    help = "Exporta EjemploNLP a .spacy: ejemplos de intencion -> textcat, de entidades -> ner"
+
+    def add_arguments(self, parser):
+        parser.add_argument("--dev-ratio", type=float, default=0.2)
 
     def handle(self, *args, **options):
         nlp = spacy.blank("es")
 
-        etiquetas_intencion = list(Intencion.objects.filter(activa=True).values_list("nombre", flat=True))
+        etiquetas_intencion = list(
+            Intencion.objects.filter(activa=True).order_by("nombre")
+            .values_list("nombre", flat=True)
+        )
         if not etiquetas_intencion:
             self.stderr.write(self.style.ERROR("No hay Intenciones activas en la BD."))
             return
 
-        ejemplos = list(
+        ejemplos = (
             EjemploNLP.objects
+            .exclude(texto__isnull=True).exclude(texto="")
             .select_related("intencion")
-            .prefetch_related("spans__etiqueta")
+            .prefetch_related("ejemplo_spansEntidad__etiqueta")
+            .order_by("id")
         )
-        random.shuffle(ejemplos)
-        corte = int(len(ejemplos) * 0.8)
 
-        for nombre_split, subset in [("train", ejemplos[:corte]), ("dev", ejemplos[corte:])]:
-            db = DocBin()
-            for ejemplo in subset:
-                doc = nlp.make_doc(ejemplo.texto)
+        dbs = {"train": DocBin(), "dev": DocBin()}
+        stats = {s: Counter() for s in dbs}
 
-                # textcat: solo si el ejemplo tiene intencion asignada
-                if ejemplo.intencion_id:
-                    doc.cats = {
-                        etq: 1.0 if etq == ejemplo.intencion.nombre else 0.0
-                        for etq in etiquetas_intencion
-                    }
+        for ejemplo in ejemplos:
+            doc = nlp.make_doc(ejemplo.texto)
 
-                # ner: offsets de caracteres -> Span de spaCy
-                spans = []
-                for s in ejemplo.spans.all():
-                    span = doc.char_span(s.inicio, s.fin, label=s.etiqueta.nombre, alignment_mode="contract")
-                    if span is None:
-                        self.stderr.write(self.style.WARNING(
-                            f"Ejemplo #{ejemplo.id}: offsets ({s.inicio},{s.fin}) no alinean con ningun token, se ignora"
-                        ))
-                        continue
-                    spans.append(span)
+            # Si detecta intenciones va al textcat
+            tiene_intencion = bool(ejemplo.intencion_id and ejemplo.intencion.activa)
+            if tiene_intencion:
+                doc.cats = {
+                    etq: 1.0 if etq == ejemplo.intencion.nombre else 0.0
+                    for etq in etiquetas_intencion
+                }
 
-                doc.ents = filter_spans(spans)  # descarta solapamientos
-                db.add(doc)
+            spans_bd = list(ejemplo.ejemplo_spansEntidad.all())
+            spans = []
+            for s in spans_bd:
+                span = doc.char_span(
+                    s.inicio, s.fin, label=s.etiqueta.nombre, alignment_mode="strict"
+                )
+                if span is None:
+                    self.stderr.write(self.style.WARNING(
+                        f"Ejemplo #{ejemplo.id}: offsets ({s.inicio},{s.fin}) "
+                        f"no alinean con tokens, span ignorado"
+                    ))
+                    continue
+                spans.append(span)
 
-            db.to_disk(SPACY_DIR / f"{nombre_split}.spacy")
-            self.stdout.write(self.style.SUCCESS(f"{nombre_split}.spacy: {len(subset)} ejemplos"))
+            # Si no va a para el ner
+            if spans_bd and not spans and not tiene_intencion:
+                # Todas las anotaciones fallaron: usarlo sería enseñar "sin entidades"
+                self.stderr.write(self.style.WARNING(
+                    f"Ejemplo #{ejemplo.id}: sin spans validos ni intencion, omitido"
+                ))
+                continue
+
+            if spans:
+                doc.set_ents(filter_spans(spans))
+            else:
+                doc.set_ents([], default="missing")
+
+            if not tiene_intencion and not spans:
+                self.stderr.write(self.style.WARNING(
+                    f"Ejemplo #{ejemplo.id}: sin intencion ni entidades, omitido"
+                ))
+                continue
+
+            split = "dev" if es_dev(ejemplo.texto, options["dev_ratio"]) else "train"
+            dbs[split].add(doc)
+
+            c = stats[split]
+            c["ejemplos"] += 1
+            if tiene_intencion:
+                c[f"intent:{ejemplo.intencion.nombre}"] += 1
+            for ent in doc.ents:
+                c[f"ent:{ent.label_}"] += 1
+
+        SPACY_DIR.mkdir(parents=True, exist_ok=True)
+        for split, db in dbs.items():
+            db.to_disk(SPACY_DIR / f"{split}.spacy")
+            self.stdout.write(self.style.SUCCESS(f"{split}.spacy: {stats[split]['ejemplos']} ejemplos"))
+            for k, v in sorted(stats[split].items()):
+                if k != "ejemplos":
+                    self.stdout.write(f"  {k}: {v}")
+
+            faltan = [e for e in etiquetas_intencion if stats[split][f"intent:{e}"] == 0]
+            if faltan:
+                self.stderr.write(self.style.WARNING(f"  {split} no tiene ejemplos de: {faltan}"))
