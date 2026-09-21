@@ -46,7 +46,7 @@ class Conversacion(models.Model):
         # Pillamos el mensaje mas reciente
         ultimo_mensaje = self.conversacion_mensajes.order_by('-fecha_mensaje').first()
 
-        # Calcmalos cuando estaria la conversacion en tiemout
+        # Calculamos cuando estaria la conversacion en timeout
         tiempo_limite = timezone.now() - timedelta(minutes=timeout)
 
         # Si ha pasado, devolvemos TRUE

@@ -3,7 +3,7 @@ import subprocess
 from pathlib import Path
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from core.acceso import nombre_modelo, dominios_desde_allowed_hosts
+from core.acceso import nombre_modelo, dominios_desde_settings
 
 from entrenamiento.models import EjemploLLM
 
@@ -17,7 +17,7 @@ TIPO_INTENCION = {
 # Carpeta donde tenemos los Modelfile.*
 LLMS_DIR = Path(settings.BASE_DIR) / "entrenamiento" / "llms"
 CABECERAS_DIR = LLMS_DIR / "cabeceras"
-CABECERAS_DEFAULT_DIR = CABECERAS_DIR / "default"
+CABECERAS_DEFAULT_DIR = CABECERAS_DIR / "defecto"
 CABECERAS_DOMINIOS_DIR = CABECERAS_DIR / "dominios"
 
 # Limite de conversaciones de ejemplo por modelo
@@ -105,10 +105,10 @@ class Command(BaseCommand):
         if options["dominio"]:
             dominios = list(options["dominio"])
         else:
-            dominios = [None] + dominios_desde_allowed_hosts(settings.ALLOWED_HOSTS)
+            dominios = [None] + dominios_desde_settings(settings.DOMINIOS_PERMITIDOS)
             if len(dominios) == 1:
                 self.stdout.write(self.style.WARNING(
-                    "settings.ALLOWED_HOSTS no tiene dominios (solo se generara el set 'default'). "
+                    "settings.DOMINIOS_PERMITIDOS no tiene dominios (solo se generara el set 'default'). "
                     "Anade tus dominios ahi para que tengan su propio modelo."
                 ))
  

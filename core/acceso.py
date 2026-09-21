@@ -104,7 +104,7 @@ def normalizar_dominio(host):
  
 
 # Importar los nombres del ALLOWED HOST
-def dominios_desde_allowed_hosts(allowed_hosts):
+def dominios_desde_settings(allowed_hosts):
     dominios = set()
     for host in allowed_hosts or []:
         base = normalizar_dominio(host)
