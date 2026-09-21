@@ -1,4 +1,4 @@
-nombre;descripcion;
-SERVICIO;Nombre de un servicio ofrecido;
-PRECIO;Cantidad de dinero mencionada;
-FINAL;Finales de conversacion;
+nombre;descripcion
+SERVICIO;Nombre de un servicio ofrecido
+PRECIO;Cantidad de dinero mencionada
+FINAL;Finales de conversacion

@@ -34,10 +34,17 @@ class Command(BaseCommand):
             for n_fila, fila in enumerate(csv.DictReader(f, delimiter=";"), start=2):
                 texto = fila["texto"].strip()
                 nombre_intencion = fila.get("intencion", "").strip()
-                intencion = cache_intenciones.get(nombre_intencion) if nombre_intencion else None
-                if nombre_intencion and intencion is None:
-                    self.stderr.write(self.style.WARNING(f"Fila {n_fila}: intencion '{nombre_intencion}' no existe"))
+                intencion = None
+                if nombre_intencion:
+                    intencion = cache_intenciones.get(nombre_intencion)
+                    if intencion is None:
+                        self.stderr.write(self.style.WARNING(f"Fila {n_fila}: intencion '{nombre_intencion}' no existe, fila omitida"))
+                        continue
 
+                if not texto or (not intencion and not fila.get("entidades", "").strip()):
+                    self.stderr.write(self.style.WARNING(f"Fila {n_fila}: sin texto o sin intencion ni entidades, omitida"))
+                    continue
+                
                 ejemplo = EjemploNLP.objects.create(
                     texto=texto, intencion=intencion,
                     origen=fila.get("origen", "manual").strip() or "manual",

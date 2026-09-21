@@ -149,7 +149,7 @@ class EjemploLLM(models.Model):
 class EjemploNLP(models.Model):
 
     mensaje = models.ForeignKey(Mensaje, on_delete=models.SET_NULL, null=True, related_name="mensaje_ejemploNLP")
-    intencion = models.ForeignKey(Intencion, on_delete=models.PROTECT, related_name="intencion_ejemploNLP")
+    intencion = models.ForeignKey(Intencion, on_delete=models.PROTECT, null=True, blank=True, related_name="intencion_ejemploNLP")
     texto = models.TextField(null=True, blank=True)
 
     origen_choices = [
