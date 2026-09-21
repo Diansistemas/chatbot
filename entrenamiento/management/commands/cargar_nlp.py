@@ -1,4 +1,5 @@
 import csv
+
 from pathlib import Path
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -6,23 +7,25 @@ from django.db import transaction
 
 from entrenamiento.models import Intencion, EtiquetaEntidad, EjemploNLP, SpanEntidad
 
+# Donde guardamos los ejemplos
 RUTA_POR_DEFECTO = Path(settings.BASE_DIR) / "entrenamiento" / "datos" / "nlp.csv"
 
-
+# Que hacemos
 class Command(BaseCommand):
-    help = "Carga EjemploEntrenamiento + SpanEntidad para spaCy"
 
+    # Otros csv y si quieres borrar los ejemplos manuales
     def add_arguments(self, parser):
         parser.add_argument("--csv", default=str(RUTA_POR_DEFECTO))
-        parser.add_argument("--limpiar", action="store_true",
-                             help="Borra los EjemploEntrenamiento con origen manual antes de cargar")
+        parser.add_argument("--limpiar", action="store_true")
 
+    # Que hacemos
     def handle(self, *args, **options):
         ruta = Path(options["csv"])
         if not ruta.exists():
             self.stderr.write(self.style.ERROR(f"No existe {ruta}"))
             return
 
+        # Borramos manuales
         if options["limpiar"]:
             EjemploNLP.objects.filter(origen="manual").delete()
 
@@ -30,6 +33,7 @@ class Command(BaseCommand):
         cache_etiquetas = {e.nombre: e for e in EtiquetaEntidad.objects.all()}
         creados = 0
 
+        # Guardamos todos los ejemplos juntos, el tratamiento para el doc va en en el generar_nlp
         with ruta.open(encoding="utf-8-sig") as f, transaction.atomic():
             for n_fila, fila in enumerate(csv.DictReader(f, delimiter=";"), start=2):
                 texto = fila["texto"].strip()

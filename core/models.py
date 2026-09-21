@@ -1,12 +1,15 @@
 from django.db import models
 from chat.models import Mensaje
+
 from entrenamiento.models import Intencion, EtiquetaEntidad, detectar_servicio, EjemploNLP, SpanEntidad, generar_pares_desde_conversacion
 from .acceso import get_nlp, llamar_llm
 
 #Analisis de cada mensaje
 class Analisis(models.Model):
 
+    # Que mensaje
     mensaje = models.OneToOneField(Mensaje, on_delete = models.CASCADE, related_name="mensaje_analisis")
+    # Que intecion hemos detectado
     intencion = models.ForeignKey(Intencion, on_delete = models.SET_NULL, null=True, blank=True, related_name="intencion_analisis")
 
     # Cuanta confianza tenemos en que el analisis es correcto
@@ -20,12 +23,19 @@ class Analisis(models.Model):
 # Entidades y etiquetas detectadas en el analsis
 class EntidadDetectada(models.Model):
 
+    # Que analis
     analisis = models.ForeignKey(Analisis, on_delete=models.CASCADE, related_name="analisis_entidad")
+
+    # Que etiqueta
     etiqueta = models.ForeignKey(EtiquetaEntidad, on_delete=models.PROTECT, related_name="etiqueta_entidad")
 
+    # Que texto
     texto_detectado = models.TextField()
 
+    # Donde empieza la etiqueta
     inicio = models.PositiveSmallIntegerField()
+
+    # Donde acaba la etiqueta
     fin = models.PositiveSmallIntegerField()
     
     class Meta:
@@ -43,6 +53,7 @@ def procesar_mensaje(mensaje_recibido):
     intencion = None
     confianza = None
 
+    # spaCt doc para guardar los datos
     if doc.cats:
         nombre_intencion = max(doc.cats, key=doc.cats.get)
         confianza = doc.cats[nombre_intencion]
@@ -67,16 +78,21 @@ def procesar_mensaje(mensaje_recibido):
 
     return analisis
 
+# Como "respondemos", en concreto a que instancia del llm llamamos
 def generar_respuesta_llm(mensaje, analisis, servicio): 
 
+    # A que conversacion estamos respondiend
     conversacion = mensaje.conversacion
 
+    # Que estamos tratando
     if analisis.intencion:    
         intencion = analisis.intencion.nombre
 
+    # Si no sabemos, vamos a un modelo generico
     else:
         intencion = "otro"
 
+    # De que servicio estamos hablando
     contexto = str(servicio)
 
     # Generamos el historico excluyendo el mensaje que genera al respuesta
@@ -85,14 +101,18 @@ def generar_respuesta_llm(mensaje, analisis, servicio):
         for mensaje in conversacion.conversacion_mensajes.exclude(pk=mensaje.pk).order_by("fecha_mensaje")
     ]
 
+    # Llamamos la modelo
     texto = llamar_llm(intencion, mensaje.texto, historico, contexto)
     return texto.strip() 
     
 # Funcion a llamar para generar una respuesta
 def responder(mensaje):
-
-    analisis = procesar_mensaje(mensaje)
+    
+    # Donde estamos
     conversacion = mensaje.conversacion
+
+    # Generemos el analisis del mensaje
+    analisis = procesar_mensaje(mensaje)
 
     # Que servicio esta consultando
     servicio = detectar_servicio(analisis)
@@ -110,13 +130,17 @@ def responder(mensaje):
         remitente="chatbot"
     )
 
+# Promovemos nuestros mensaje a ejemplos
 def promover_analisis_a_ejemplo(analisis, origen="chatbot"):
+
+    # El nuevo ejemplo
     ejemplo = EjemploNLP.objects.create(
         mensaje=analisis.mensaje,
         intencion=analisis.intencion,
         origen=origen,
-    )  # texto se rellena solo en el save()
+    )
 
+    # Las etiquetas
     spans = [
         SpanEntidad(
             ejemplo=ejemplo,

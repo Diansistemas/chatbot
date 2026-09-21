@@ -1,6 +1,7 @@
 from django.db import models
 from chat.models import Conversacion
 
+# Resumen para mandar por correo
 class Resumen(models.Model):
 
     # Relacion con la conversacion

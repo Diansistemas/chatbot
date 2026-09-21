@@ -6,23 +6,25 @@ from django.db import transaction
 
 from entrenamiento.models import Intencion, Par_Mensaje_Respuesta, EjemploLLM
 
+# Donde guardamos los pares de mensaje
 RUTA_POR_DEFECTO = Path(settings.BASE_DIR) / "entrenamiento" / "datos" / "llm.csv"
 
-
+# Que hacaemos
 class Command(BaseCommand):
-    help = "Carga ejemplos de conversacion (Par_Mensaje_Respuesta + Ejemplo) para el LLM"
 
+    # Otros csv y si quieres eliminar los ejemplos "manuales"
     def add_arguments(self, parser):
         parser.add_argument("--csv", default=str(RUTA_POR_DEFECTO))
-        parser.add_argument("--limpiar", action="store_true",
-                             help="Borra los Ejemplo/Par_Mensaje_Respuesta con origen manual antes de cargar")
+        parser.add_argument("--limpiar", action="store_true")
 
+    # Que hacemos
     def handle(self, *args, **options):
         ruta = Path(options["csv"])
         if not ruta.exists():
             self.stderr.write(self.style.ERROR(f"No existe {ruta}"))
             return
 
+        # Estamos limpiando?
         if options["limpiar"]:
             ids = list(EjemploLLM.objects.filter(origen="manual").values_list("conversacion_id", flat=True))
             EjemploLLM.objects.filter(origen="manual").delete()

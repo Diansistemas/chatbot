@@ -1,4 +1,5 @@
 import csv
+
 from pathlib import Path
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -6,15 +7,18 @@ from django.db import transaction
 
 from entrenamiento.models import Intencion
 
+# Donde tenemos las intenciones
 RUTA_POR_DEFECTO = Path(settings.BASE_DIR) / "entrenamiento" / "datos" / "intenciones.csv"
 
-
+# Que hacemos
 class Command(BaseCommand):
     help = "Carga Intenciones desde un CSV (idempotente)"
 
+    # Podemos pasarle otros csv
     def add_arguments(self, parser):
         parser.add_argument("--csv", default=str(RUTA_POR_DEFECTO))
 
+    # Que hacemos
     def handle(self, *args, **options):
         ruta = Path(options["csv"])
         if not ruta.exists():

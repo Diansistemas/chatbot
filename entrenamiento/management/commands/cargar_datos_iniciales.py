@@ -1,14 +1,15 @@
 from django.core.management import call_command
 from django.core.management.base import BaseCommand
 
-
+# Todos los cargar en linea
 class Command(BaseCommand):
-    help = "Carga labels -> servicios -> llm -> nlp, en ese orden"
 
+    # Si le pasas --limpiar, limpiamos los ejemplos existentes
+    # Esta solo para los ejemplos iniciales de llm y nlp para evitar tener varias veces el mismo mensaje
     def add_arguments(self, parser):
-        parser.add_argument("--limpiar", action="store_true",
-                             help="Pasa --limpiar a los comandos de llm y nlp")
+        parser.add_argument("--limpiar", action="store_true",)
 
+    # Que hacemos y en que orden
     def handle(self, *args, **options):
         self.stdout.write("1/5 etiquetas...")
         call_command("cargar_etiquetas")

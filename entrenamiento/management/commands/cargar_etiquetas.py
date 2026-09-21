@@ -1,4 +1,5 @@
 import csv
+
 from pathlib import Path
 from django.conf import settings
 from django.core.management.base import BaseCommand
@@ -6,15 +7,17 @@ from django.db import transaction
 
 from entrenamiento.models import EtiquetaEntidad
 
+# Donde tenemos las etiquetas
 RUTA_POR_DEFECTO = Path(settings.BASE_DIR) / "entrenamiento" / "datos" / "etiquetas.csv"
 
-
+# El comando como tal
 class Command(BaseCommand):
-    help = "Carga EtiquetaEntidad desde un CSV (idempotente)"
 
+    # Que etiquetas le pasamos
     def add_arguments(self, parser):
         parser.add_argument("--csv", default=str(RUTA_POR_DEFECTO))
 
+    # Que hacemos
     def handle(self, *args, **options):
         ruta = Path(options["csv"])
         if not ruta.exists():
