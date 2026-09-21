@@ -49,6 +49,7 @@
             {% endif %}
           {% endfor %}
         {% else %}
+        <!-- Mensaje de bienvenida inicial -->
           <div id="bienvenida-inicial" class="mensaje-grupo mensaje-grupo--bot">
             <p class="msg-bot">Hola, soy el asistente virtual de Dian Sistemas ¿que necesitas?</p>
           </div>
@@ -56,6 +57,7 @@
       </div>
 
       <!-- Formulario del chat (Caja para insertar texto y botón de envío) -->
+      <!-- Pasamos el token de la conversación en una variable para los JS los puedan usar -->
       <form id="form-chat" class="d-flex p-2 border-top" data-conversacion="{{ conversacion.token }}">
         {% csrf_token %}
         <input id="input-msg" class="form-control me-2" placeholder="Escribe un mensaje" autocomplete="off" required>

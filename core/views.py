@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views.generic import ListView,TemplateView
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.utils.decorators import method_decorator
@@ -14,16 +13,19 @@ class InicioView(TemplateView):
 class PruebaView(TemplateView):
     template_name = 'core/subdominio.html'
 
-#View del chat
+#View del chat (Listview de mensajes con el decorador de que tiene permitido enbeberse en un iframe)
+#Además dispone de un Mixin para comprobar si esta dentro de los dominios permitidos antes de mostrar
 @method_decorator(xframe_options_exempt, name='dispatch')
 class ChatWidgetView(DominioPermitidoMixin, ListView):
     model = Mensaje
     template_name = "core/chatbot.html"
     context_object_name = "mensajes"
 
+    #Método que se lanza al iniciar la vista.
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
 
+        #Si se llega a esta vista por el método POST filtra por el token de la sesión para recuperar la conversación que había.
         if request.method == "POST":
             token = request.POST.get("conversacion")
             self.conversacion = Conversacion.objects.filter(token=token).first() if token else None
@@ -33,21 +35,29 @@ class ChatWidgetView(DominioPermitidoMixin, ListView):
         self.conversacion = None
         if token_recibido:
             self.conversacion = Conversacion.objects.filter(token=token_recibido, estado="abierta").first()
-        # Si no hay token válido, self.conversacion se queda en None — NO se crea nada todavía
 
+    #Método que se encarga del filtro de objetos que aparecen en la vista
     def get_queryset(self):
+        #Filtra que los mensajes sean todos de la conversación adecuada y los ordena por la fecha
         if self.conversacion is None:
             return Mensaje.objects.none()
         return Mensaje.objects.filter(conversacion=self.conversacion).order_by("fecha_mensaje")
 
+    #Método para añadir contexto adicional al template
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        #En este caso le pasamos la conversación
         context["conversacion"] = self.conversacion
         return context
 
+    #Método que procesa los datos recibidos por la template.
     def post(self, request, *args, **kwargs):
+        #Recogemos la acción del template
         accion = request.POST.get("accion")
 
+        #Si la acción es el usuario, comprueba que input de texto no este vacío
+        #Ademas si es el primer mensaje de la conversación general el mensaje de bienvenida del bot
+        #Y finalmente crea el mensaje en funcion al texto escrito en el input y reenvia esos datos al template como json.
         if accion == "usuario":
             texto = request.POST.get("texto", "").strip()
             if not texto:
@@ -76,6 +86,9 @@ class ChatWidgetView(DominioPermitidoMixin, ListView):
                 "bienvenida": bienvenida,
             })
 
+        #Si la acción es la del bot comprueba primero si la conversación ya existe
+        #Encuentra el mensaje del usuario que debe responder y llama al metodo responder con el mensaje del usuario como parámetro.
+        #Finalmente se envia a la template el dato del mensaje con la hora de creación del mismo.
         elif accion == "bot":
             if self.conversacion is None:
                 return JsonResponse({"error": "Conversación no encontrada"}, status=400)
@@ -87,4 +100,5 @@ class ChatWidgetView(DominioPermitidoMixin, ListView):
                 "hora_bot": timezone.localtime(mensaje_bot.fecha_mensaje).strftime("%H:%M"),
             })
 
+        #Esto ocurre cuando la acción no es ni usuario ni bot.
         return JsonResponse({"error": "Acción no válida"}, status=400)

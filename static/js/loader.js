@@ -1,4 +1,5 @@
 (function () {
+  //Enlace al css para el apartado visual del iframe
   var link = document.createElement('link');
   link.rel = 'stylesheet';
   link.href = 'http://localhost:8000/static/css/loader.css';
@@ -11,6 +12,7 @@
     src += '?conversacion=' + encodeURIComponent(tokenGuardado);
   }
 
+  //Crea el objeto iframe para la página
   var iframe = document.createElement('iframe');
   iframe.src = src;
   iframe.id = 'mi-chatbot-iframe';
@@ -18,13 +20,14 @@
   iframe.className = 'chatbot-iframe';
   document.body.appendChild(iframe);
 
+  //Función que da la lógica de abrir, cerrar y comprobar si hay una conversación abierta para el botón del iframe.
   window.addEventListener('message', function (event) {
     if (event.data === 'chatbot:open') {
       iframe.classList.add('chatbot-iframe--abierto');
     } else if (event.data === 'chatbot:close') {
       iframe.classList.remove('chatbot-iframe--abierto');
     } else if (event.data && event.data.tipo === 'chatbot:token') {
-      localStorage.setItem('chatbot_conversacion_token', event.data.token);   // NUEVO
+      localStorage.setItem('chatbot_conversacion_token', event.data.token);
     }
   });
 })();
