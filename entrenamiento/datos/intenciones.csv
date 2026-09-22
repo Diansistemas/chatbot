@@ -1,3 +1,5 @@
 nombre;descripcion;activa
 compra;Usuario quiere contratar un servicio;1
 consulta_tecnica;Usuario pregunta detalles tecnicos;1
+cerrar;Usuario quiere cerrar una conversacion;1
+otro;Consulta generica;1

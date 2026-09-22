@@ -40,7 +40,7 @@ def nombre_modelo(intencion="otro", dominio=None):
  
 
 # Como llamamos al ollama
-def _llamar_ollama(modelo, mensajes):
+def _llamar_ollama_llm(modelo, mensajes):
     resp = requests.post(
         f"{settings.OLLAMA_HOST}/api/chat",
         json={"model": modelo, "messages": mensajes, "stream": False},
@@ -61,12 +61,12 @@ def llamar_llm(intencion, mensaje, historico, contexto, dominio=None):
     modelo = nombre_modelo(intencion, dominio)
  
     try:
-        return _llamar_ollama(modelo, mensajes)
+        return _llamar_ollama_llm(modelo, mensajes)
     except requests.HTTPError:
         if not dominio:
             raise
         modelo_generico = nombre_modelo(intencion, None)
-        return _llamar_ollama(modelo_generico, mensajes)
+        return _llamar_ollama_llm(modelo_generico, mensajes)
 
 # Tratamiento de nombres del domino
 def normalizar_dominio(host):
@@ -122,18 +122,28 @@ PROMPT_RESUMEN_COMPRA = (
     "- Datos del cliente (nombre, contacto, dirección):\n"
     "- Requisitos, presupuesto o plazos mencionados:\n"
     "- Siguiente paso recomendado:\n"
-    "Usa SOLO información que aparezca en la conversación. Si un dato no aparece, "
-    "escribe 'No indicado'. No inventes nada."
+    "Reglas: \n"
+    "   -Usa SOLO información que aparezca en la conversación. Si un dato no aparece, escribe 'No indicado'. No inventes nada."
 )
+
+def _llamar_ollama_resumen(mensajes):
+    resp = requests.post(
+        f"{settings.OLLAMA_HOST}/api/chat",
+        json={
+            "model": getattr(settings, "OLLAMA_MODEL_RESUMEN", "llama3.2"),
+            "messages": mensajes,
+            "stream": False,
+            "options": {"temperature": 0.2},
+        },
+        timeout=60,
+    )
+    resp.raise_for_status()
+    return resp.json()["message"]["content"]
 
 def generar_resumen_llm(transcripcion):
     mensajes = [
         {"role": "system", "content": PROMPT_RESUMEN_COMPRA},
         {"role": "user", "content": transcripcion},
     ]
-    texto = _llamar_ollama(
-        getattr(settings, "OLLAMA_MODEL_RESUMEN", "llama3.2"),
-        mensajes,
-        opciones={"temperature": 0.2},
-    )
+    texto = _llamar_ollama_resumen(mensajes)
     return texto.strip()

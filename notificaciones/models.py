@@ -44,9 +44,9 @@ def transcripcion(conversacion):
 
 
 def generar_resumen(conversacion):
-    transcripcion = transcripcion(conversacion)
+    texto_transcripcion  = transcripcion(conversacion)
     try:
-        texto = generar_resumen_llm(transcripcion)
+        texto = generar_resumen_llm(texto_transcripcion )
     except Exception:
         logger.exception("Fallo al generar el resumen de la conversación %s", conversacion.pk)
         texto = ""

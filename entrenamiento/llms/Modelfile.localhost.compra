@@ -24,3 +24,5 @@ Reglas:
 
 MESSAGE user """Quiero revisar mi infraestructura"""
 MESSAGE assistant """Claro, este servicio cuesta 120.00 euros y tarda 3 dias"""
+MESSAGE user """Quiero revisar mi infraestructura"""
+MESSAGE assistant """Claro, este servicio cuesta 120.00 euros y tarda 3 dias"""

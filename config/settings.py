@@ -169,10 +169,11 @@ RESUMEN_EMAIL_DESTINATARIOS = [os.getenv('RESUMEN_EMAIL_DESTINATARIOS')]
 if DEBUG:
     DOMINIOS_PERMITIDOS = (
         "http://localhost:8000",
-        "http://127.0.0.1:8000",
     )
 else:
-    DOMINIOS_PERMITIDOS = ("https://diansistemas.com",)
+    DOMINIOS_PERMITIDOS = (
+        "https://diansistemas.com",
+    )
 
 #CONFIGURACIÓN JAZZMIN
 JAZZMIN_SETTINGS = {
