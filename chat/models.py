@@ -165,3 +165,6 @@ class Pedido(models.Model):
             return (True,mensaje)
         else:
             return (False,mensaje)
+
+    def __str__(self):
+        return f"Pedido Nº{self.pk}"

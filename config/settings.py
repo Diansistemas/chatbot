@@ -163,6 +163,7 @@ MAILERS = {
 }
 
 # Quien recibe el correo
+# TODO: Crashea si esta vacio o hay mas de uno. Deberia admitir varios
 RESUMEN_EMAIL_DESTINATARIOS = [os.getenv('RESUMEN_EMAIL_DESTINATARIOS')]
 
 #Dominios que tienen permitido usar esa app
@@ -269,5 +270,6 @@ JAZZMIN_UI_TWEAKS = {
     "theme": "lux", 
 }
 
-# Usamos el modelo base
+# Modelo_del resumen
+# No entrenamos los resumenes, es el modelo base
 OLLAMA_MODEL_RESUMEN = "llama3.2"

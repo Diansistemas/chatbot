@@ -20,6 +20,8 @@ class Analisis(models.Model):
         verbose_name = "Analisis de Mensaje"
         verbose_name_plural = "Analisis de Mensajes"
 
+    def __str__(self):
+        return f"Analisis: {self.mensaje}"
 
 # Entidades y etiquetas detectadas en el analsis
 class EntidadDetectada(models.Model):
@@ -42,6 +44,9 @@ class EntidadDetectada(models.Model):
     class Meta:
         verbose_name = "Entidad Detectada"
         verbose_name_plural = "Entidades Detectadas"
+
+    def __str__(self):
+        return f"Entidad {self.etiqueta.nombre}: {self.texto_detectado}"
 
 # Procesa un mensaje que el chat bot acaba de recibir
 def procesar_mensaje(mensaje_recibido):

@@ -13,6 +13,9 @@ class EtiquetaEntidad(models.Model):
         verbose_name = "Etiqueta de Entidad"
         verbose_name_plural = "Etiquetas de Entidades"
 
+    def __str__(self):
+        return f"{self.nombre}"
+    
 # Intencion de una conversacion.
 # Compra, Consulta u Otro. Admitimos mas valores en caso de que, en el futuro, queramos ampliar
 class Intencion(models.Model): 
@@ -113,6 +116,8 @@ class EjemploLLM(models.Model):
         verbose_name = "Ejemplo LLM"
         verbose_name_plural = "Ejemplos LLM"
 
+    def __str__(self):
+        return f"{self.mensaje_respuesta}"
 # NLP
 # Sirve para la deteccion de intenciones en un mensaje
 class EjemploNLP(models.Model):
@@ -141,6 +146,9 @@ class EjemploNLP(models.Model):
             self.texto = self.mensaje.texto
             
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.texto}"
 
 # El span de las etiquetas que hay en un ejemplo para la NLP
 # Formato de spaCy: offset de caracteres

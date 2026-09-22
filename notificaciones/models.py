@@ -33,7 +33,10 @@ class Resumen(models.Model):
     # Traduccimos en español y comentario en la base de datos
     class Meta:
         verbose_name = "Resumen"
-        verbose_name_plural = "Resúmenes"                                                                                                                                                                                                                                                                                                                                                 
+        verbose_name_plural = "Resúmenes"
+
+    def __str__(self):
+        return f"Resumen Nº{self.pk}"
 
 def transcripcion(conversacion):
     lineas = []
@@ -75,7 +78,4 @@ def enviar_resumen(resumen):
 
     EmailMessage(subject=asunto, body=cuerpo, to=destinatarios).send(fail_silently=False)
 
-    resumen.enviado = True
-    resumen.fecha_envio = timezone.now()
-    resumen.save(update_fields=["enviado", "fecha_envio"])
     return True
