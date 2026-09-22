@@ -19,7 +19,7 @@ class Servicio(models.Model):
     coste = models.DecimalField(max_digits=10, decimal_places=2)
 
     # Tiempo de serivicio aproximado en dias
-    tiempo_aproximado = models.SmallIntegerField()
+    tiempo_aproximado = models.PositiveSmallIntegerField()
     
     # Traduccimos en español y comentario en la base de datos
     class Meta:

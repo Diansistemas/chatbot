@@ -30,7 +30,7 @@ class Resumen(models.Model):
 
     tipo = models.CharField(max_length=20, choices=tipo_choices, default="sin_categoria")    
     
-    # Traduccimos en español y comentario en la base de datos
+    # Traduccimos en español
     class Meta:
         verbose_name = "Resumen"
         verbose_name_plural = "Resúmenes"
@@ -54,7 +54,7 @@ def generar_resumen(conversacion):
         logger.exception("Fallo al generar el resumen de la conversación %s", conversacion.pk)
         texto = ""
 
-    # If the LLM fails, we still send the transcript so the lead isn't lost
+    # Si el LLM falla, escribimos un mensaje de error
     if not texto:
         texto = "(No se pudo generar el resumen automático. Transcripción completa:)\n\n" + transcripcion
 
