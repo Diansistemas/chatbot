@@ -111,3 +111,29 @@ def dominios_desde_settings(allowed_hosts):
         if base:
             dominios.add(base)
     return sorted(dominios)
+
+# Como tratamos los resumenes
+
+PROMPT_RESUMEN_COMPRA = (
+    "Eres un asistente interno de DianSistemas. Vas a recibir la transcripción de una "
+    "conversación entre un cliente y un chatbot de ventas. Redacta un resumen breve "
+    "(máximo 120 palabras) en español para el equipo comercial, con este formato:\n"
+    "- Servicio de interés:\n"
+    "- Datos del cliente (nombre, contacto, dirección):\n"
+    "- Requisitos, presupuesto o plazos mencionados:\n"
+    "- Siguiente paso recomendado:\n"
+    "Usa SOLO información que aparezca en la conversación. Si un dato no aparece, "
+    "escribe 'No indicado'. No inventes nada."
+)
+
+def generar_resumen_llm(transcripcion):
+    mensajes = [
+        {"role": "system", "content": PROMPT_RESUMEN_COMPRA},
+        {"role": "user", "content": transcripcion},
+    ]
+    texto = _llamar_ollama(
+        getattr(settings, "OLLAMA_MODEL_RESUMEN", "llama3.2"),
+        mensajes,
+        opciones={"temperature": 0.2},
+    )
+    return texto.strip()

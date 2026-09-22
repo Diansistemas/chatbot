@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Conversacion, Mensaje, Pedido
+from .models import Conversacion, Mensaje, Pedido, Servicio
 
 @admin.register(Conversacion)
 class ConversacionAdmin(admin.ModelAdmin):
@@ -22,3 +22,11 @@ class Pedido(admin.ModelAdmin):
 
     search_fields = ("nombre", "conversacion", "direccion")
     list_filter = ("conversacion",)
+
+        
+@admin.register(Servicio)
+class ServicioAdmin(admin.ModelAdmin):
+
+    search_fields = ("nombre", "descripcion")
+    list_filter = ("coste", "tiempo_aproximado")
+    list_display = ("nombre", "descripcion", "tiempo_aproximado", "coste")

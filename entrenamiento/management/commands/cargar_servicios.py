@@ -6,7 +6,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
-from entrenamiento.models import Servicio
+from chat.models import Servicio
 
 # Donde estan los servicios
 RUTA_POR_DEFECTO = Path(settings.BASE_DIR) / "entrenamiento" / "datos" / "servicios.csv"

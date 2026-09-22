@@ -1,41 +1,6 @@
 from django.db import models
 from chat.models import Mensaje
 
-# Servicios que ofrece DianSistemas
-class Servicio(models.Model):
-
-    # Nombre del servicio 
-    nombre = models.CharField(max_length=100, unique=True)
-
-    # Descripcion del servicio
-    descripcion = models.TextField()
-
-    # Coste aproximado del servicio
-    # Coste maximo de 99999999.99
-    coste = models.DecimalField(max_digits=10, decimal_places=2)
-
-    # Tiempo de serivicio aproximado en dias
-    tiempo_aproximado = models.SmallIntegerField()
-    
-    # Traduccimos en español y comentario en la base de datos
-    class Meta:
-        verbose_name = "Servicio"
-        verbose_name_plural = "Servicios"
-
-    def __str__(self):
-        return (f"Nombre: {self.nombre} \n Descripcion: {self.descripcion} \n Coste: {self.coste} \n Tiempo: {self.tiempo_aproximado}")
-
-# Como detectamos los servicios en el analisis.
-# Es mas para debuggear que para otra cosa.
-# TODO: Cambiar el metodo  para que pille la informacion de la base de datos y los añada como EtiquetasEtnidad
-def detectar_servicio(analisis):
-
-    entidad_servicio = analisis.analisis_entidad.filter(etiqueta__nombre="SERVICIO").first()
-    if not entidad_servicio:
-        return None
-    
-    return Servicio.objects.filter(nombre__icontains=entidad_servicio.texto_detectado).first()
-
 # Etiquetas para las entidades de entrenamiento de spaCy
 class EtiquetaEntidad(models.Model):    
     # Nombre de la etiqueta

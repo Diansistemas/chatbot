@@ -1,17 +1,10 @@
 from django.contrib import admin
-from .models import Servicio, EtiquetaEntidad, Intencion, Par_Mensaje_Respuesta, EjemploLLM, EjemploNLP, SpanEntidad, promover_par_a_ejemplo
+from .models import EtiquetaEntidad, Intencion, Par_Mensaje_Respuesta, EjemploLLM, EjemploNLP, SpanEntidad, promover_par_a_ejemplo
 
 @admin.action(description="Promover a EjemploLLM")
 def promover_a_ejemplo_llm(modeladmin, request, queryset):
     for par in queryset:
         promover_par_a_ejemplo(par, origen="chatbot")
-        
-@admin.register(Servicio)
-class ServicioAdmin(admin.ModelAdmin):
-
-    search_fields = ("nombre", "descripcion")
-    list_filter = ("coste", "tiempo_aproximado")
-    list_display = ("nombre", "descripcion", "tiempo_aproximado", "coste")
 
 @admin.register(EtiquetaEntidad)
 class EtiquetaEntidadAdmin(admin.ModelAdmin):

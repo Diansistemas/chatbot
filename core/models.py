@@ -1,7 +1,8 @@
 from django.db import models
 from chat.models import Mensaje
 
-from entrenamiento.models import Intencion, EtiquetaEntidad, detectar_servicio, EjemploNLP, SpanEntidad, generar_pares_desde_conversacion
+from entrenamiento.models import Intencion, EtiquetaEntidad, EjemploNLP, SpanEntidad, generar_pares_desde_conversacion
+from chat.models import detectar_servicio
 from .acceso import get_nlp, llamar_llm
 
 #Analisis de cada mensaje

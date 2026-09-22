@@ -4,6 +4,42 @@ from django.db import models
 from django.utils import timezone
 from datetime import timedelta
 
+
+# Servicios que ofrece DianSistemas
+class Servicio(models.Model):
+
+    # Nombre del servicio 
+    nombre = models.CharField(max_length=100, unique=True)
+
+    # Descripcion del servicio
+    descripcion = models.TextField()
+
+    # Coste aproximado del servicio
+    # Coste maximo de 99999999.99
+    coste = models.DecimalField(max_digits=10, decimal_places=2)
+
+    # Tiempo de serivicio aproximado en dias
+    tiempo_aproximado = models.SmallIntegerField()
+    
+    # Traduccimos en español y comentario en la base de datos
+    class Meta:
+        verbose_name = "Servicio"
+        verbose_name_plural = "Servicios"
+
+    def __str__(self):
+        return (f"Nombre: {self.nombre} \n Descripcion: {self.descripcion} \n Coste: {self.coste} \n Tiempo: {self.tiempo_aproximado}")
+
+# Como detectamos los servicios en el analisis.
+# Es mas para debuggear que para otra cosa.
+# Existe como pillar el objeto "real", no la instancia del servicio
+def detectar_servicio(analisis):
+
+    entidad_servicio = analisis.analisis_entidad.filter(etiqueta__nombre="SERVICIO").first()
+    if not entidad_servicio:
+        return None
+    
+    return Servicio.objects.filter(nombre__icontains=entidad_servicio.texto_detectado).first()
+
 # Cada conversacion
 class Conversacion(models.Model):
 
@@ -28,7 +64,7 @@ class Conversacion(models.Model):
 
     # A que dominio pertenece
     # Dependiendo de como lidiemos con varios dominios y su entrenamiento puede resultar irrelevante
-    dominio = models.CharField(max_length=100, blank=True, default="")
+    dominio = models.CharField(max_length=100, blank=True, null=True, default="")
 
     # Tipo de conversacion
     # Auto clasificado por el chatbot
@@ -99,15 +135,15 @@ class Pedido(models.Model):
     # Datos minimos de un pedido
     nombre = models.CharField(max_length=100)
     direccion = models.CharField(max_length=100)
-    # Quizas un textField en vez de una foreignkey 
-    #servicio = models.ForeignKey(Servicio)
-    # Presupuesto?
-    # Metodo de contacto?
+    servicio = models.ForeignKey(Servicio, on_delete=models.CASCADE, related_name= "servicio_pedido")
+    presupuesto = models.DecimalField(max_digits=10, decimal_places=2)
+    forma_contacto = models.CharField(max_length=100)
 
     class Meta:
         verbose_name = "Pedido"
         verbose_name_plural = "Pedidos"
 
+    # Comprobamos que tenemos los dataos minimos para realizar un pedido
     def checkCampos(self):
         mensaje = ""
         if not self.nombre:
@@ -116,8 +152,16 @@ class Pedido(models.Model):
         if not self.direccion:
             mensaje = mensaje + "Falta dirección \n"
 
-        if mensaje == "":
-            return True
+        if not self.servicio:
+            mensaje = mensaje + "Falta servicio \n"
 
+        if not self.presupuesto:
+            mensaje = mensaje + "Falta presupuesto \n"
+
+        if not self.forma_contacto:
+            mensaje = mensaje + "Falta un metodo de contacto \n"
+
+        if mensaje == "":
+            return (True,mensaje)
         else:
             return (False,mensaje)
