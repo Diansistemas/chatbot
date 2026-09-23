@@ -65,13 +65,7 @@ class Resumen(models.Model):
 
     def __str__(self):
         return f"Resumen Nº{self.pk}"
-
-    def save(self, *args, **kwargs):
-        es_nuevo = self._state.adding
-        if es_nuevo and not self.texto:
-            self.texto = generar_resumen(self.conversacion)
-        super().save(*args, **kwargs)
-
+    
 def enviar_resumen(resumen):
     destinatarios = getattr(settings, "RESUMEN_EMAIL_DESTINATARIOS", [])
     if not destinatarios:
