@@ -157,7 +157,7 @@ MAILERS = {
             'port': int(os.getenv('EMAIL_PORT', 587)),
             'username': os.getenv('EMAIL_HOST_USER'),
             'password': os.getenv('EMAIL_HOST_PASSWORD'),
-            'use_tls': True,
+            'use_tls': os.getenv('EMAIL_USE_TLS'),
         },
     },
 }
