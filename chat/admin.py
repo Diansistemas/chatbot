@@ -1,13 +1,27 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from .models import Conversacion, Mensaje, Pedido, Servicio
+from notificaciones.models import Resumen, generar_resumen
 
+def generar_y_guardar_resumen(conversacion):
+    if Resumen.objects.filter(conversacion=conversacion).exists():
+        return
+
+    texto = generar_resumen(conversacion)
+    Resumen.objects.create(conversacion=conversacion, texto=texto)
+
+@admin.action(description="Generar resumen")
+def generar_resumen_action(modeladmin, request, queryset):
+    for conversacion in queryset:
+        generar_y_guardar_resumen(conversacion)
+    
 @admin.register(Conversacion)
 class ConversacionAdmin(admin.ModelAdmin):
 
-    search_fields = ("fecha_inicio", "estado", "tipo")
-    list_filter = ("estado", "tipo")
-    list_display = ("__str__", "estado", "tipo", "fecha_inicio")
+    search_fields = ("fecha_inicio", "estado")
+    list_filter = ("estado", "tenemosCompra")
+    list_display = ("__str__", "estado", "fecha_inicio", "tenemosCompra")
     ordering = ("-id",)
+    actions = [generar_resumen_action]
 
 @admin.register(Mensaje)
 class MensajeAdmin(admin.ModelAdmin):

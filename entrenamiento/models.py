@@ -45,11 +45,11 @@ class Par_Mensaje_Respuesta(models.Model):
 
     # El mensaje del usuario
     # Si borramos el mensaje, el texto sobrevive
-    mensaje_usuario = models.ForeignKey(Mensaje, on_delete=models.SET_NULL, null=True, related_name="mensaje_usuario_par_mensaje_resupuesta", limit_choices_to={"remitente": "usuario"})
+    mensaje_usuario = models.OneToOneField(Mensaje, on_delete=models.SET_NULL, null=True, related_name="mensaje_usuario_par_mensaje_resupuesta", limit_choices_to={"remitente": "usuario"})
     texto_usuario = models.TextField(null=True, blank=True)
     # El mensaje del chatbot
     # Si borramos el mensaje, el texto sobrevive
-    mensaje_chatbot = models.ForeignKey(Mensaje, on_delete=models.SET_NULL, null=True, related_name="mensaje_chatbot_par_mensaje_resupuesta", limit_choices_to={"remitente": "chatbot"})
+    mensaje_chatbot = models.OneToOneField(Mensaje, on_delete=models.SET_NULL, null=True, related_name="mensaje_chatbot_par_mensaje_resupuesta", limit_choices_to={"remitente": "chatbot"})
     texto_chatbot = models.TextField(null=True, blank=True)
 
     class Meta:
