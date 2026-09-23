@@ -36,6 +36,10 @@ def generar_resumen(conversacion):
 
     return texto
 
+def crear_resumen(conversacion):
+    texto = generar_resumen(conversacion)  # llamada lenta al LLM, fuera de cualquier transacción
+    return Resumen.objects.create(conversacion=conversacion, texto=texto)  # escritura rápida
+
 # Resumen para mandar por correo
 class Resumen(models.Model):
 
