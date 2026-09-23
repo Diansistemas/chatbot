@@ -11,6 +11,9 @@ Chatbot con IA para uso comercial de Dian Sistemas
 ## Funciones no implementadas
 - **Notificaciones** — Creacion y envio de resumenes de las conversaciones relevantes
 - **Entrenamiento de modelos** — Ajustes a los modelos y entrenamiento con datos relevantes
+- **Docker** — Dockerizar el proyecto
+- **Servidor** — Hosteo del widget en un servidor
+- **Bug** — Interrupciones de conexión en la generación de respuesta rompen el chat
 
 ## Estructura del proyecto 
 Este projecto es una aplicacion web de Django con la siguiente estructura:
