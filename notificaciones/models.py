@@ -12,6 +12,30 @@ from core.acceso import generar_resumen_llm
 
 logger = logging.getLogger(__name__)
 
+# Transcripcion de una conversacion
+def transcripcion(conversacion):
+    lineas = []
+    for m in conversacion.conversacion_mensajes.order_by("fecha_mensaje"):
+        quien = "Cliente" if m.remitente == "usuario" else "Asistente"
+        lineas.append(f"{quien}: {m.texto}")
+    return "\n".join(lineas)
+
+
+# Generamso el texto de un resumen
+def generar_resumen(conversacion):
+    texto_transcripcion = transcripcion(conversacion)
+    try:
+        texto = generar_resumen_llm(texto_transcripcion)
+    except Exception:
+        logger.exception("Fallo al generar el resumen de la conversación %s", conversacion.pk)
+        texto = ""
+
+    # Si el LLM falla, escribimos un mensaje de error
+    if not texto:
+        texto = "(No se pudo generar el resumen automático. Transcripción completa:)\n\n" + texto_transcripcion
+
+    return texto
+
 # Resumen para mandar por correo
 class Resumen(models.Model):
 
@@ -19,7 +43,7 @@ class Resumen(models.Model):
     conversacion = models.ForeignKey(Conversacion, on_delete=models.CASCADE, related_name="resumenes")
 
     # Texto del resumen
-    texto = models.TextField()
+    texto = models.TextField(blank=True, null=True)
 
     # Tipo de resumen
     tipo_choices = [
@@ -38,27 +62,11 @@ class Resumen(models.Model):
     def __str__(self):
         return f"Resumen Nº{self.pk}"
 
-def transcripcion(conversacion):
-    lineas = []
-    for m in conversacion.conversacion_mensajes.order_by("fecha_mensaje"):
-        quien = "Cliente" if m.remitente == "usuario" else "Asistente"
-        lineas.append(f"{quien}: {m.texto}")
-    return "\n".join(lineas)
-
-
-def generar_resumen(conversacion):
-    texto_transcripcion  = transcripcion(conversacion)
-    try:
-        texto = generar_resumen_llm(texto_transcripcion )
-    except Exception:
-        logger.exception("Fallo al generar el resumen de la conversación %s", conversacion.pk)
-        texto = ""
-
-    # Si el LLM falla, escribimos un mensaje de error
-    if not texto:
-        texto = "(No se pudo generar el resumen automático. Transcripción completa:)\n\n" + transcripcion
-
-    return Resumen.objects.create(conversacion=conversacion, texto=texto, tipo="compra")
+    def save(self, *args, **kwargs):
+        es_nuevo = self._state.adding
+        if es_nuevo and not self.texto:
+            self.texto = generar_resumen(self.conversacion)
+        super().save(*args, **kwargs)
 
 def enviar_resumen(resumen):
     destinatarios = getattr(settings, "RESUMEN_EMAIL_DESTINATARIOS", [])
