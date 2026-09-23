@@ -17,9 +17,9 @@ def generar_resumen_action(modeladmin, request, queryset):
 @admin.register(Conversacion)
 class ConversacionAdmin(admin.ModelAdmin):
 
-    search_fields = ("fecha_inicio", "estado", "tipo")
-    list_filter = ("estado", "tipo")
-    list_display = ("__str__", "estado", "tipo", "fecha_inicio")
+    search_fields = ("fecha_inicio", "estado", "intenciones")
+    list_filter = ("estado", "tenemosCompra")
+    list_display = ("__str__", "estado", "fecha_inicio", "tenemosCompra")
     ordering = ("-id",)
     actions = [generar_resumen_action]
 

@@ -68,13 +68,7 @@ class Conversacion(models.Model):
 
     # Tipo de conversacion
     # Auto clasificado por el chatbot
-    # Si el chatbot se queda en sin clasificar
-    tipo_choices = [
-        ("sin_clasificar", "Sin clasificar"),
-        ("compra", "Compra"),
-        ("consulta_tecnica", "Consulta técnica")
-    ]
-    tipo  = models.CharField(max_length=20, choices=tipo_choices, default="sin_clasificar")
+    tenemosCompra  = models.BooleanField(default=False)
 
     # Comprobamos que esta inactiva
     # El timeout esta en minutos
