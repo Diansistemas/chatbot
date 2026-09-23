@@ -1,3 +1,11 @@
 texto;intencion;origen;entidades
 La revision general cuesta 120 euros;consulta_tecnica;manual;SERVICIO:revision general|PRECIO:120 euros
 Hemos terminado;cerrar;manual;FINAL:terminado
+La revision general cuesta 110 euros;consulta_tecnica;manual;SERVICIO:revision general|PRECIO:120 euros
+Hemos terminados;cerrar;manual;FINAL:terminado
+La revision general cuesta 150 euros;consulta_tecnica;manual;SERVICIO:revision general|PRECIO:120 euros
+Hemos terminado!;cerrar;manual;FINAL:terminado
+La revision general cuesta 160 euros;consulta_tecnica;manual;SERVICIO:revision general|PRECIO:120 euros
+Hemos terminado?;cerrar;manual;FINAL:terminado
+La revision general cuesta 100 euros;consulta_tecnica;manual;SERVICIO:revision general|PRECIO:120 euros
+Hemos terminado hoy;cerrar;manual;FINAL:terminado
