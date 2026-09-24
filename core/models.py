@@ -4,6 +4,8 @@ from chat.models import Mensaje, Conversacion, Servicio
 from entrenamiento.models import Intencion, EtiquetaEntidad, EjemploNLP, SpanEntidad, Par_Mensaje_Respuesta
 from .acceso import get_nlp, llamar_llm
 
+import logging
+logger = logging.getLogger(__name__)
 
 #Analisis de cada mensaje
 class Analisis(models.Model):
@@ -118,30 +120,19 @@ def procesar_mensaje(mensaje_recibido):
     intencion = None
     confianza = None
 
-    # spaCy doc para guardar los datos
     if doc.cats:
         nombre_intencion = max(doc.cats, key=doc.cats.get)
         confianza = doc.cats[nombre_intencion]
-        intencion = Intencion.objects.filter(nombre = nombre_intencion, activa=True).first()
+        intencion = Intencion.objects.filter(nombre=nombre_intencion, activa=True).first()
+        if intencion is None:
+            logger.warning("Intención '%s' no existe o no está activa. Pipeline: %s",
+                           nombre_intencion, nlp.pipe_names)
+    else:
+        logger.warning("doc.cats vacío. Pipeline cargado: %s", nlp.pipe_names)
 
-    # Creamos el analisis
-    analisis = Analisis.objects.create(mensaje=mensaje_recibido, intencion=intencion, confianza=confianza)
-
-    # Buscamos y creamos las entidades
-    entidades = []
-    for entidad in doc.ents:
-        etiqueta, _ = EtiquetaEntidad.objects.get_or_create(nombre=entidad.label_)
-        entidades.append(EntidadDetectada(
-            analisis=analisis,
-            etiqueta=etiqueta,
-            texto_detectado=entidad.text,
-            inicio=entidad.start_char,
-            fin=entidad.end_char,
-        ))
-
-    EntidadDetectada.objects.bulk_create(entidades)
-
-    return analisis
+    # Si no hemos podido detectar nada, usamos "otro"
+    if intencion is None:
+        intencion = Intencion.objects.filter(nombre="otro").first()
 
 # Como "respondemos", en concreto lo combinamos con acceso para decidir a que instancia del llm llamamos
 def generar_respuesta_llm(mensaje, analisis, servicio): 
@@ -190,29 +181,22 @@ def guardar_respuesta_bot(mensaje_usuario, texto):
     
 # Funcion a llamar para generar una respuesta
 def responder(mensaje):
- 
-    # Generemos el analisis del mensaje
     analisis = procesar_mensaje(mensaje)
+    nombre = analisis.intencion.nombre if analisis.intencion else "otro"
 
-    if analisis.intencion.nombre == "compra":
+    if nombre == "compra":
         mensaje.conversacion.tenemosCompra = True
         mensaje.conversacion.save(update_fields=["tenemosCompra"])
 
-    elif analisis.intencion.nombre == "cerrar":
-        confirmamos_cierre(mensaje.conversacion)
+    elif nombre == "cerrar":
+        respuesta = guardar_respuesta_bot(mensaje, "¡Gracias por contactar con nosotros! Hasta pronto.")
+        confirmamos_cierre(mensaje.conversacion)   # cerramos DESPUÉS de guardar la respuesta
+        return respuesta
 
     else:
-        # Que servicio esta consultando
         servicio = analisis.detectar_servicio()
-
-        # Generamos el texto
-        texto_respuesta= generar_respuesta_llm(mensaje, analisis, servicio)
-
-        # Si generar texto falla creamos un mensaje de error
-        if not texto_respuesta:
-            texto_respuesta = "Ha habido un error"
-
-    return guardar_respuesta_bot(mensaje, texto_respuesta)
+        texto_respuesta = generar_respuesta_llm(mensaje, analisis, servicio) or "Ha habido un error"
+        return guardar_respuesta_bot(mensaje, texto_respuesta)
 
 # Promovemos nuestros mensajes a ejemplos
 def promover_analisis_a_ejemplo(analisis, origen="chatbot"):
