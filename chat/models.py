@@ -85,6 +85,14 @@ class Conversacion(models.Model):
         else:
             return False
 
+    def ultimoMensaje(self):
+        return self.conversacion_mensajes.order_by('-pk').first()
+
+    # Comprobamos si hemos respondido al usuario
+    def esperandoRespuesta(self):
+        ultimo = self.conversacion_mensajes.order_by('-pk').first()
+        return ultimo is not None and ultimo.remitente == "usuario"
+
     class Meta:
         verbose_name = "Conversacion"
         verbose_name_plural = "Conversaciones"
