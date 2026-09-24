@@ -1,8 +1,7 @@
 from django.db import models, transaction
-from chat.models import Mensaje, Conversacion
 
+from chat.models import Mensaje, Conversacion, Servicio
 from entrenamiento.models import Intencion, EtiquetaEntidad, EjemploNLP, SpanEntidad, Par_Mensaje_Respuesta
-from chat.models import detectar_servicio
 from .acceso import get_nlp, llamar_llm
 
 
@@ -11,12 +10,24 @@ class Analisis(models.Model):
 
     # Que mensaje
     mensaje = models.OneToOneField(Mensaje, on_delete = models.CASCADE, related_name="mensaje_analisis")
+
     # Que intecion hemos detectado
     intencion = models.ForeignKey(Intencion, on_delete = models.SET_NULL, null=True, blank=True, related_name="intencion_analisis")
 
     # Cuanta confianza tenemos en que el analisis es correcto
     confianza  = models.FloatField(null=True, blank=True)
 
+    # Como detectamos los servicios en el analisis.
+    # Es mas para debuggear que para otra cosa.
+    # Existe como pillar el objeto "real", no la instancia del servicio
+    def detectar_servicio(self):
+
+        entidad_servicio = self.analisis_entidad.filter(etiqueta__nombre="SERVICIO").first()
+        if not entidad_servicio:
+            return None
+    
+        return Servicio.objects.filter(nombre__icontains=entidad_servicio.texto_detectado).first()
+    
     class Meta:
         verbose_name = "Analisis de Mensaje"
         verbose_name_plural = "Analisis de Mensajes"
@@ -27,13 +38,13 @@ class Analisis(models.Model):
 # Entidades y etiquetas detectadas en el analsis
 class EntidadDetectada(models.Model):
 
-    # Que analis
+    # A que analisis pertenece
     analisis = models.ForeignKey(Analisis, on_delete=models.CASCADE, related_name="analisis_entidad")
 
-    # Que etiqueta
+    # Que etiqueta hemos detectado
     etiqueta = models.ForeignKey(EtiquetaEntidad, on_delete=models.PROTECT, related_name="etiqueta_entidad")
 
-    # Que texto
+    # Que texto tiene esta etiqueta
     texto_detectado = models.TextField()
 
     # Donde empieza la etiqueta
@@ -49,7 +60,8 @@ class EntidadDetectada(models.Model):
     def __str__(self):
         return f"Entidad {self.etiqueta.nombre}: {self.texto_detectado}"
 
-# Creamos los pares desde una conversacion  
+# Creamos los pares desde una conversacion
+# Lo mantenemos en core porque es funcionalidad interna del chatbot para comunicar conversacion y entrenamiento
 def generar_pares_desde_conversacion(conversacion):
     mensajes = list(conversacion.conversacion_mensajes.order_by("fecha_mensaje"))
 
@@ -59,6 +71,7 @@ def generar_pares_desde_conversacion(conversacion):
     # Por si acaso el analisis ha fallado y no tenemos una intencion
     intencion_otro = Intencion.objects.get(nombre="otro")
 
+    # Que par de mensaje
     pares = []
     for i in range(0, len(mensajes), 2):
         mensaje_usuario = mensajes[i]
@@ -77,7 +90,9 @@ def generar_pares_desde_conversacion(conversacion):
 
     return Par_Mensaje_Respuesta.objects.bulk_create(pares)
 
-    # Cerramos una conversacion y guardamos los mensajes en pares
+# Cerramos una conversacion y guardamos los mensajes en pares
+# Cambiamos el estado y poco mas
+# TODO: Llamarla cuando una conversacione este inactiva
 def cerrar_conversacion(conversacion):
 
     conversacion.estado = "cerrada"
@@ -87,7 +102,8 @@ def cerrar_conversacion(conversacion):
 
 # Donde comprobamos que estamos cerrando una conversacion
 # Solo lo llamamos si detectamos que el usuario quiere cerrar conversacion
-# Confirmamos que quiere cerrar y si detecta que si, cerramos
+# TODO: Confirmamos que quiere cerrar y si detecta que si, cerramos
+# TODO: Logica interna del chatbot para cerrar conversaciones
 def confirmamos_cierre(conversacion):
     cerrar_conversacion(conversacion)
 
@@ -102,7 +118,7 @@ def procesar_mensaje(mensaje_recibido):
     intencion = None
     confianza = None
 
-    # spaCt doc para guardar los datos
+    # spaCy doc para guardar los datos
     if doc.cats:
         nombre_intencion = max(doc.cats, key=doc.cats.get)
         confianza = doc.cats[nombre_intencion]
@@ -127,13 +143,13 @@ def procesar_mensaje(mensaje_recibido):
 
     return analisis
 
-# Como "respondemos", en concreto a que instancia del llm llamamos
+# Como "respondemos", en concreto lo combinamos con acceso para decidir a que instancia del llm llamamos
 def generar_respuesta_llm(mensaje, analisis, servicio): 
 
-    # A que conversacion estamos respondiend
+    # A que conversacion estamos respondiendo
     conversacion = mensaje.conversacion
 
-    # Que estamos tratando
+    # De que estamos hablando
     if analisis.intencion:    
         intencion = analisis.intencion.nombre
 
@@ -144,13 +160,13 @@ def generar_respuesta_llm(mensaje, analisis, servicio):
     # De que servicio estamos hablando
     contexto = str(servicio)
 
-    # Generamos el historico excluyendo el mensaje que genera al respuesta
+    # Generamos el historico excluyendo el mensaje que genera la respuesta
     historico = [
         {"role": "user" if mensaje.remitente == "usuario" else "assistant", "content": mensaje.texto}
         for mensaje in conversacion.conversacion_mensajes.exclude(pk=mensaje.pk).order_by("fecha_mensaje")
     ]
 
-    # Llamamos la modelo
+    # Llamamos al modelo
     texto = llamar_llm(intencion, mensaje.texto, historico, contexto)
     return texto.strip() 
 
@@ -174,7 +190,7 @@ def guardar_respuesta_bot(mensaje_usuario, texto):
     
 # Funcion a llamar para generar una respuesta
 def responder(mensaje):
-
+ 
     # Generemos el analisis del mensaje
     analisis = procesar_mensaje(mensaje)
 
@@ -187,7 +203,7 @@ def responder(mensaje):
 
     else:
         # Que servicio esta consultando
-        servicio = detectar_servicio(analisis)
+        servicio = analisis.detectar_servicio()
 
         # Generamos el texto
         texto_respuesta= generar_respuesta_llm(mensaje, analisis, servicio)
@@ -198,7 +214,7 @@ def responder(mensaje):
 
     return guardar_respuesta_bot(mensaje, texto_respuesta)
 
-# Promovemos nuestros mensaje a ejemplos
+# Promovemos nuestros mensajes a ejemplos
 def promover_analisis_a_ejemplo(analisis, origen="chatbot"):
 
     # El nuevo ejemplo
@@ -218,5 +234,7 @@ def promover_analisis_a_ejemplo(analisis, origen="chatbot"):
         )
         for entidad in analisis.analisis_entidad.all()
     ]
+
+    # Guardamos los datos
     SpanEntidad.objects.bulk_create(spans)
     return ejemplo

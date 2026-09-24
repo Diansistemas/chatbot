@@ -147,25 +147,23 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 
 # Email
-# https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
+# https://docs.djangoproject.com/en/6.1/topics/email/
 
-MAILERS = {
-    'default': {
-        'BACKEND': os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend'),
-        'OPTIONS': {
-            'host': os.getenv('EMAIL_HOST'),
-            'port': int(os.getenv('EMAIL_PORT', 587)),
-            'username': os.getenv('EMAIL_HOST_USER'),
-            'password': os.getenv('EMAIL_HOST_PASSWORD'),
-            'use_tls': os.getenv('EMAIL_USE_TLS'),
-        },
-    },
-}
+# Backend: console para pruebas, smtp para producción
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
 
-# Quien recibe el correo
-# TODO: Crashea si esta vacio o hay mas de uno. Deberia admitir varios
-RESUMEN_EMAIL_DESTINATARIOS = [os.getenv('RESUMEN_EMAIL_DESTINATARIOS')]
+# Configuración del servidor SMTP
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', 587))
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'False').lower() in ('true', '1', 'yes')
 
+# Lista segura de destinatarios (admite varios, no crashea si está vacío)
+RESUMEN_EMAIL_DESTINATARIOS = [
+    email.strip() for email in os.getenv('RESUMEN_EMAIL_DESTINATARIOS', '').split(',')
+    if email.strip()
+]
 #Dominios que tienen permitido usar esa app
 DOMINIOS_PERMITIDOS = os.getenv('DOMINIOS_PERMITIDOS').split(",")
 

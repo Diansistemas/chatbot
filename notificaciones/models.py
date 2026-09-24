@@ -4,26 +4,16 @@ from django.db import models
 from chat.models import Conversacion
 from django.conf import settings
 from django.core.mail import EmailMessage
-from django.utils import timezone
 
-from chat.models import Mensaje
 from core.acceso import generar_resumen_llm
 
 
 logger = logging.getLogger(__name__)
 
-# Transcripcion de una conversacion
-def transcripcion(conversacion):
-    lineas = []
-    for m in conversacion.conversacion_mensajes.order_by("fecha_mensaje"):
-        quien = "Cliente" if m.remitente == "usuario" else "Asistente"
-        lineas.append(f"{quien}: {m.texto}")
-    return "\n".join(lineas)
 
-
-# Generamso el texto de un resumen
+# Generamos el texto de un resumen
 def generar_resumen(conversacion):
-    texto_transcripcion = transcripcion(conversacion)
+    texto_transcripcion = conversacion.transcripcion()
     try:
         texto = generar_resumen_llm(texto_transcripcion)
     except Exception:
@@ -36,9 +26,29 @@ def generar_resumen(conversacion):
 
     return texto
 
+
+def clasificar_conversacion(conversacion):
+    """
+    Clasifica la conversación antes de generar el resumen.
+    Detecta si hay intención de compra basándose en palabras clave
+    de la transcripción.
+    Retorna True si es compra, False en otro caso.
+    """
+    texto = conversacion.transcripcion().lower()
+    palabras_clave = [
+        "compra", "presupuesto", "pedido", "servicio", "precio",
+        "coste", "costo", "tarifa", "cuota", "reserva", "contratar",
+        "cotización", "información sobre", "quiero", "necesito",
+        "me gustaría", "disponible", "paquete"
+    ]
+    score = sum(1 for p in palabras_clave if p in texto)
+    return score > 0
+
+
+# Creamos el objeto resumen
 def crear_resumen(conversacion):
-    texto = generar_resumen(conversacion)  # llamada lenta al LLM, fuera de cualquier transacción
-    return Resumen.objects.create(conversacion=conversacion, texto=texto)  # escritura rápida
+    texto = generar_resumen(conversacion)
+    return Resumen.objects.create(conversacion=conversacion, texto=texto)
 
 # Resumen para mandar por correo
 class Resumen(models.Model):
@@ -57,6 +67,33 @@ class Resumen(models.Model):
     ]
 
     tipo = models.CharField(max_length=20, choices=tipo_choices, default="sin_categoria")    
+
+    
+    # Enviar el resumen por correo
+    # Devuelve True si sae ha mandado bien
+    def enviar_resumen(self):
+
+        # A quien se lo mandamos
+        destinatarios = getattr(settings, "RESUMEN_EMAIL_DESTINATARIOS", [])
+        if not destinatarios:
+            logger.warning("RESUMEN_EMAIL_DESTINATARIOS vacío; no se envía el resumen %s", self.pk)
+            return False
+
+        # Que mandamos
+        conversacion = self.conversacion
+        asunto = f"[Chatbot] Nueva solicitud de compra - Conversación Nº{conversacion.pk}"
+        cuerpo = (
+            f"Conversación Nº{conversacion.pk}\n"
+            f"Dominio: {conversacion.dominio or 'N/D'}\n"
+            f"Inicio: {conversacion.fecha_inicio:%d/%m/%Y %H:%M}\n"
+            f"Fin: {conversacion.fecha_fin:%d/%m/%Y %H:%M}\n\n"
+            f"{self.texto}\n"
+        )
+
+        # Mandamos el mensaje
+        EmailMessage(subject=asunto, body=cuerpo, to=destinatarios).send(fail_silently=False)
+
+        return True
     
     # Traduccimos en español
     class Meta:

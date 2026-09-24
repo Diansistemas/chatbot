@@ -16,13 +16,15 @@ class EtiquetaEntidad(models.Model):
     def __str__(self):
         return f"{self.nombre}"
     
-# Intencion de una conversacion.
-# Compra, Consulta u Otro. Admitimos mas valores en caso de que, en el futuro, queramos ampliar
+# Intencion de una conversacion
+# Compra, Consulta u Otro
+# Las que nos interesan son Compra, Consulta y Otro para llamar al modelo
+# El resto es utility para nuestras funciones
 class Intencion(models.Model): 
     # Nombre de la intencion
     nombre = models.CharField(max_length=50, unique=True)
 
-    # En caso de que queramos añadir mas utilidad a futuro, esto nos deja distinguir claramente entre intenciones
+    # Que representa esta intencion
     descripcion = models.TextField(blank=True, null=True)
 
     # Si el chatbot va a usar esta intencion
@@ -37,7 +39,7 @@ class Intencion(models.Model):
 
 # Entrenamiento del LLM
 # Pares de mensaje de usuario + respuesta del bot
-# Dividimos las conversaciones para que el llm los entienda mejor
+# Dividimos las conversaciones para que el llm lo entienda mejor
 class Par_Mensaje_Respuesta(models.Model):
 
     # Que intencion hemos detectao
@@ -71,7 +73,7 @@ class Par_Mensaje_Respuesta(models.Model):
 # Pares que queremos usar en nuestro Modelfile
 class EjemploLLM(models.Model):
 
-    # La conversacion 
+    # El ejemplo y la respuesta 
     mensaje_respuesta = models.ForeignKey(Par_Mensaje_Respuesta, on_delete=models.PROTECT, related_name="mensaje_respuesta_ejemploLLM")
 
     # El origen de la conversacion
@@ -90,8 +92,9 @@ class EjemploLLM(models.Model):
 
     def __str__(self):
         return f"{self.mensaje_respuesta}"
+
 # NLP
-# Sirve para la deteccion de intenciones en un mensaje
+# Sirve para la deteccion de intenciones y entidades en un mensaje
 class EjemploNLP(models.Model):
 
     # Que mensaje
@@ -123,7 +126,7 @@ class EjemploNLP(models.Model):
         return f"{self.texto}"
 
 # El span de las etiquetas que hay en un ejemplo para la NLP
-# Formato de spaCy: offset de caracteres
+# Formato de spaCy: Necesita saber donde empieza y acaba la etiqueta
 class SpanEntidad(models.Model):
 
     # A que ejemplo pertenece
