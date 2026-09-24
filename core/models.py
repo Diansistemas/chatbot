@@ -134,19 +134,20 @@ def procesar_mensaje(mensaje_recibido):
     if intencion is None:
         intencion = Intencion.objects.filter(nombre="otro").first()
 
-    analisis = Analisis.objects.create(mensaje=mensaje_recibido, intencion=intencion, confianza=confianza)
+        analisis = Analisis.objects.create(mensaje=mensaje_recibido, intencion=intencion, confianza=confianza)
 
-    entidades = []
-    for entidad in doc.ents:
-        etiqueta, _ = EtiquetaEntidad.objects.get_or_create(nombre=entidad.label_)
-        entidades.append(EntidadDetectada(
-            analisis=analisis,
-            etiqueta=etiqueta,
-            texto_detectado=entidad.text,
-            inicio=entidad.start_char,
-            fin=entidad.end_char,
-        ))
-    EntidadDetectada.objects.bulk_create(entidades)
+        entidades = []
+        for entidad in doc.ents:
+            etiqueta, _ = EtiquetaEntidad.objects.get_or_create(nombre=entidad.label_)
+            entidades.append(EntidadDetectada(
+                analisis=analisis,
+                etiqueta=etiqueta,
+                texto_detectado=entidad.text,
+                inicio=entidad.start_char,
+                fin=entidad.end_char,
+            ))
+            
+        EntidadDetectada.objects.bulk_create(entidades)
 
     return analisis
 
