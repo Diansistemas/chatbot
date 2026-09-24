@@ -26,6 +26,25 @@ def generar_resumen(conversacion):
 
     return texto
 
+
+def clasificar_conversacion(conversacion):
+    """
+    Clasifica la conversación antes de generar el resumen.
+    Detecta si hay intención de compra basándose en palabras clave
+    de la transcripción.
+    Retorna True si es compra, False en otro caso.
+    """
+    texto = conversacion.transcripcion().lower()
+    palabras_clave = [
+        "compra", "presupuesto", "pedido", "servicio", "precio",
+        "coste", "costo", "tarifa", "cuota", "reserva", "contratar",
+        "cotización", "información sobre", "quiero", "necesito",
+        "me gustaría", "disponible", "paquete"
+    ]
+    score = sum(1 for p in palabras_clave if p in texto)
+    return score > 0
+
+
 # Creamos el objeto resumen
 def crear_resumen(conversacion):
     texto = generar_resumen(conversacion)
@@ -83,3 +102,23 @@ class Resumen(models.Model):
 
     def __str__(self):
         return f"Resumen Nº{self.pk}"
+    
+def enviar_resumen(resumen):
+    destinatarios = getattr(settings, "RESUMEN_EMAIL_DESTINATARIOS", [])
+    if not destinatarios:
+        logger.warning("RESUMEN_EMAIL_DESTINATARIOS vacío; no se envía el resumen %s", resumen.pk)
+        return False
+
+    conversacion = resumen.conversacion
+    asunto = f"[Chatbot] Nueva solicitud de compra - Conversación Nº{conversacion.pk}"
+    cuerpo = (
+        f"Conversación Nº{conversacion.pk}\n"
+        f"Dominio: {conversacion.dominio or 'N/D'}\n"
+        f"Inicio: {conversacion.fecha_inicio:%d/%m/%Y %H:%M}\n"
+        f"Fin: {conversacion.fecha_fin:%d/%m/%Y %H:%M}\n\n"
+        f"{resumen.texto}\n"
+    )
+
+    EmailMessage(subject=asunto, body=cuerpo, to=destinatarios).send(fail_silently=False)
+
+    return True
