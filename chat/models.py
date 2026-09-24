@@ -85,6 +85,18 @@ class Conversacion(models.Model):
         else:
             return False
 
+    # Ultimo mensaje de la conversacion.
+    # Ordenamos por pk porque es el orden real de creacion (dos mensajes creados en la misma
+    # peticion pueden tener casi la misma fecha)
+    def ultimoMensaje(self):
+        return self.conversacion_mensajes.order_by('-pk').first()
+
+    # Estamos esperando la respuesta del bot cuando el ultimo mensaje es del usuario.
+    # Mientras esto sea True no se deben aceptar mensajes nuevos.
+    def esperandoRespuesta(self):
+        ultimo = self.ultimoMensaje()
+        return ultimo is not None and ultimo.remitente == "usuario"
+
     class Meta:
         verbose_name = "Conversacion"
         verbose_name_plural = "Conversaciones"
