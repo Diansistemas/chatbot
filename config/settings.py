@@ -165,14 +165,7 @@ RESUMEN_EMAIL_DESTINATARIOS = [
     if email.strip()
 ]
 #Dominios que tienen permitido usar esa app
-if DEBUG:
-    DOMINIOS_PERMITIDOS = (
-        "http://localhost:8000",
-    )
-else:
-    DOMINIOS_PERMITIDOS = (
-        "https://diansistemas.com",
-    )
+DOMINIOS_PERMITIDOS = os.getenv('DOMINIOS_PERMITIDOS').split(",")
 
 #CONFIGURACIÓN JAZZMIN
 JAZZMIN_SETTINGS = {
