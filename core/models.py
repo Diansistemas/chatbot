@@ -134,6 +134,22 @@ def procesar_mensaje(mensaje_recibido):
     if intencion is None:
         intencion = Intencion.objects.filter(nombre="otro").first()
 
+    analisis = Analisis.objects.create(mensaje=mensaje_recibido, intencion=intencion, confianza=confianza)
+
+    entidades = []
+    for entidad in doc.ents:
+        etiqueta, _ = EtiquetaEntidad.objects.get_or_create(nombre=entidad.label_)
+        entidades.append(EntidadDetectada(
+            analisis=analisis,
+            etiqueta=etiqueta,
+            texto_detectado=entidad.text,
+            inicio=entidad.start_char,
+            fin=entidad.end_char,
+        ))
+    EntidadDetectada.objects.bulk_create(entidades)
+
+    return analisis
+
 # Como "respondemos", en concreto lo combinamos con acceso para decidir a que instancia del llm llamamos
 def generar_respuesta_llm(mensaje, analisis, servicio): 
 
@@ -182,7 +198,7 @@ def guardar_respuesta_bot(mensaje_usuario, texto):
 # Funcion a llamar para generar una respuesta
 def responder(mensaje):
     analisis = procesar_mensaje(mensaje)
-    nombre = analisis.intencion.nombre if analisis.intencion else "otro"
+    nombre = analisis.intencion.nombre if analisis.intencion.nombre else "otro"
 
     if nombre == "compra":
         mensaje.conversacion.tenemosCompra = True
