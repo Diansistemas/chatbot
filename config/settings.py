@@ -92,7 +92,7 @@ DATABASES = {
 SPACY_MODEL_BASE = "es_core_news_sm"
 
 # Cuando tengamos modelo propio, el path va aqui
-SPACY_MODEL_PATH = None
+SPACY_MODEL_PATH = BASE_DIR / "entrenamiento" / "spacy" / "modelo" / "model-best"
 
 # Configuracion de la LLM
 # Modelo base que vamos a usar
