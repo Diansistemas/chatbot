@@ -14,7 +14,7 @@ Chatbot con IA para uso comercial de Dian Sistemas
 - **Docker** — Dockerizar el proyecto
 - **Servidor** — Hosteo del widget en un servidor
 - **Cerrar conversación** — Donde cerramos una conversación
-- 
+  
 ## Estructura del proyecto 
 Este projecto es una aplicacion web de Django con la siguiente estructura:
 - **Core** — La funcionalidad en torno al chatbot
