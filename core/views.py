@@ -52,7 +52,7 @@ class ChatWidgetView(DominioPermitidoMixin, ListView):
         if self.conversacion is None:
             return False
 
-        ultimo = self.conversacion.ultimoMensaje()
+        ultimo = self.conversacion.conversacion_mensajes.order_by('-pk').first()
         if ultimo is None or ultimo.remitente != "usuario":
             return False
 
@@ -80,7 +80,7 @@ class ChatWidgetView(DominioPermitidoMixin, ListView):
         context["esperando_bot"] = self._esperando_bot()
         #Id del último mensaje para Ajax, si no hay conversacion nadaa
         if self.conversacion:
-            ultimo = self.conversacion.ultimoMensaje()
+            ultimo = self.conversacion.conversacion_mensajes.order_by('-pk').first()
             context["ultimo_mensaje_id"] = ultimo.pk
         else:
             context["ultimo_mensaje_id"] = 0
@@ -152,7 +152,8 @@ class ChatWidgetView(DominioPermitidoMixin, ListView):
                 return JsonResponse({"error": "Mensaje no encontrado"}, status=404)
 
             #Solo se responde al último mensaje y si todavía no tiene respuesta
-            if self.conversacion.ultimoMensaje().pk != mensaje_usuario.pk:
+            ultimo = self.conversacion.conversacion_mensajes.order_by('-pk').first()
+            if ultimo.pk != mensaje_usuario.pk:
                 return JsonResponse({"error": "Este mensaje ya tiene respuesta"}, status=409)
 
             #Si algo falla al generar la respuesta guardamos igualmente un mensaje de error del bot,

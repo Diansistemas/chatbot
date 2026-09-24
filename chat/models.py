@@ -85,6 +85,9 @@ class Conversacion(models.Model):
         else:
             return False
 
+    def ultimoMensaje(self):
+        return self.conversacion_mensajes.order_by('-pk').first()
+
     # Comprobamos si hemos respondido al usuario
     def esperandoRespuesta(self):
         ultimo = self.conversacion_mensajes.order_by('-pk').first()
