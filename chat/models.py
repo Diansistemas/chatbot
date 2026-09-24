@@ -21,24 +21,13 @@ class Servicio(models.Model):
     # Tiempo de serivicio aproximado en dias
     tiempo_aproximado = models.PositiveSmallIntegerField()
     
-    # Traduccimos en español y comentario en la base de datos
+    # Traduccimos en español
     class Meta:
         verbose_name = "Servicio"
         verbose_name_plural = "Servicios"
 
     def __str__(self):
         return (f"Nombre: {self.nombre} \n Descripcion: {self.descripcion} \n Coste: {self.coste} \n Tiempo: {self.tiempo_aproximado}")
-
-# Como detectamos los servicios en el analisis.
-# Es mas para debuggear que para otra cosa.
-# Existe como pillar el objeto "real", no la instancia del servicio
-def detectar_servicio(analisis):
-
-    entidad_servicio = analisis.analisis_entidad.filter(etiqueta__nombre="SERVICIO").first()
-    if not entidad_servicio:
-        return None
-    
-    return Servicio.objects.filter(nombre__icontains=entidad_servicio.texto_detectado).first()
 
 # Cada conversacion
 class Conversacion(models.Model):
@@ -85,13 +74,26 @@ class Conversacion(models.Model):
         else:
             return False
 
+    # Pescamos el ultimo mensaje
+    # TODO: Deberiamos eliminar cada instancia de este metodo y sustituirlo por la linea
     def ultimoMensaje(self):
         return self.conversacion_mensajes.order_by('-pk').first()
 
     # Comprobamos si hemos respondido al usuario
     def esperandoRespuesta(self):
         ultimo = self.conversacion_mensajes.order_by('-pk').first()
-        return ultimo is not None and ultimo.remitente == "usuario"
+        if ultimo is not None and ultimo.remitente == "usuario":
+            return True
+        else:
+            return False
+
+    # Transcripcion de una conversacion
+    def transcripcion(self):
+        lineas = []
+        for m in self.conversacion_mensajes.order_by("fecha_mensaje"):
+            remitente = "Cliente" if m.remitente == "usuario" else "Asistente"
+            lineas.append(f"{remitente}: {m.texto}")
+        return "\n".join(lineas)
         
     class Meta:
         verbose_name = "Conversacion"
@@ -100,7 +102,7 @@ class Conversacion(models.Model):
     def __str__(self):
         return f"Conversacion Nº{self.pk}"
 
-# Mensajjes de cada conversacion
+# Mensajes de cada conversacion
 class Mensaje(models.Model):
     # Relacion con la conversacion
     conversacion = models.ForeignKey(Conversacion, on_delete=models.CASCADE, related_name="conversacion_mensajes")
@@ -127,7 +129,7 @@ class Mensaje(models.Model):
     def __str__(self):
         return f"{self.texto}"
 
-# De momento no lo usmaos
+# Pedidos hechos en una conversacion
 # En principio existe solo para asegurarnos de que una compra tiene todos los datos necesarios
 class Pedido(models.Model):
 
@@ -141,32 +143,31 @@ class Pedido(models.Model):
     presupuesto = models.DecimalField(max_digits=10, decimal_places=2)
     forma_contacto = models.CharField(max_length=100)
 
-    class Meta:
-        verbose_name = "Pedido"
-        verbose_name_plural = "Pedidos"
-
-    # Comprobamos que tenemos los dataos minimos para realizar un pedido
+    # Comprobamos que tenemos los datos minimos para realizar un pedido
     def checkCampos(self):
+
+        DATOS_MINIMOS = {
+            "nombre": "Falta nombre",
+            "direccion": "Falta dirección",
+            "servicio": "Falta servicio",
+            "presupuesto": "Falta presupuesto",
+            "forma_contacto": "Falta un método de contacto",
+        }
+
         mensaje = ""
-        if not self.nombre:
-            mensaje = mensaje + "Falta nombre \n"
 
-        if not self.direccion:
-            mensaje = mensaje + "Falta dirección \n"
+        for campo, error in DATOS_MINIMOS.items():
+            if not getattr(self, campo, None):
+                mensaje = mensaje + error + "\n"
 
-        if not self.servicio:
-            mensaje = mensaje + "Falta servicio \n"
-
-        if not self.presupuesto:
-            mensaje = mensaje + "Falta presupuesto \n"
-
-        if not self.forma_contacto:
-            mensaje = mensaje + "Falta un metodo de contacto \n"
-
-        if mensaje == "":
+        if "método de contacto" not in mensaje:
             return (True,mensaje)
         else:
             return (False,mensaje)
+        
+    class Meta:
+        verbose_name = "Pedido"
+        verbose_name_plural = "Pedidos"
 
     def __str__(self):
         return f"Pedido Nº{self.pk}"
