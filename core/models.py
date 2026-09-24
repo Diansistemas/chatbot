@@ -166,3 +166,4 @@ def cerrar_conversacion(conversacion):
     conversacion.fecha_fin = conversacion.conversacion_mensajes.order_by("-fecha_mensaje").first().fecha_mensaje
     conversacion.save()
     generar_pares_desde_conversacion(conversacion)
+
