@@ -1,9 +1,10 @@
-from django.db import models
-from chat.models import Mensaje
+from django.db import models, transaction
+from chat.models import Mensaje, Conversacion
 
 from entrenamiento.models import Intencion, EtiquetaEntidad, EjemploNLP, SpanEntidad, generar_pares_desde_conversacion
 from chat.models import detectar_servicio
 from .acceso import get_nlp, llamar_llm
+
 
 #Analisis de cada mensaje
 class Analisis(models.Model):
@@ -110,12 +111,27 @@ def generar_respuesta_llm(mensaje, analisis, servicio):
     # Llamamos la modelo
     texto = llamar_llm(intencion, mensaje.texto, historico, contexto)
     return texto.strip() 
+
+# Solo permitimos una respuesta por mensaje
+def guardar_respuesta_bot(mensaje_usuario, texto):
+
+    conversacion = mensaje_usuario.conversacion
+
+    with transaction.atomic():
+        Conversacion.objects.select_for_update().get(pk=conversacion.pk)
+
+        ultimo = conversacion.ultimoMensaje()
+        if ultimo.pk != mensaje_usuario.pk:
+            return ultimo
+
+        return Mensaje.objects.create(
+            conversacion=conversacion,
+            texto=texto,
+            remitente="chatbot"
+        )
     
 # Funcion a llamar para generar una respuesta
 def responder(mensaje):
-    
-    # Donde estamos
-    conversacion = mensaje.conversacion
 
     # Generemos el analisis del mensaje
     analisis = procesar_mensaje(mensaje)
@@ -128,13 +144,9 @@ def responder(mensaje):
 
     # Si generar texto falla creamos un mensaje de error
     if not texto_respuesta:
-        texto_respuesta="Ha habido un error, ¿puedes intentarlo de nuevo?"
+        texto_respuesta = "Ha habido un error"
 
-    return Mensaje.objects.create(
-        conversacion=conversacion,
-        texto=texto_respuesta,
-        remitente="chatbot"
-    )
+    return guardar_respuesta_bot(mensaje, texto_respuesta)
 
 # Promovemos nuestros mensaje a ejemplos
 def promover_analisis_a_ejemplo(analisis, origen="chatbot"):

@@ -30,7 +30,8 @@
       <!-- Historico de mensajes -->
       <div id="mensajes" class="flex-grow-1 p-2 overflow-auto">
         <!-- Mensaje de carga -->
-        <div id="escribiendo" class="msg-bot" style="display:none;">
+        <!-- Si el bot todavía está respondiendo (p.ej. el usuario recargó la página) nace visible -->
+        <div id="escribiendo" class="msg-bot" style="display:{% if esperando_bot %}flex{% else %}none{% endif %};">
           <span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>
         </div>
         {% if conversacion %}
@@ -57,11 +58,18 @@
       </div>
 
       <!-- Formulario del chat (Caja para insertar texto y botón de envío) -->
-      <!-- Pasamos el token de la conversación en una variable para los JS los puedan usar -->
-      <form id="form-chat" class="d-flex p-2 border-top" data-conversacion="{{ conversacion.token }}">
+      <!-- Pasamos por data-* los datos que necesita el JS: -->
+      <!--   data-conversacion:   token de la conversación -->
+      <!--   data-esperando:      "true" si el bot todavía está generando la respuesta al último mensaje -->
+      <!--   data-ultimo-mensaje: id del último mensaje pintado (para pedir solo los nuevos en el polling) -->
+      <form id="form-chat" class="d-flex p-2 border-top"
+            data-conversacion="{{ conversacion.token }}"
+            data-esperando="{{ esperando_bot|yesno:'true,false' }}"
+            data-ultimo-mensaje="{{ ultimo_mensaje_id }}">
         {% csrf_token %}
-        <input id="input-msg" class="form-control me-2" placeholder="Escribe un mensaje" autocomplete="off" required>
-        <button id="btn-enviar" class="btn btn-primary bi bi-send-fill"></button>
+        <!-- Si el bot está respondiendo, el formulario nace bloqueado -->
+        <input id="input-msg" class="form-control me-2" placeholder="Escribe un mensaje" autocomplete="off" required {% if esperando_bot %}disabled{% endif %}>
+        <button id="btn-enviar" class="btn btn-primary bi bi-send-fill" {% if esperando_bot %}disabled{% endif %}></button>
       </form>
     </div>
 
