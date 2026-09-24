@@ -78,7 +78,7 @@ class Conversacion(models.Model):
 
         # Calculamos cuando estaria la conversacion en timeout
         tiempo_limite = timezone.now() - timedelta(minutes=timeout)
-
+ 
         # Si ha pasado, devolvemos TRUE
         if ultimo_mensaje.fecha_mensaje < tiempo_limite:
             return True
@@ -92,7 +92,7 @@ class Conversacion(models.Model):
     def esperandoRespuesta(self):
         ultimo = self.conversacion_mensajes.order_by('-pk').first()
         return ultimo is not None and ultimo.remitente == "usuario"
-
+        
     class Meta:
         verbose_name = "Conversacion"
         verbose_name_plural = "Conversaciones"

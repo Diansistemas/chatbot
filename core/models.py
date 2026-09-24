@@ -1,7 +1,7 @@
 from django.db import models, transaction
 from chat.models import Mensaje, Conversacion
 
-from entrenamiento.models import Intencion, EtiquetaEntidad, EjemploNLP, SpanEntidad, generar_pares_desde_conversacion
+from entrenamiento.models import Intencion, EtiquetaEntidad, EjemploNLP, SpanEntidad, Par_Mensaje_Respuesta
 from chat.models import detectar_servicio
 from .acceso import get_nlp, llamar_llm
 
@@ -48,6 +48,48 @@ class EntidadDetectada(models.Model):
 
     def __str__(self):
         return f"Entidad {self.etiqueta.nombre}: {self.texto_detectado}"
+
+# Creamos los pares desde una conversacion  
+def generar_pares_desde_conversacion(conversacion):
+    mensajes = list(conversacion.conversacion_mensajes.order_by("fecha_mensaje"))
+
+    # Ignoramos el mensaje de introducción (hardcodeado, siempre el primero)
+    mensajes = mensajes[1:]
+
+    # Por si acaso el analisis ha fallado y no tenemos una intencion
+    intencion_otro = Intencion.objects.get(nombre="otro")
+
+    pares = []
+    for i in range(0, len(mensajes), 2):
+        mensaje_usuario = mensajes[i]
+        mensaje_chatbot = mensajes[i + 1]
+
+        analisis = getattr(mensaje_usuario, "mensaje_analisis", None)
+        intencion = analisis.intencion if (analisis and analisis.intencion) else intencion_otro
+
+        pares.append(Par_Mensaje_Respuesta(
+            intencion=intencion,
+            mensaje_usuario=mensaje_usuario,
+            texto_usuario=mensaje_usuario.texto,
+            mensaje_chatbot=mensaje_chatbot,
+            texto_chatbot=mensaje_chatbot.texto,
+        ))
+
+    return Par_Mensaje_Respuesta.objects.bulk_create(pares)
+
+    # Cerramos una conversacion y guardamos los mensajes en pares
+def cerrar_conversacion(conversacion):
+
+    conversacion.estado = "cerrada"
+    conversacion.fecha_fin = conversacion.conversacion_mensajes.order_by("-fecha_mensaje").first().fecha_mensaje
+    conversacion.save()
+    generar_pares_desde_conversacion(conversacion)
+
+# Donde comprobamos que estamos cerrando una conversacion
+# Solo lo llamamos si detectamos que el usuario quiere cerrar conversacion
+# Confirmamos que quiere cerrar y si detecta que si, cerramos
+def confirmamos_cierre(conversacion):
+    cerrar_conversacion(conversacion)
 
 # Procesa un mensaje que el chat bot acaba de recibir
 def procesar_mensaje(mensaje_recibido):
@@ -136,15 +178,23 @@ def responder(mensaje):
     # Generemos el analisis del mensaje
     analisis = procesar_mensaje(mensaje)
 
-    # Que servicio esta consultando
-    servicio = detectar_servicio(analisis)
+    if analisis.intencion.nombre == "compra":
+        mensaje.conversacion.tenemosCompra = True
+        mensaje.conversacion.save(update_fields=["tenemosCompra"])
 
-    # Generamos el texto
-    texto_respuesta= generar_respuesta_llm(mensaje, analisis, servicio)
+    elif analisis.intencion.nombre == "cerrar":
+        confirmamos_cierre(mensaje.conversacion)
 
-    # Si generar texto falla creamos un mensaje de error
-    if not texto_respuesta:
-        texto_respuesta = "Ha habido un error"
+    else:
+        # Que servicio esta consultando
+        servicio = detectar_servicio(analisis)
+
+        # Generamos el texto
+        texto_respuesta= generar_respuesta_llm(mensaje, analisis, servicio)
+
+        # Si generar texto falla creamos un mensaje de error
+        if not texto_respuesta:
+            texto_respuesta = "Ha habido un error"
 
     return guardar_respuesta_bot(mensaje, texto_respuesta)
 
@@ -170,11 +220,3 @@ def promover_analisis_a_ejemplo(analisis, origen="chatbot"):
     ]
     SpanEntidad.objects.bulk_create(spans)
     return ejemplo
-
-# Cerramos una conversacion y guardamos los mensajes en pares
-def cerrar_conversacion(conversacion):
-
-    conversacion.estado = "cerrada"
-    conversacion.fecha_fin = conversacion.conversacion_mensajes.order_by("-fecha_mensaje").first().fecha_mensaje
-    conversacion.save()
-    generar_pares_desde_conversacion(conversacion)
