@@ -41,3 +41,4 @@ Este projecto es una aplicacion web de Django con la siguiente estructura:
 ## Creditos
 - Victor Herrero
 - Adrian Salas
+- José Alonso
