@@ -15,6 +15,7 @@ Chatbot con IA para uso comercial de Dian Sistemas
 - **Servidor** — Hosteo del widget en un servidor
 - **Cerrar conversación** — Donde cerramos una conversación
 - **Pequeños cambios** — Cambios TODO en varias partes del código
+- **Logger** — Mantener un log del funcionamiento de la aplicacion
   
 ## Estructura del proyecto 
 Este projecto es una aplicacion web de Django con la siguiente estructura:
