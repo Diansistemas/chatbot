@@ -9,11 +9,12 @@ from functools import lru_cache
 _ESQUEMA_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*://")
 
 # Intenciones de cada modelo
-INTENCIONES_VALIDAS = {"compra", "consulta", "otro"}
+# Meter manualmente intenciones que consideremos oportunas con cada modelo
+# TODO: Comprobar que solo lo llamamos para los modelos de llm y no para detectar intenciones reales
+INTENCIONES_VALIDAS = {"compra", "consulta_tecnica", "otro"}
  
-# Punto de aceso al modelo de spaCy, de momentos solo cargamos 1 modelo
-# Si en algun momento cargamos mas de uno, hay que cambiar el max_size y cargarlos todos
-@lru_cache(maxsize=1)
+# Punto de aceso al modelo de spaCy
+# TODO: Limipiar cache antes de entrenar
 def get_nlp():
 
     # Miramos si tenemos modelo propio
