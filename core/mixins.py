@@ -13,8 +13,11 @@ class DominioPermitidoMixin:
         return super().dispatch(request, *args, **kwargs)
 
     def _referer_permitido(self, referer):
+        #Sin Referer: es una visita directa (escribir la URL a mano no envia Referer).
+        #La proteccion contra iframes de otros sitios la sigue dando la cabecera CSP
+        #frame-ancestors que se monta en render_to_response.
         if not referer:
-            return False
+            return True
         referer_parsed = urlparse(referer)
         for dominio in settings.DOMINIOS_PERMITIDOS:
             permitido = urlparse(dominio)
