@@ -30,19 +30,51 @@ def generar_resumen(conversacion):
 def clasificar_conversacion(conversacion):
     """
     Clasifica la conversación antes de generar el resumen.
-    Detecta si hay intención de compra basándose en palabras clave
-    de la transcripción.
-    Retorna True si es compra, False en otro caso.
+    Usa el modelo spaCy entrenado para detectar intención de compra.
+    Retorna True si la intención principal es 'compra' o 'confirmacion',
+    False en otro caso (consulta_tecnica, contactar_humano, cerrar, otro).
+    Red de seguridad: si la conversación tiene Pedido asociado -> compra.
     """
-    texto = conversacion.transcripcion().lower()
-    palabras_clave = [
-        "compra", "presupuesto", "pedido", "servicio", "precio",
-        "coste", "costo", "tarifa", "cuota", "reserva", "contratar",
-        "cotización", "información sobre", "quiero", "necesito",
-        "me gustaría", "disponible", "paquete"
-    ]
-    score = sum(1 for p in palabras_clave if p in texto)
-    return score > 0
+    # Red de seguridad: si hay Pedido, es compra segura
+    if conversacion.conversacion_pedido.exists():
+        return True
+    
+    try:
+        import spacy
+        from django.conf import settings
+        
+        # Cargar modelo spaCy (cacheado a nivel de módulo para rendimiento)
+        if not hasattr(clasificar_conversacion, "_nlp"):
+            clasificar_conversacion._nlp = spacy.load(settings.SPACY_MODEL_PATH)
+        
+        texto = conversacion.transcripcion()
+        if not texto.strip():
+            return False
+        
+        doc = clasificar_conversacion._nlp(texto)
+        top_intencion = max(doc.cats, key=doc.cats.get)
+        confianza = doc.cats[top_intencion]
+        
+        logger.debug(
+            "Clasificación NLP conv %s: %s (%.3f)",
+            conversacion.pk, top_intencion, confianza
+        )
+        
+        # Compra o confirmación de compra -> enviar email
+        return top_intencion in ("compra", "confirmacion")
+        
+    except Exception:
+        logger.exception("Error en clasificación NLP, fallback a palabras clave")
+        # Fallback a método anterior por si falla el modelo
+        texto = conversacion.transcripcion().lower()
+        palabras_clave = [
+            "compra", "presupuesto", "pedido", "servicio", "precio",
+            "coste", "costo", "tarifa", "cuota", "reserva", "contratar",
+            "cotización", "información sobre", "quiero", "necesito",
+            "me gustaría", "disponible", "paquete"
+        ]
+        score = sum(1 for p in palabras_clave if p in texto)
+        return score > 0
 
 
 # Creamos el objeto resumen
