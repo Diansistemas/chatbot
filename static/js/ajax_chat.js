@@ -51,6 +51,7 @@ function pintarMensajeBot(texto, hora) {
         </div>
     `);
     mensajesDiv.scrollTop = mensajesDiv.scrollHeight;
+    reiniciarTemporizadorInactividad();
 }
 
 // Pinta un mensaje del usuario.
@@ -82,6 +83,7 @@ function esperarRespuesta() {
 function terminarEspera() {
     esperandoRespuesta = false;
     desbloquearFormulario();
+    reiniciarTemporizadorInactividad();
 }
 
 // Una vuelta de polling: pide al servidor los mensajes del bot nuevos y si sigue respondiendo.
@@ -111,6 +113,14 @@ async function consultarEstado() {
             ultimoMensajeId = mensaje.id;
         }
 
+        //El servidor nos avisa de que la conversacion ya esta cerrada
+        //(por ejemplo, el bot ha detectado la intencion "cerrar" mientras
+        //estabamos recargando la pagina). Cerramos la interfaz y paramos.
+        if (data.cerrada) {
+            cerrarChat('El asistente ha cerrado la conversación.', false);
+            return;
+        }
+
         // Si el bot ya no está respondiendo se vuelve a permitir escribir.
         if (!data.esperando) {
             terminarEspera();
@@ -135,6 +145,7 @@ async function consultarEstado() {
 formChat.addEventListener('submit', async function (evento) {
     //Evita que el formulario recargue la página.
     evento.preventDefault();
+    reiniciarTemporizadorInactividad();
 
     //Mientras el bot está respondiendo no se puede enviar nada.
     if (esperandoRespuesta) return;
@@ -162,6 +173,13 @@ formChat.addEventListener('submit', async function (evento) {
         if (respUsuario.status === 409) {
             inputMsg.value = texto;
             esperarRespuesta();
+            return;
+        }
+
+        //La sesión ha expirado (5 minutos de inactividad) o el bot ya la cerro:
+        //el servidor ya la tiene cerrada, solo cerramos la interfaz.
+        if (respUsuario.status === 410) {
+            cerrarChat('La conversación se ha cerrado. Pulsa "Nueva conversación" para empezar de nuevo.', false);
             return;
         }
 
@@ -218,6 +236,12 @@ formChat.addEventListener('submit', async function (evento) {
         pintarMensajeBot(dataBot.bot, dataBot.hora_bot);
         ultimoMensajeId = dataBot.mensaje_id;
 
+        //Si el bot ha detectado la intencion "cerrar", la conversacion ya esta
+        //cerrada en el servidor: cerramos la interfaz sin avisar de nuevo.
+        if (dataBot.cerrada) {
+            cerrarChat('El asistente ha cerrado la conversación.', false);
+        }
+
     } catch (err) {
         //Si se encuentra algun error se muestran los errores correspondientes
         //Ademas el usuario verá un mensaje del bot indicando que ha ocurrido un error.
@@ -226,7 +250,8 @@ formChat.addEventListener('submit', async function (evento) {
     } finally {
         //Da igual lo que ocurra siempre se ejecuta, salvo que hayamos pasado a modo espera (polling),
         //en cuyo caso será terminarEspera() quien reactive el formulario.
-        if (!esperandoRespuesta) {
+        //Tampoco reactivamos si el chat acaba de cerrarse (chatCerrado).
+        if (!esperandoRespuesta && (typeof chatCerrado === 'undefined' || !chatCerrado)) {
             desbloquearFormulario();
         }
     }

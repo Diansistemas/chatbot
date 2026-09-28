@@ -10,5 +10,7 @@ media/
 
 entrenamiento/spacy/*.spacy
 entrenamiento/spacy/modelo/
+entrenamiento/spacy/modelo_anterior/
+modelo/
 
 db.sqlite3

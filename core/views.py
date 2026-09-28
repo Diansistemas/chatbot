@@ -45,6 +45,11 @@ class ChatWidgetView(DominioPermitidoMixin, ListView):
         self.conversacion = None
         if token_recibido:
             self.conversacion = Conversacion.objects.filter(token=token_recibido, estado="abierta").first()
+            # Si la conversacion lleva mas de 5 min sin actividad, la cerramos
+            # automaticamente y el usuario empezara una nueva desde cero.
+            if self.conversacion and self.conversacion.estaInactiva(timeout=5):
+                self.conversacion.cerrar()
+                self.conversacion = None
 
 # Comprobamos si estamos esperando a que el bot responde
 # Si se pasa del tiempo, mensaje de error
@@ -116,6 +121,13 @@ class ChatWidgetView(DominioPermitidoMixin, ListView):
                     conversacion=self.conversacion, texto=texto, remitente="usuario"
                 )
             else:
+                #Si la conversacion esta cerrada (token viejo), se rechaza
+                if self.conversacion.estado == "cerrada":
+                    return JsonResponse(
+                        {"error": "La conversación está cerrada", "expirada": True},
+                        status=410,
+                    )
+
                 #Bloqueamos la fila de la conversación para que dos peticiones simultáneas
                 with transaction.atomic():
                     Conversacion.objects.select_for_update().get(pk=self.conversacion.pk)
@@ -164,10 +176,16 @@ class ChatWidgetView(DominioPermitidoMixin, ListView):
                 logger.exception("Error generando la respuesta del bot")
                 mensaje_bot = guardar_respuesta_bot(mensaje_usuario, "Hemos tenido un error")
 
+            #Si el NLP ha detectado la intencion "cerrar", responder() ya ha cerrado la
+            #conversacion (en otra instancia del objeto), asi que recargamos el estado
+            #y se lo contamos al frontend para que muestre el boton de reinicio.
+            self.conversacion.refresh_from_db(fields=["estado"])
+
             return JsonResponse({
                 "mensaje_id": mensaje_bot.pk,
                 "bot": mensaje_bot.texto,
                 "hora_bot": timezone.localtime(mensaje_bot.fecha_mensaje).strftime("%H:%M"),
+                "cerrada": self.conversacion.estado == "cerrada",
             })
 
         # Comprobamos si ha recargado la pagina durante la conversacion del bot
@@ -189,6 +207,7 @@ class ChatWidgetView(DominioPermitidoMixin, ListView):
 
             return JsonResponse({
                 "esperando": esperando,
+                "cerrada": self.conversacion.estado == "cerrada",
                 "mensajes": [
                     {
                         "id": m.pk,
@@ -198,6 +217,14 @@ class ChatWidgetView(DominioPermitidoMixin, ListView):
                     for m in nuevos
                 ],
             })
+
+        #El frontend cierra la conversación por inactividad (5 minutos)
+        elif accion == "cerrar":
+            if self.conversacion is None:
+                return JsonResponse({"error": "Conversación no encontrada"}, status=400)
+
+            self.conversacion.cerrar()
+            return JsonResponse({"ok": True, "estado": self.conversacion.estado})
 
         #Esto ocurre cuando la acción no es ni usuario ni bot ni estado.
         return JsonResponse({"error": "Acción no válida"}, status=400)

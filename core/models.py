@@ -204,16 +204,18 @@ def responder(mensaje):
     if nombre == "compra":
         mensaje.conversacion.tenemosCompra = True
         mensaje.conversacion.save(update_fields=["tenemosCompra"])
+        # Sin return: marcamos la compra y seguimos abajo para generar la
+        # respuesta con el llm (antes devolvia None y la view petaba).
 
     elif nombre == "cerrar":
         respuesta = guardar_respuesta_bot(mensaje, "¡Gracias por contactar con nosotros! Hasta pronto.")
         confirmamos_cierre(mensaje.conversacion)   # cerramos DESPUÉS de guardar la respuesta
         return respuesta
 
-    else:
-        servicio = analisis.detectar_servicio()
-        texto_respuesta = generar_respuesta_llm(mensaje, analisis, servicio) or "Ha habido un error"
-        return guardar_respuesta_bot(mensaje, texto_respuesta)
+    # Cualquier otra intencion (incluida "compra") se responde con el llm
+    servicio = analisis.detectar_servicio()
+    texto_respuesta = generar_respuesta_llm(mensaje, analisis, servicio) or "Ha habido un error"
+    return guardar_respuesta_bot(mensaje, texto_respuesta)
 
 # Promovemos nuestros mensajes a ejemplos
 def promover_analisis_a_ejemplo(analisis, origen="chatbot"):

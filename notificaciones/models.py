@@ -1,7 +1,7 @@
 import logging
 
 from django.db import models
-from chat.models import Conversacion
+from chat.models import Conversacion, Pedido
 from django.conf import settings
 from django.core.mail import EmailMessage
 
@@ -50,6 +50,119 @@ def crear_resumen(conversacion):
     texto = generar_resumen(conversacion)
     return Resumen.objects.create(conversacion=conversacion, texto=texto)
 
+
+# Comprobamos si el pedido asociado tiene los datos minimos completos
+# Devuelve un diccionario con el estado de cada campo
+def _comprobar_datos_pedido(conversacion):
+    pedido = conversacion.conversacion_pedido.first()
+
+    if not pedido:
+        return {
+            "tiene_pedido": False,
+            "nombre": False,
+            "direccion": False,
+            "servicio": False,
+            "presupuesto": False,
+            "forma_contacto": False,
+        }
+
+    return {
+        "tiene_pedido": True,
+        "nombre": bool(pedido.nombre),
+        "direccion": bool(pedido.direccion),
+        "servicio": bool(pedido.servicio),
+        "presupuesto": bool(pedido.presupuesto),
+        "forma_contacto": bool(pedido.forma_contacto),
+    }
+
+
+# Cuerpo del correo: la checklist de datos va AL PRINCIPIO,
+# antes de la construccion del resto del cuerpo con el resumen del LLM
+def _construir_cuerpo_email(conversacion, resumen):
+    estado_datos = _comprobar_datos_pedido(conversacion)
+
+    # --- CHECKLIST AL PRINCIPIO ---
+    cuerpo = ""
+    if estado_datos["tiene_pedido"]:
+        if all(estado_datos.values()):
+            cuerpo += "✅ Todos los datos del pedido están completos.\n\n"
+        else:
+            faltantes = [k for k, v in estado_datos.items() if k != "tiene_pedido" and not v]
+            cuerpo += f"❌ Faltan datos: {', '.join(faltantes)}.\n\n"
+    else:
+        cuerpo += "⏳ No hay datos de pedido registrados aún.\n\n"
+
+    # --- RESTO DEL CUERPO ---
+    fin = (
+        conversacion.fecha_fin.strftime("%d/%m/%Y %H:%M")
+        if conversacion.fecha_fin else "N/D"
+    )
+    cuerpo += (
+        "╔══════════════════════════════════════════════════════╗\n"
+        "║     RESUMEN DE CONVERSACIÓN - CHATBOT DIANSISTEMAS  ║\n"
+        "╚═════════════════════════════════════════════════════╝\n\n"
+        f"📋 Conversación Nº: {conversacion.pk}\n"
+        f"🌐 Dominio: {conversacion.dominio or 'N/D'}\n"
+        f"📆 Inicio: {conversacion.fecha_inicio:%d/%m/%Y %H:%M}\n"
+        f"📆 Fin: {fin}\n"
+        f"🏷️ Tipo: {resumen.tipo}\n\n"
+        "──────────────────────────────────────────────────────────\n"
+        "📝 RESUMEN DEL LLM:\n"
+        "──────────────────────────────────────────────────────────\n\n"
+        f"{resumen.texto}\n\n"
+        "──────────────────────────────────────────────────────────\n"
+        "📦 DATOS DEL PEDIDO (si existen):\n"
+        "──────────────────────────────────────────────────────────\n"
+    )
+
+    pedido = conversacion.conversacion_pedido.first()
+
+    if pedido:
+        cuerpo += (
+            f"   • Nombre: {pedido.nombre}\n"
+            f"   • Dirección: {pedido.direccion}\n"
+            f"   • Servicio: {pedido.servicio}\n"
+            f"   • Presupuesto: €{pedido.presupuesto}\n"
+            f"   • Contacto: {pedido.forma_contacto}\n"
+        )
+    else:
+        cuerpo += "   • No hay datos de pedido registrados aún.\n"
+
+    cuerpo += (
+        "──────────────────────────────────────────────────────────\n"
+        "⚠️ CHECKLIST DE DATOS (detalle):\n"
+        "──────────────────────────────────────────────────────────\n"
+    )
+
+    if pedido:
+        campos_faltantes = []
+        if not pedido.nombre:
+            campos_faltantes.append("nombre")
+        if not pedido.direccion:
+            campos_faltantes.append("dirección")
+        if not pedido.servicio:
+            campos_faltantes.append("servicio")
+        if not pedido.presupuesto:
+            campos_faltantes.append("presupuesto")
+        if not pedido.forma_contacto:
+            campos_faltantes.append("forma de contacto")
+
+        if campos_faltantes:
+            cuerpo += f"   ❌ Faltan: {', '.join(campos_faltantes)}\n"
+        else:
+            cuerpo += "   ✅ Todos los datos completos.\n"
+    else:
+        cuerpo += "   ⏳ Aún no se ha iniciado el proceso de pedido.\n"
+
+    cuerpo += (
+        "──────────────────────────────────────────────────────────\n"
+        "💡 SIGUIENTE PASO RECOMENDADO:\n"
+        "──────────────────────────────────────────────────────────\n"
+        "   → Contactar al cliente para confirmar los detalles del pedido.\n"
+    )
+
+    return cuerpo
+
 # Resumen para mandar por correo
 class Resumen(models.Model):
 
@@ -70,30 +183,10 @@ class Resumen(models.Model):
 
     
     # Enviar el resumen por correo
-    # Devuelve True si sae ha mandado bien
+    # Devuelve True si se ha mandado bien
+    # Delegamos en la funcion del modulo para no tener dos versiones del cuerpo
     def enviar_resumen(self):
-
-        # A quien se lo mandamos
-        destinatarios = getattr(settings, "RESUMEN_EMAIL_DESTINATARIOS", [])
-        if not destinatarios:
-            logger.warning("RESUMEN_EMAIL_DESTINATARIOS vacío; no se envía el resumen %s", self.pk)
-            return False
-
-        # Que mandamos
-        conversacion = self.conversacion
-        asunto = f"[Chatbot] Nueva solicitud de compra - Conversación Nº{conversacion.pk}"
-        cuerpo = (
-            f"Conversación Nº{conversacion.pk}\n"
-            f"Dominio: {conversacion.dominio or 'N/D'}\n"
-            f"Inicio: {conversacion.fecha_inicio:%d/%m/%Y %H:%M}\n"
-            f"Fin: {conversacion.fecha_fin:%d/%m/%Y %H:%M}\n\n"
-            f"{self.texto}\n"
-        )
-
-        # Mandamos el mensaje
-        EmailMessage(subject=asunto, body=cuerpo, to=destinatarios).send(fail_silently=False)
-
-        return True
+        return enviar_resumen(self)
     
     # Traduccimos en español
     class Meta:
@@ -104,21 +197,31 @@ class Resumen(models.Model):
         return f"Resumen Nº{self.pk}"
     
 def enviar_resumen(resumen):
+    """
+    Envía el resumen de una conversación por correo al administrador.
+    El cuerpo lo construye _construir_cuerpo_email, que pone la checklist
+    de datos AL PRINCIPIO, antes del resumen del LLM.
+    Devuelve True si se ha enviado.
+    """
     destinatarios = getattr(settings, "RESUMEN_EMAIL_DESTINATARIOS", [])
     if not destinatarios:
         logger.warning("RESUMEN_EMAIL_DESTINATARIOS vacío; no se envía el resumen %s", resumen.pk)
         return False
 
     conversacion = resumen.conversacion
-    asunto = f"[Chatbot] Nueva solicitud de compra - Conversación Nº{conversacion.pk}"
-    cuerpo = (
-        f"Conversación Nº{conversacion.pk}\n"
-        f"Dominio: {conversacion.dominio or 'N/D'}\n"
-        f"Inicio: {conversacion.fecha_inicio:%d/%m/%Y %H:%M}\n"
-        f"Fin: {conversacion.fecha_fin:%d/%m/%Y %H:%M}\n\n"
-        f"{resumen.texto}\n"
-    )
+    asunto = f"[Chatbot] Compra - Conversación Nº{conversacion.pk}"
+    cuerpo = _construir_cuerpo_email(conversacion, resumen)
 
-    EmailMessage(subject=asunto, body=cuerpo, to=destinatarios).send(fail_silently=False)
-
-    return True
+    try:
+        email = EmailMessage(
+            subject=asunto,
+            body=cuerpo,
+            from_email=settings.EMAIL_HOST_USER or "chatbot@localhost",
+            to=destinatarios,
+        )
+        email.send(fail_silently=False)
+        logger.info("Resumen %s enviado exitosamente a %s", resumen.pk, destinatarios)
+        return True
+    except Exception:
+        logger.exception("Error al enviar el resumen %s", resumen.pk)
+        return False

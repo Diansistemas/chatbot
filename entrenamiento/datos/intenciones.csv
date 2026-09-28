@@ -3,4 +3,5 @@ compra;Usuario quiere contratar un servicio;1
 consulta_tecnica;Usuario pregunta detalles tecnicos;1
 cerrar;Usuario quiere cerrar una conversacion;1
 confirmacion;Usuario confirma una accion;1
+contactar_humano;Usuario solicita hablar con una persona u operador;1
 otro;Consulta generica;1

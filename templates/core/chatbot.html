@@ -57,6 +57,12 @@
         {% endif %}
       </div>
 
+      <!-- Aviso de inactividad (aparece a los 4 minutos) -->
+      <div id="aviso-inactividad" class="aviso-inactividad" style="display: none;">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        ¿Sigues ahí? La conversación se cerrará en 1 minuto por inactividad.
+      </div>
+
       <!-- Formulario del chat (Caja para insertar texto y botón de envío) -->
       <!-- Pasamos por data-* los datos que necesita el JS: -->
       <!--   data-conversacion:   token de la conversación -->
@@ -71,9 +77,17 @@
         <input id="input-msg" class="form-control me-2" placeholder="Escribe un mensaje" autocomplete="off" required {% if esperando_bot %}disabled{% endif %}>
         <button id="btn-enviar" class="btn btn-primary bi bi-send-fill" {% if esperando_bot %}disabled{% endif %}></button>
       </form>
+
+      <!-- Botón para iniciar nueva conversación (aparece tras el cierre por inactividad) -->
+      <div id="contenedor-reiniciar" style="display: none; padding: 8px;">
+        <button id="btn-reiniciar" class="btn btn-primary w-100">
+          Iniciar nueva conversación
+        </button>
+      </div>
     </div>
 
     <!-- Scripts JS para la lógica del chat sin refrescar y la funcion del boton del widget -->
+    <script src="{% static 'js/inactividad.js' %}"></script>
     <script src="{% static 'js/ajax_chat.js' %}"></script>
     <script src="{% static 'js/func_boton.js' %}"></script>
 
