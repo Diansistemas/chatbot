@@ -1,11 +1,245 @@
 texto;intencion;origen;entidades
-La revision general cuesta 120 euros;consulta_tecnica;manual;SERVICIO:revision general|PRECIO:120 euros
-Hemos terminado;cerrar;manual;FINAL:terminado
-La revision general cuesta 110 euros;consulta_tecnica;manual;SERVICIO:revision general|PRECIO:120 euros
-Hemos terminados;cerrar;manual;FINAL:terminado
-La revision general cuesta 150 euros;consulta_tecnica;manual;SERVICIO:revision general|PRECIO:120 euros
-Hemos terminado!;cerrar;manual;FINAL:terminado
-La revision general cuesta 160 euros;consulta_tecnica;manual;SERVICIO:revision general|PRECIO:120 euros
-Hemos terminado?;cerrar;manual;FINAL:terminado
-La revision general cuesta 100 euros;consulta_tecnica;manual;SERVICIO:revision general|PRECIO:120 euros
-Hemos terminado hoy;cerrar;manual;FINAL:terminado
+Quiero hablar con un agente;contactar_humano;manual;ACCION_TRANSFERENCIA:hablar|AGENTE_HUMANO:agente
+Pasame con un operador por favor;contactar_humano;manual;ACCION_TRANSFERENCIA:Pasame|AGENTE_HUMANO:operador
+Por favor ponme con una persona;contactar_humano;manual;ACCION_TRANSFERENCIA:ponme|AGENTE_HUMANO:persona
+Prefiero que me atienda un humano;contactar_humano;manual;AGENTE_HUMANO:humano
+Me puedes transferir con atencion al cliente;contactar_humano;manual;ACCION_TRANSFERENCIA:transferir|DEPARTAMENTO:atencion al cliente
+Necesito asistencia humana ahora mismo;contactar_humano;manual;AGENTE_HUMANO:asistencia humana
+Hay algun soporte humano disponible;contactar_humano;manual;AGENTE_HUMANO:soporte humano
+Transferirme con un representante por favor;contactar_humano;manual;ACCION_TRANSFERENCIA:Transferirme|AGENTE_HUMANO:representante
+No quiero hablar con un bot pasame con alguien;contactar_humano;manual;ACCION_TRANSFERENCIA:pasame|AGENTE_HUMANO:alguien
+Atiendeme con una persona del equipo;contactar_humano;manual;AGENTE_HUMANO:persona
+Eso es todo por hoy muchas gracias;cerrar;manual;FINAL:todo por hoy
+Hasta luego que tengas buen dia;cerrar;manual;FINAL:hasta luego
+Ya no necesito nada mas me despido;cerrar;manual;FINAL:nada mas
+Terminamos la consulta gracias por la ayuda;cerrar;manual;FINAL:terminamos
+Podemos dar por finalizada la conversacion;cerrar;manual;FINAL:finalizada
+Perfecto chau nos vemos;cerrar;manual;CONFIRMACION:Perfecto|FINAL:chau
+Listo todo aclarado cierro el chat;cerrar;manual;CONFIRMACION:Listo|FINAL:cierro el chat
+Gracias ya me puedo retirar;cerrar;manual;FINAL:retirar
+Adios que pases buena tarde;cerrar;manual;FINAL:Adios
+Con esto concluyo mi consulta hasta otra;cerrar;manual;FINAL:concluyo
+Quiero contratar la revision general por 120 euros;compra;manual;SERVICIO:revision general|PRECIO:120 euros
+Deseo adquirir el mantenimiento anual;compra;manual;SERVICIO:mantenimiento anual
+Quiero comprar el paquete basico por 50 euros;compra;manual;SERVICIO:paquete basico|PRECIO:50 euros
+Me interesa contratar el servicio tecnico urgente;compra;manual;SERVICIO:servicio tecnico urgente
+Quiero pagar la auditoria por 300 euros;compra;manual;SERVICIO:auditoria|PRECIO:300 euros
+Cual es la duracion de la revision general;consulta_tecnica;manual;SERVICIO:revision general
+El mantenimiento anual incluye piezas de repuesto;consulta_tecnica;manual;SERVICIO:mantenimiento anual
+Que garantia tiene la auditoria de 300 euros;consulta_tecnica;manual;SERVICIO:auditoria|PRECIO:300 euros
+Como se realiza la configuracion inicial;consulta_tecnica;manual;SERVICIO:configuracion inicial
+El diagnostico por 80 euros incluye informe escrito;consulta_tecnica;manual;SERVICIO:diagnostico|PRECIO:80 euros
+Si estoy de acuerdo con el servicio;confirmacion;manual;CONFIRMACION:Si|SERVICIO:servicio
+Perfecto acepto el presupuesto de 150 euros;confirmacion;manual;CONFIRMACION:Perfecto|PRECIO:150 euros
+De acuerdo procedan con el pedido;confirmacion;manual;CONFIRMACION:De acuerdo
+Correcto confirmo la contratacion;confirmacion;manual;CONFIRMACION:Correcto
+Vale acepto las condiciones descritas;confirmacion;manual;CONFIRMACION:Vale
+Donde estan ubicadas sus oficinas centrales;otro;manual;
+Cual es el horario de atencion;otro;manual;
+Aceptan pagos con tarjeta de credito;otro;manual;
+Tienen estacionamiento para clientes;otro;manual;
+A que correo puedo enviar una sugerencia;otro;manual;
+Deseo contratar el servicio de mantenimiento web por 200 euros;compra;manual;SERVICIO:mantenimiento web|PRECIO:200 euros
+Quiero comprar el plan profesional;compra;manual;SERVICIO:plan profesional
+Me interesa adquirir la auditoria de seguridad por 450 euros;compra;manual;SERVICIO:auditoria de seguridad|PRECIO:450 euros
+Quiero solicitar la instalacion del sistema;compra;manual;SERVICIO:instalacion del sistema
+Deseo contratar la revision preventiva por 90 euros;compra;manual;SERVICIO:revision preventiva|PRECIO:90 euros
+Quiero la suscripcion anual por 1200 euros;compra;manual;SERVICIO:suscripcion anual|PRECIO:1200 euros
+Me gustaría adquirir el paquete de horas de soporte;compra;manual;SERVICIO:paquete de horas de soporte
+Quiero contratar la optimización SEO por 350 euros;compra;manual;SERVICIO:optimizacion SEO|PRECIO:350 euros
+Deseo comprar la licencia corporativa;compra;manual;SERVICIO:licencia corporativa
+Quiero adquirir el soporte 24 horas por 500 euros;compra;manual;SERVICIO:soporte 24 horas|PRECIO:500 euros
+Quiero pedir el diagnostico de red por 75 euros;compra;manual;SERVICIO:diagnostico de red|PRECIO:75 euros
+Me interesa contratar la migracion de servidor;compra;manual;SERVICIO:migracion de servidor
+Deseo adquirir el servicio de limpieza de virus por 60 euros;compra;manual;SERVICIO:limpieza de virus|PRECIO:60 euros
+Quiero la membresia VIP por 100 euros al mes;compra;manual;SERVICIO:membresia VIP|PRECIO:100 euros
+Quiero comprar el modulo de facturacion;compra;manual;SERVICIO:modulo de facturacion
+Deseo contratar el respaldo en la nube por 150 euros;compra;manual;SERVICIO:respaldo en la nube|PRECIO:150 euros
+Quiero adquirir el servicio de consultoria;compra;manual;SERVICIO:consultoria
+Me interesa comprar la garantia extendida por 80 euros;compra;manual;SERVICIO:garantia extendida|PRECIO:80 euros
+Quiero contratar la configuracion de firewall;compra;manual;SERVICIO:configuracion de firewall
+Deseo comprar el paquete de diseño por 600 euros;compra;manual;SERVICIO:paquete de diseño|PRECIO:600 euros
+Quiero la renovacion del dominio por 25 euros;compra;manual;SERVICIO:renovacion del dominio|PRECIO:25 euros
+Deseo adquirir la capacitacion de personal por 400 euros;compra;manual;SERVICIO:capacitacion de personal|PRECIO:400 euros
+Quiero contratar el analisis de datos;compra;manual;SERVICIO:analisis de datos
+Me interesa comprar el certificado SSL por 40 euros;compra;manual;SERVICIO:certificado SSL|PRECIO:40 euros
+Quiero adquirir la integracion de API por 800 euros;compra;manual;SERVICIO:integracion de API|PRECIO:800 euros
+Deseo contratar la gestion de redes sociales;compra;manual;SERVICIO:gestion de redes sociales
+Quiero comprar la reparacion de equipo por 110 euros;compra;manual;SERVICIO:reparacion de equipo|PRECIO:110 euros
+Me interesa el plan básico por 30 euros;compra;manual;SERVICIO:plan basico|PRECIO:30 euros
+Quiero contratar el desarrollo a medida;compra;manual;SERVICIO:desarrollo a medida
+Deseo adquirir la plantilla premium por 95 euros;compra;manual;SERVICIO:plantilla premium|PRECIO:95 euros
+Quiero el pack de mantenimiento por 180 euros;compra;manual;SERVICIO:pack de mantenimiento|PRECIO:180 euros
+Quiero contratar el monitoreo constante;compra;manual;SERVICIO:monitoreo constante
+Deseo comprar la prueba de penetracion por 900 euros;compra;manual;SERVICIO:prueba de penetracion|PRECIO:900 euros
+Me interesa contratar el servicio de backup diario por 50 euros;compra;manual;SERVICIO:backup diario|PRECIO:50 euros
+Quiero adquirir el modulo de inventario;compra;manual;SERVICIO:modulo de inventario
+Cual es la duracion del servicio de mantenimiento web;consulta_tecnica;manual;SERVICIO:mantenimiento web
+El plan profesional incluye certificado SSL;consulta_tecnica;manual;SERVICIO:plan profesional|SERVICIO:certificado SSL
+Que abarca la auditoria de seguridad de 450 euros;consulta_tecnica;manual;SERVICIO:auditoria de seguridad|PRECIO:450 euros
+Cuanto tiempo tarda la instalacion del sistema;consulta_tecnica;manual;SERVICIO:instalacion del sistema
+Que herramientas usan en la revision preventiva por 90 euros;consulta_tecnica;manual;SERVICIO:revision preventiva|PRECIO:90 euros
+La suscripcion anual de 1200 euros permite pagos mensuales;consulta_tecnica;manual;SERVICIO:suscripcion anual|PRECIO:1200 euros
+Cuantas horas incluye el paquete de horas de soporte;consulta_tecnica;manual;SERVICIO:paquete de horas de soporte
+Que estrategias incluye la optimizacion SEO;consulta_tecnica;manual;SERVICIO:optimizacion SEO
+Cual es el limite de usuarios en la licencia corporativa;consulta_tecnica;manual;SERVICIO:licencia corporativa
+El soporte 24 horas responde por telefono;consulta_tecnica;manual;SERVICIO:soporte 24 horas
+En que consiste el diagnostico de red de 75 euros;consulta_tecnica;manual;SERVICIO:diagnostico de red|PRECIO:75 euros
+La migracion de servidor causa interrupciones en la pagina;consulta_tecnica;manual;SERVICIO:migracion de servidor
+La limpieza de virus por 60 euros recupera mis archivos;consulta_tecnica;manual;SERVICIO:limpieza de virus|PRECIO:60 euros
+Que beneficios adicionales tiene la membresia VIP;consulta_tecnica;manual;SERVICIO:membresia VIP
+El modulo de facturacion se integra con bancos;consulta_tecnica;manual;SERVICIO:modulo de facturacion
+Cuanta capacidad tiene el respaldo en la nube de 150 euros;consulta_tecnica;manual;SERVICIO:respaldo en la nube|PRECIO:150 euros
+La consultoria puede ser en modalidad presencial;consulta_tecnica;manual;SERVICIO:consultoria
+Que cubre la garantia extendida por 80 euros;consulta_tecnica;manual;SERVICIO:garantia extendida|PRECIO:80 euros
+El firewall incluye proteccion contra ataques DDoS;consulta_tecnica;manual;SERVICIO:configuracion de firewall
+Cuantas revisiones incluye el paquete de diseño;consulta_tecnica;manual;SERVICIO:paquete de diseño
+El dominio por 25 euros incluye cuentas de correo;consulta_tecnica;manual;SERVICIO:renovacion del dominio|PRECIO:25 euros
+Cuantas personas pueden estar en la capacitacion de personal;consulta_tecnica;manual;SERVICIO:capacitacion de personal
+Que tecnologias usan para el analisis de datos;consulta_tecnica;manual;SERVICIO:analisis de datos
+El certificado SSL de 40 euros es valido por un año;consulta_tecnica;manual;SERVICIO:certificado SSL|PRECIO:40 euros
+Cuanto demora la integracion de API de 800 euros;consulta_tecnica;manual;SERVICIO:integracion de API|PRECIO:800 euros
+Incluye publicaciones diarias la gestion de redes sociales;consulta_tecnica;manual;SERVICIO:gestion de redes sociales
+Que garantia tiene la reparacion de equipo;consulta_tecnica;manual;SERVICIO:reparacion de equipo
+El plan basico de 30 euros soporta multiples usuarios;consulta_tecnica;manual;SERVICIO:plan basico|PRECIO:30 euros
+Que lenguaje utilizan para el desarrollo a medida;consulta_tecnica;manual;SERVICIO:desarrollo a medida
+La plantilla premium incluye soporte tecnico;consulta_tecnica;manual;SERVICIO:plantilla premium
+Que tareas cubre el pack de mantenimiento de 180 euros;consulta_tecnica;manual;SERVICIO:pack de mantenimiento|PRECIO:180 euros
+Como envian las alertas en el monitoreo constante;consulta_tecnica;manual;SERVICIO:monitoreo constante
+Cual es el informe final de la prueba de penetracion;consulta_tecnica;manual;SERVICIO:prueba de penetracion
+El backup diario guarda copias por cuanto tiempo;consulta_tecnica;manual;SERVICIO:backup diario
+Es compatible el modulo de inventario con mi software actual;consulta_tecnica;manual;SERVICIO:modulo de inventario
+Eso es todo por hoy muchas gracias;cerrar;manual;FINAL:todo por hoy
+Hasta luego que tengas buen dia;cerrar;manual;FINAL:hasta luego
+Ya no necesito nada mas me despido;cerrar;manual;FINAL:nada mas
+Terminamos la consulta gracias por todo;cerrar;manual;FINAL:Terminamos
+Podemos dar por finalizada la sesion;cerrar;manual;FINAL:finalizada
+Perfecto chau nos vemos;cerrar;manual;CONFIRMACION:Perfecto|FINAL:chau
+Listo todo claro cierro el chat;cerrar;manual;CONFIRMACION:Listo|FINAL:cierro el chat
+Gracias ya me puedo retirar;cerrar;manual;FINAL:retirar
+Adios que pases buena tarde;cerrar;manual;FINAL:Adios
+Con esto concluyo mi consulta hasta otra;cerrar;manual;FINAL:concluyo
+Muchas gracias nos vemos pronto;cerrar;manual;FINAL:nos vemos pronto
+Ya respondiste mi duda me desconecto;cerrar;manual;FINAL:me desconecto
+Es todo por mi parte feliz dia;cerrar;manual;FINAL:todo por mi parte
+Doy por cerrada la conversacion;cerrar;manual;FINAL:cerrada
+Bye nos hablamos luego;cerrar;manual;FINAL:Bye
+Mil gracias por tu ayuda hasta luego;cerrar;manual;FINAL:hasta luego
+Me voy hasta la proxima;cerrar;manual;FINAL:hasta la proxima
+Excelente atencion me despido;cerrar;manual;FINAL:me despido
+Terminamos por hoy buen fin de semana;cerrar;manual;FINAL:Terminamos
+Chau que todo vaya bien;cerrar;manual;FINAL:Chau
+Ok me retiro del chat;cerrar;manual;CONFIRMACION:Ok|FINAL:me retiro
+No tengo mas preguntas adios;cerrar;manual;FINAL:adios
+Quedo satisfecho cierro la ventana;cerrar;manual;FINAL:cierro
+Hasta mañana gracias por el soporte;cerrar;manual;FINAL:Hasta mañana
+Finalizo el contacto por ahora;cerrar;manual;FINAL:Finalizo
+Muchas gracias por tu tiempo nos vemos;cerrar;manual;FINAL:nos vemos
+Todo resuelto chau;cerrar;manual;FINAL:chau
+Cerramos aqui la sesion;cerrar;manual;FINAL:Cerramos
+Buen dia me salgo de la consulta;cerrar;manual;FINAL:me salgo
+Si estoy de acuerdo con las condiciones;confirmacion;manual;CONFIRMACION:Si
+Perfecto acepto la propuesta de 200 euros;confirmacion;manual;CONFIRMACION:Perfecto|PRECIO:200 euros
+De acuerdo procedan con la instalacion del sistema;confirmacion;manual;CONFIRMACION:De acuerdo|SERVICIO:instalacion del sistema
+Correcto confirmo la orden de compra;confirmacion;manual;CONFIRMACION:Correcto
+Vale acepto el presupuesto del plan basico;confirmacion;manual;CONFIRMACION:Vale|SERVICIO:plan basico
+Si exactamente eso es lo que necesito;confirmacion;manual;CONFIRMACION:Si
+Por supuesto confirmo el servicio;confirmacion;manual;CONFIRMACION:Por supuesto|SERVICIO:servicio
+Totalmente de acuerdo adelante;confirmacion;manual;CONFIRMACION:Totalmente de acuerdo
+Claro que si confirmo el importe de 120 euros;confirmacion;manual;CONFIRMACION:Claro que si|PRECIO:120 euros
+Excelente me parece muy bien;confirmacion;manual;CONFIRMACION:Excelente
+Si confirmo la contratacion de la auditoria;confirmacion;manual;CONFIRMACION:Si|SERVICIO:auditoria
+Listo acepto la oferta indicada;confirmacion;manual;CONFIRMACION:Listo
+De acuerdo confirmo la fecha indicada;confirmacion;manual;CONFIRMACION:De acuerdo
+Si procedan con la migracion de servidor;confirmacion;manual;CONFIRMACION:Si|SERVICIO:migracion de servidor
+Afirmativo autorizo el pago de 50 euros;confirmacion;manual;CONFIRMACION:Afirmativo|PRECIO:50 euros
+Sin problema acepto los términos;confirmacion;manual;CONFIRMACION:Sin problema
+Vale me parece una buena solucion;confirmacion;manual;CONFIRMACION:Vale
+Si adelante con la configuracion del firewall;confirmacion;manual;CONFIRMACION:Si|SERVICIO:configuracion del firewall
+Perfecto denle luz verde al proyecto;confirmacion;manual;CONFIRMACION:Perfecto
+Correcto acepto la tarifa propuesta;confirmacion;manual;CONFIRMACION:Correcto
+Si apruebo la renovacion del dominio;confirmacion;manual;CONFIRMACION:Si|SERVICIO:renovacion del dominio
+De acuerdo confirmo la compra por 80 euros;confirmacion;manual;CONFIRMACION:De acuerdo|PRECIO:80 euros
+Si estoy satisfecho con el precio pactado;confirmacion;manual;CONFIRMACION:Si
+Entendido confirmo el inicio del trabajo;confirmacion;manual;CONFIRMACION:Entendido
+Vale acepto la sugerencia que me dan;confirmacion;manual;CONFIRMACION:Vale
+Claro procedan a enviar la factura;confirmacion;manual;CONFIRMACION:Claro
+Si autorizo el cobro en mi tarjeta;confirmacion;manual;CONFIRMACION:Si
+Perfecto confirmo la capacitacion de personal;confirmacion;manual;CONFIRMACION:Perfecto|SERVICIO:capacitacion de personal
+De acuerdo den por confirmado el tramite;confirmacion;manual;CONFIRMACION:De acuerdo
+Si me parece correcto el informe presentado;confirmacion;manual;CONFIRMACION:Si
+Quiero hablar con un agente de inmediato;contactar_humano;manual;ACCION_TRANSFERENCIA:hablar|AGENTE_HUMANO:agente
+Pasame con un operador del centro de soporte;contactar_humano;manual;ACCION_TRANSFERENCIA:Pasame|AGENTE_HUMANO:operador|DEPARTAMENTO:soporte
+Por favor ponme con una persona real;contactar_humano;manual;ACCION_TRANSFERENCIA:ponme|AGENTE_HUMANO:persona
+Prefiero que me atienda un humano por favor;contactar_humano;manual;AGENTE_HUMANO:humano
+Me puedes transferir con atencion al cliente;contactar_humano;manual;ACCION_TRANSFERENCIA:transferir|DEPARTAMENTO:atencion al cliente
+Necesito asistencia humana para resolver esto;contactar_humano;manual;AGENTE_HUMANO:asistencia humana
+Hay algun soporte humano que me pueda orientar;contactar_humano;manual;AGENTE_HUMANO:soporte humano
+Transferirme con un representante del departamento tecnico;contactar_humano;manual;ACCION_TRANSFERENCIA:Transferirme|AGENTE_HUMANO:representante|DEPARTAMENTO:departamento tecnico
+No quiero hablar con un bot pasame con alguien;contactar_humano;manual;ACCION_TRANSFERENCIA:pasame|AGENTE_HUMANO:alguien
+Atiendeme con una persona de soporte;contactar_humano;manual;AGENTE_HUMANO:persona|DEPARTAMENTO:soporte
+Solicito ser atendido por un ejecutivo de ventas;contactar_humano;manual;AGENTE_HUMANO:ejecutivo|DEPARTAMENTO:ventas
+Comunicate con un operador humano inmediatamente;contactar_humano;manual;AGENTE_HUMANO:operador humano
+Puedes comunicarme con un asesor especialista;contactar_humano;manual;ACCION_TRANSFERENCIA:comunicarme|AGENTE_HUMANO:asesor
+Quiero cambiar a atencion con una persona;contactar_humano;manual;AGENTE_HUMANO:persona
+Pasame el contacto de un agente de soporte;contactar_humano;manual;ACCION_TRANSFERENCIA:Pasame|AGENTE_HUMANO:agente|DEPARTAMENTO:soporte
+Necesito un humano que revise mi caso particular;contactar_humano;manual;AGENTE_HUMANO:humano
+Por favor desviame con un operador disponible;contactar_humano;manual;ACCION_TRANSFERENCIA:desviame|AGENTE_HUMANO:operador
+Prefiero resolver esto con un agente en vivo;contactar_humano;manual;AGENTE_HUMANO:agente
+Derivame con el equipo de soporte tecnico;contactar_humano;manual;ACCION_TRANSFERENCIA:Derivame|DEPARTAMENTO:soporte tecnico
+Quiero hablar con el responsable del departamento;contactar_humano;manual;ACCION_TRANSFERENCIA:hablar|AGENTE_HUMANO:responsable|DEPARTAMENTO:departamento
+Ponme en linea con un especialista humano;contactar_humano;manual;ACCION_TRANSFERENCIA:Ponme|AGENTE_HUMANO:especialista humano
+Conectame con un operador del area de pagos;contactar_humano;manual;ACCION_TRANSFERENCIA:Conectame|AGENTE_HUMANO:operador|DEPARTAMENTO:area de pagos
+Exijo hablar con un representante de la empresa;contactar_humano;manual;ACCION_TRANSFERENCIA:hablar|AGENTE_HUMANO:representante
+Pasame con alguien del equipo de atencion;contactar_humano;manual;ACCION_TRANSFERENCIA:Pasame|AGENTE_HUMANO:alguien|DEPARTAMENTO:atencion
+Hay alguna persona libre para atender mi llamada;contactar_humano;manual;AGENTE_HUMANO:persona
+Pásame con una persona no entiendo las opciones;contactar_humano;manual;ACCION_TRANSFERENCIA:Pasame|AGENTE_HUMANO:persona
+Deseo contactar con un agente del servicio oficial;contactar_humano;manual;ACCION_TRANSFERENCIA:contactar|AGENTE_HUMANO:agente
+Transferir a un operador por favor;contactar_humano;manual;ACCION_TRANSFERENCIA:Transferir|AGENTE_HUMANO:operador
+Necesto la intervencion de un asistente humano;contactar_humano;manual;AGENTE_HUMANO:asistente humano
+Quiero atencion personalizada con un representante;contactar_humano;manual;AGENTE_HUMANO:representante
+Donde estan ubicadas sus oficinas principales;otro;manual;
+Cual es el horario de atencion al publico;otro;manual;
+Aceptan pagos con tarjeta de credito visa;otro;manual;
+Tienen estacionamiento gratuito para los clientes;otro;manual;
+A que correo electronico puedo enviar mi curriculum;otro;manual;
+Cuales son los requisitos para trabajar en la empresa;otro;manual;
+Tienen sucursales abiertas en la ciudad de Madrid;otro;manual;
+Cual es el numero del departamento de recursos humanos;otro;manual;
+Que metodos de pago aceptan en la tienda virtual;otro;manual;
+Cual es la politica de privacidad de la empresa;otro;manual;
+Ofrecen facturación electronica para empresas;otro;manual;
+Donde puedo consultar los terminos y condiciones;otro;manual;
+Tienen redes sociales oficiales para seguir sus novedades;otro;manual;
+En que año se fundo la compañia;otro;manual;
+Como puedo hacer una reclamacion formal;otro;manual;
+Hacen envios de productos a otros paises;otro;manual;
+Cual es la direccion del almacen central;otro;manual;
+Ofrecen descuentos especiales por compras al mayor;otro;manual;
+Tienen alguna app movil disponible para Android;otro;manual;
+A que hora abren el establecimiento los sabados;otro;manual;
+Es necesario pedir cita previa para ir a la oficina;otro;manual;
+Donde encuentro el catalogo general en PDF;otro;manual;
+Tienen convenios con institutos o universidades;otro;manual;
+Cual es el plazo promedio de respuesta de las solicitudes;otro;manual;
+Tienen un canal de denuncias anonimo en la web;otro;manual;
+El acceso al edificio es accesible para sillas de ruedas;otro;manual;
+Emiten facturas con IVA desglosado;otro;manual;
+Puedo cambiar los datos de mi cuenta de usuario;otro;manual;
+Tienen codigo de conducta empresarial publicado;otro;manual;
+Cual es la diferencia entre su empresa y la competencia;otro;manual;
+Que dias festivos del año permanece cerrado el local;otro;manual;
+Donde puedo dejar una reseña sobre sus servicios;otro;manual;
+Tienen programa de afiliados o recomendaciones;otro;manual;
+Puedo solicitar una visita a sus instalaciones;otro;manual;
+Tienen bolsa de trabajo activa en este momento;otro;manual;
+buenos dias quiero un presupuesto;compra;manual;
+hola buenos dias necesito un presupuesto para una web;compra;manual;
+presupuesto para el servicio de mantenimiento;compra;manual;
+me gustaria pedir un presupuesto;compra;manual;
+hola me podrian pasar un presupuesto;compra;manual;
+buenos dias queria pedir presupuesto para comprar sus servicios;compra;manual;
+necesito un presupuesto;compra;manual;
+buenos dias que tal;otro;manual;
+hola buenos dias;otro;manual;
+buenos dias solo pasaba a saludar;otro;manual;

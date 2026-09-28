@@ -2,4 +2,7 @@ nombre;descripcion
 SERVICIO;Nombre de un servicio ofrecido
 PRECIO;Cantidad de dinero mencionada
 FINAL;Finales de conversacion
-CONFIRMACION; Confirmacion de un pedido, servicio o final de conversacion
+CONFIRMACION;Confirmacion de un pedido, servicio o final de conversacion
+AGENTE_HUMANO;Referencia explícita a una persona, operador o soporte humano
+DEPARTAMENTO;Área o sección específica a la que se desea transferir
+ACCION_TRANSFERENCIA;Verbo o expresión que solicita el traspaso de la conversación

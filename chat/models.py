@@ -65,14 +65,27 @@ class Conversacion(models.Model):
         # Pillamos el mensaje mas reciente
         ultimo_mensaje = self.conversacion_mensajes.order_by('-fecha_mensaje').first()
 
+        # Sin mensajes no hay inactividad que calcular
+        if ultimo_mensaje is None:
+            return False
+
         # Calculamos cuando estaria la conversacion en timeout
         tiempo_limite = timezone.now() - timedelta(minutes=timeout)
- 
+
         # Si ha pasado, devolvemos TRUE
         if ultimo_mensaje.fecha_mensaje < tiempo_limite:
             return True
         else:
             return False
+
+    # Cerramos la conversacion (por inactividad o manualmente)
+    def cerrar(self):
+        # Si ya estaba cerrada no tocamos nada (no queremos pisar fecha_fin)
+        if self.estado == "cerrada":
+            return
+        self.estado = "cerrada"
+        self.fecha_fin = timezone.now()
+        self.save(update_fields=["estado", "fecha_fin"])
 
     # Pescamos el ultimo mensaje
     # TODO: Deberiamos eliminar cada instancia de este metodo y sustituirlo por la linea
