@@ -8,13 +8,13 @@ x-app: &app
     SQLITE_PATH: /data/db.sqlite3
   volumes:
     - app_data:/data            # SQLite file + "data imported" marker
-    - spacy_model:/app/modelo   # trained spaCy model
+    - spacy_model:/app/entrenamiento/spacy/modelo   # trained spaCy model
 
 services:
   # 1) One-shot bootstrap: migrate -> import data -> train spaCy -> create Ollama models
   setup:
     <<: *app
-    entrypoint: ["./docker/setup.sh"]
+    entrypoint: ["./setup.sh"]
     depends_on:
       ollama:
         condition: service_healthy

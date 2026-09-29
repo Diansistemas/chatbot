@@ -16,8 +16,43 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.http import JsonResponse
+from django.conf import settings
+import requests
+import time
+
+
+def health_check(request):
+    """Endpoint de salud para healthchecks de Docker/monitoreo."""
+    return JsonResponse({"status": "ok", "django": "6.1.1"})
+
+
+def list_models(request):
+    """Endpoint compatible con OpenAI: lista los modelos disponibles en Ollama."""
+    try:
+        resp = requests.get(f"{settings.OLLAMA_HOST}/api/tags", timeout=5)
+        resp.raise_for_status()
+        ollama_models = resp.json().get("models", [])
+    except Exception:
+        ollama_models = []
+
+    # Formato OpenAI: {"object": "list", "data": [{"id": ..., "object": "model", ...}]}
+    data = []
+    now = int(time.time())
+    for m in ollama_models:
+        data.append({
+            "id": m.get("name", "unknown"),
+            "object": "model",
+            "created": now,
+            "owned_by": "ollama",
+        })
+
+    return JsonResponse({"object": "list", "data": data})
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("core.urls")),
+    path('health', health_check, name='health'),
+    path('v1/models', list_models, name='v1_models'),
 ]

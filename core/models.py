@@ -75,9 +75,9 @@ def generar_pares_desde_conversacion(conversacion):
 
     # Que par de mensaje - usar zip para evitar index out of range
     pares = []
-    usuarios = mensajes[::2]      # índices pares: 0, 2, 4...
-    chatbots = mensajes[1::2]     # índices impares: 1, 3, 5...
-    
+    usuarios = mensajes[::2]      # indices pares: 0, 2, 4...
+    chatbots = mensajes[1::2]     # indices impares: 1, 3, 5...
+
     for mensaje_usuario, mensaje_chatbot in zip(usuarios, chatbots):
         analisis = getattr(mensaje_usuario, "mensaje_analisis", None)
         intencion = analisis.intencion if (analisis and analisis.intencion) else intencion_otro
@@ -146,8 +146,17 @@ def procesar_mensaje(mensaje_recibido):
             inicio=entidad.start_char,
             fin=entidad.end_char,
         ))
-            
+
     EntidadDetectada.objects.bulk_create(entidades)
+
+    logger.info(
+        "ANALISIS mensaje_id=%s intencion=%s confianza=%s entidades=%s texto=%r",
+        mensaje_recibido.pk,
+        intencion.nombre if intencion else "ninguna",
+        f"{confianza:.2f}" if confianza is not None else "n/a",
+        [e.etiqueta.nombre for e in entidades],
+        mensaje_recibido.texto[:80],
+    )
 
     return analisis
 
@@ -166,7 +175,11 @@ def generar_respuesta_llm(mensaje, analisis, servicio):
         intencion = "otro"
 
     # De que servicio estamos hablando
-    contexto = str(servicio)
+    # Si el NER no ha detectado nada no mandamos "None" al LLM
+    if servicio:
+        contexto = f"Servicio del que habla el usuario: {servicio}"
+    else:
+        contexto = "No se ha identificado ningun servicio concreto en el mensaje"
 
     # Generamos el historico excluyendo el mensaje que genera la respuesta
     historico = [
@@ -174,9 +187,15 @@ def generar_respuesta_llm(mensaje, analisis, servicio):
         for mensaje in conversacion.conversacion_mensajes.exclude(pk=mensaje.pk).order_by("fecha_mensaje")
     ]
 
-    # Llamamos al modelo
-    texto = llamar_llm(intencion, mensaje.texto, historico, contexto)
-    return texto.strip() 
+    # Llamamos al modelo (con el dominio de la conversacion, si lo tiene)
+    texto = llamar_llm(
+        intencion,
+        mensaje.texto,
+        historico,
+        contexto,
+        dominio=conversacion.dominio or None,
+    )
+    return texto.strip()
 
 # Solo permitimos una respuesta por mensaje
 def guardar_respuesta_bot(mensaje_usuario, texto):
@@ -199,7 +218,8 @@ def guardar_respuesta_bot(mensaje_usuario, texto):
 # Funcion a llamar para generar una respuesta
 def responder(mensaje):
     analisis = procesar_mensaje(mensaje)
-    nombre = analisis.intencion.nombre if analisis.intencion.nombre else "otro"
+    nombre = analisis.intencion.nombre if (analisis.intencion and analisis.intencion.nombre) else "otro"
+    logger.info("RESPONDER mensaje_id=%s intencion=%s", mensaje.pk, nombre)
 
     if nombre == "compra":
         mensaje.conversacion.tenemosCompra = True
@@ -210,6 +230,8 @@ def responder(mensaje):
     elif nombre == "cerrar":
         respuesta = guardar_respuesta_bot(mensaje, "¡Gracias por contactar con nosotros! Hasta pronto.")
         confirmamos_cierre(mensaje.conversacion)   # cerramos DESPUÉS de guardar la respuesta
+
+        # El resumen y su correo los gestiona el signal al_cerrar_conversacion (notificaciones)
         return respuesta
 
     # Cualquier otra intencion (incluida "compra") se responde con el llm

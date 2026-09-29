@@ -264,3 +264,65 @@ JAZZMIN_UI_TWEAKS = {
 # Modelo_del resumen
 # No entrenamos los resumenes, es el modelo base
 OLLAMA_MODEL_RESUMEN = "llama3.2"
+
+# Logging de la aplicacion
+# - Consola: para desarrollo (runserver)
+# - Archivo: logs/app.log con rotacion (10 MB x 10 backups)
+LOGS_DIR = BASE_DIR / "logs"
+LOGS_DIR.mkdir(exist_ok=True)
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{asctime} [{levelname}] {name} {module}:{lineno} - {message}",
+            "style": "{",
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        },
+        "simple": {
+            "format": "{asctime} [{levelname}] {message}",
+            "style": "{",
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        },
+    },
+    "filters": {
+        "require_debug_true": {
+            "()": "django.utils.log.RequireDebugTrue",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+        "file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": LOGS_DIR / "app.log",
+            "maxBytes": 10 * 1024 * 1024,  # 10 MB
+            "backupCount": 10,
+            "encoding": "utf-8",
+            "formatter": "verbose",
+        },
+        "file_error": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": LOGS_DIR / "error.log",
+            "maxBytes": 10 * 1024 * 1024,
+            "backupCount": 10,
+            "encoding": "utf-8",
+            "formatter": "verbose",
+            "level": "ERROR",
+        },
+    },
+    "loggers": {
+        # Aplicacion (core, chat, entrenamiento, notificaciones)
+        "core": {"handlers": ["console", "file", "file_error"], "level": "INFO", "propagate": False},
+        "chat": {"handlers": ["console", "file", "file_error"], "level": "INFO", "propagate": False},
+        "entrenamiento": {"handlers": ["console", "file", "file_error"], "level": "INFO", "propagate": False},
+        "notificaciones": {"handlers": ["console", "file", "file_error"], "level": "INFO", "propagate": False},
+        # Django
+        "django": {"handlers": ["console", "file"], "level": "INFO", "propagate": False},
+        "django.request": {"handlers": ["file", "file_error"], "level": "WARNING", "propagate": False},
+        "django.db.backends": {"handlers": ["file"], "level": "WARNING", "propagate": False},
+    },
+}

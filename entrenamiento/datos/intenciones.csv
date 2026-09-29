@@ -4,4 +4,5 @@ consulta_tecnica;Usuario pregunta detalles tecnicos;1
 cerrar;Usuario quiere cerrar una conversacion;1
 confirmacion;Usuario confirma una accion;1
 contactar_humano;Usuario solicita hablar con una persona u operador;1
+solicitar_agente;Usuario solicita un agente humano en vivo;1
 otro;Consulta generica;1

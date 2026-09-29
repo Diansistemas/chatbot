@@ -26,7 +26,7 @@ class Command(BaseCommand):
 
         # Estamos limpiando?
         if options["limpiar"]:
-            ids = list(EjemploLLM.objects.filter(origen="manual").values_list("conversacion_id", flat=True))
+            ids = list(EjemploLLM.objects.filter(origen="manual").values_list("mensaje_respuesta_id", flat=True))
             EjemploLLM.objects.filter(origen="manual").delete()
             Par_Mensaje_Respuesta.objects.filter(id__in=ids).delete()
 

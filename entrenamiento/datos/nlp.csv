@@ -1,4 +1,288 @@
 texto;intencion;origen;entidades
+Adios, gracias por todo;cerrar;manual;
+Hasta luego, chao;cerrar;manual;
+Me despido por hoy;cerrar;manual;
+Fin de la conversación, gracias;cerrar;manual;
+No necesito más ayuda por ahora;cerrar;manual;
+Val bien, gracias;cerrar;manual;
+Voy a cerrar esta ventana;cerrar;manual;
+Que tenga buen día;cerrar;manual;
+Muchas gracias, hasta otra;cerrar;manual;
+Eso es todo por hoy;cerrar;manual;
+Me despido de la atención;cerrar;manual;
+Hasta la próxima, gracias;cerrar;manual;
+Quiero comprar el servicio de internet;compra;manual;SERVICIO:internet
+Necesito contratar el paquete premium;compra;manual;SERVICIO:premium
+Quiero el servicio de telefonía móvil;compra;manual;SERVICIO:telefonía móvil
+Quiero contratar seguro de hogar;compra;manual;SERVICIO:seguro de hogar
+Necesito el plan de fibra óptica;compra;manual;SERVICIO:fibra óptica
+Quiero agregar el servicio de TV;compra;manual;SERVICIO:TV
+Quiero comprar el servicio de nube;compra;manual;SERVICIO:nube
+Necesito contratar la conexión empresarial;compra;manual;SERVICIO:conexión empresarial
+Quiero el servicio de hosting;compra;manual;SERVICIO:hosting
+Necesito el paquete de seguridad informática;compra;manual;SERVICIO:seguridad informática
+Quiero contratar el antivirus;compra;manual;SERVICIO:antivirus
+Necesito backup en la nube;compra;manual;SERVICIO:backup
+Sí, confirmo la operación;confirmacion;manual;CONFIRMACION:confirmo
+Estoy de acuerdo con los términos;confirmacion;manual;CONFIRMACION:de acuerdo
+Confirmo que leerlo todo;confirmacion;manual;CONFIRMACION:leerlo todo
+Sí, soy el responsable;confirmacion;manual;CONFIRMACION:responsable
+Confirmo mi dirección y datos;confirmacion;manual;CONFIRMACION:dirección y datos
+Acepto las condiciones generales;confirmacion;manual;CONFIRMACION:condiciones generales
+Confirmo el presupuesto de 200 euros;confirmacion;manual;CONFIRMACION:presupuesto 200 euros
+Sí, confirmo el servicio técnico;confirmacion;manual;CONFIRMACION:servicio técnico
+Estoy conforme con lo expuesto;confirmacion;manual;CONFIRMACION:conforme
+Confirmo la hora de la cita;confirmacion;manual;CONFIRMACION:hora de la cita
+Confirmo el domicilio de entrega;confirmacion;manual;CONFIRMACION:domicilio entrega
+Estoy de acuerdo con el precio;confirmacion;manual;CONFIRMACION:precio
+¿Cómo restablezco mi contraseña?;consulta_tecnica;manual;
+¿Cuál es mi dirección IP pública?;consulta_tecnica;manual;
+No me funciona el wifi;consulta_tecnica;manual;SERVICIO:wifi
+¿Cómo puedo mejorar la velocidad de internet?;consulta_tecnica;manual;SERVICIO:internet
+Mi equipo no enciende;consulta_tecnica;manual;SERVICIO:equipo
+¿Cómo configuro el router?;consulta_tecnica;manual;SERVICIO:router
+¿Por qué se reinicia solo el PC?;consulta_tecnica;manual;SERVICIO:PC
+¿Cuál es mi versión de Windows?;consulta_tecnica;manual;
+No puedo acceder a la web;consulta_tecnica;manual;SERVICIO:web
+¿Cómo actualizo los drivers?;consulta_tecnica;manual;SERVICIO:drivers
+¿Por qué va lento mi equipo?;consulta_tecnica;manual;SERVICIO:equipo
+¿Cómo limpio el virus?;consulta_tecnica;manual;SERVICIO:seguridad
+Quiero hablar con un asesor;contactar_humano;manual;ACCION_TRANSFERENCIA:hablar|AGENTE_HUMANO:asesor
+Necesito contactar con soporte técnico;contactar_humano;manual;ACCION_TRANSFERENCIA:soporte técnico
+Pásame con un supervisor;contactar_humano;manual;ACCION_TRANSFERENCIA:pasar|AGENTE_HUMANO:supervisor
+Quiero una reunión con el equipo;contactar_humano;manual;ACCION_TRANSFERENCIA:reunión
+Necesito hablar con ventas;contactar_humano;manual;ACCION_TRANSFERENCIA:ventas
+Quiero un gestor de cuenta personal;contactar_humano;manual;ACCION_TRANSFERENCIA:gestor
+Póngame con el departamento de atención al cliente;contactar_humano;manual;ACCION_TRANSFERENCIA:departamento
+Necesito un técnico en casa;contactar_humano;manual;ACCION_TRANSFERENCIA:técnico en casa
+Quiero resolver esto con un experto;contactar_humano;manual;ACCION_TRANSFERENCIA:experto
+Necesito hablar con alguien de autoridad;contactar_humano;manual;ACCION_TRANSFERENCIA:autoridad
+Quiero hablar con un gerente;contactar_humano;manual;ACCION_TRANSFERENCIA:gerente
+Necesito una reunión de seguimiento;contactar_humano;manual;ACCION_TRANSFERENCIA:seguimiento
+Hola, buenos días;otro;manual;
+¿Qué tiempo hace afuera?;otro;manual;
+Necesito ayuda con algo más;otro;manual;
+Consulta general sin clasificación;otro;manual;
+Otra cosa que preguntar;otro;manual;
+¿Dónde está la tienda?;otro;manual;
+Qué horas son?;otro;manual;
+Necesito imprimir un documento;otro;manual;
+Chao, gracias por todo;cerrar;manual;
+Volveré más tarde;cerrar;manual;
+No quiero más asistencia;cerrar;manual;
+Eso es todo, gracias;cerrar;manual;
+Fin de la atención;cerrar;manual;
+Que tenga un buen dia;cerrar;manual;
+Hasta pronto;cerrar;manual;
+No necesito más ayuda;cerrar;manual;
+Me despido ahora;cerrar;manual;
+Thank you, goodbye;cerrar;manual;
+Hasta la próxima;cerrar;manual;
+Es todo por hoy;cerrar;manual;
+Quiero contratar internet rápido;compra;manual;SERVICIO:internet
+Necesito el paquete empresarial;compra;manual;SERVICIO:empresarial
+Quiero servicio de TV premium;compra;manual;SERVICIO:TV premium
+Contratar telefonía fija;compra;manual;SERVICIO:telefonía fija
+Necesito IP fija;compra;manual;SERVICIO:IP fija
+Quiero servicio de correo empresarial;compra;manual;SERVICIO:correo
+Necesito almacenamiento en nube;compra;manual;SERVICIO:nube
+Quiero backup automático;compra;manual;SERVICIO:backup
+Contratar seguridad informática;compra;manual;SERVICIO:seguridad
+Necesito antivirus para empresa;compra;manual;SERVICIO:antivirus
+Quiero monitoreo de red;compra;manual;SERVICIO:monitoreo
+Necesito solución de disaster recovery;compra;manual;SERVICIO:recovery
+Confirmo todo lo dicho;confirmacion;manual;CONFIRMACION:confirmo
+Estoy totalmente de acuerdo;confirmacion;manual;CONFIRMACION:de acuerdo
+Confirmo mi identidad;confirmacion;manual;CONFIRMACION:identidad
+Acepto los términos completos;confirmacion;manual;CONFIRMACION:términos
+Confirmo la dirección de envío;confirmacion;manual;CONFIRMACION:dirección envío
+Estoy conforme con el presupuesto;confirmacion;manual;CONFIRMACION:presupuesto
+Confirmo la fecha de instalación;confirmacion;manual;CONFIRMACION:fecha instalación
+Acepto las condiciones legales;confirmacion;manual;CONFIRMACION:condiciones legales
+Confirmo los datos de facturación;confirmacion;manual;CONFIRMACION:facturación
+Sí, confirmo la suscripción;confirmacion;manual;CONFIRMACION:suscripción
+Estoy de acuerdo con la política;confirmacion;manual;CONFIRMACION:política
+¿Cómo cambio mi plano?;consulta_tecnica;manual;
+¿Cuál es mi velocidad real?;consulta_tecnica;manual;SERVICIO:velocidad
+No me funciona el printer;consulta_tecnica;manual;SERVICIO:impresora
+¿Por qué se corta la conexión?;consulta_tecnica;manual;SERVICIO:conexión
+¿Cómo resetear el equipo?;consulta_tecnica;manual;SERVICIO:equipo
+¿Cuál es mi plan actual?;consulta_tecnica;manual;
+Necesito ayuda con el email;consulta_tecnica;manual;SERVICIO:email
+¿Por qué va lento el móvil?;consulta_tecnica;manual;SERVICIO:móvil
+¿Cómo activo el servicio?;consulta_tecnica;manual;SERVICIO:activación
+¿Cuándo es el mantenimiento?;consulta_tecnica;manual;
+Necesito desbloquear el router;consulta_tecnica;manual;SERVICIO:router
+Quiero hablar con el director;contactar_humano;manual;ACCION_TRANSFERENCIA:hablar|AGENTE_HUMANO:director
+Necesito al equipo de ventas;contactar_humano;manual;ACCION_TRANSFERENCIA:ventas
+Pásame al área comercial;contactar_humano;manual;ACCION_TRANSFERENCIA:comercial
+Quiero reunirme con soporte;contactar_humano;manual;ACCION_TRANSFERENCIA:soporte
+Necesito al técnico senior;contactar_humano;manual;ACCION_TRANSFERENCIA:técnico senior
+Quiero al responsable de cuenta;contactar_humano;manual;ACCION_TRANSFERENCIA:responsable
+Póngame con el jefe de área;contactar_humano;manual;ACCION_TRANSFERENCIA:jefe
+Necesito escalar el incidente;contactar_humano;manual;ACCION_TRANSFERENCIA:escalar
+Quiero al equipo de post-venta;contactar_humano;manual;ACCION_TRANSFERENCIA:post-venta
+Hablar con el comité técnico;contactar_humano;manual;ACCION_TRANSFERENCIA:comité
+Hola, buen día;otro;manual;
+¿Cuál es el horario?;otro;manual;
+Necesito imprimir algo;otro;manual;
+Consulta general;otro;manual;
+Otra duda que tengo;otro;manual;
+¿Dónde está la oficina?;otro;manual;
+Qué servicios ofrecen?;otro;manual;
+Necesito factura;otro;manual;
+¿Cuánto cuesta?;otro;manual;
+Otra consulta random;otro;manual;
+Desplegado en producción, todo en verde;cerrar;manual;
+¡Listo, ticket resuelto por aquí!;cerrar;manual;
+¡Mergeado y probado, mil gracias!;cerrar;manual;
+Revisado y funcionando, cualquier cosa me dices;cerrar;manual;
+Queda cerrado el hilo por mi parte, un saludo;cerrar;manual;
+Perfecto, quedo al tanto de los logs;cerrar;manual;
+Vale, lo reviso y te comento luego;cerrar;manual;
+Te aviso en cuanto esté la PR lista, un abrazo;cerrar;manual;
+Nos vemos en la daily de mañana, ¡buen trabajo!;cerrar;manual;
+Me meto a una reunión, luego seguimos;cerrar;manual;
+Desconecto por hoy, mañana le echamos un ojo;cerrar;manual;
+¡Venga, un saludo y gracias por la ayuda!;cerrar;manual;
+Pase el pipeline a staging, me aviso si falla;cerrar;manual;
+Aparcao, ya quedó arreglado ese bug;cerrar;manual;
+Todo OK de mi lado, que vaya bien la tarde;cerrar;manual;
+Ya publiqué la nueva imagen en Docker Hub;cerrar;manual;
+¡Anotado! Seguimos hablando por la canal general;cerrar;manual;
+Cualquier otra duda sobre la API me escrites;cerrar;manual;
+Excelente, gracias por el review;cerrar;manual;
+¡Chao, nos leemos al rato!;cerrar;manual;
+Quiero hablar con un agente humano;solicitar_agente;manual;AGENTE_HUMANO:agente
+Pásame con una persona, por favor;solicitar_agente;manual;AGENTE_HUMANO:persona
+Necesito hablar con un operador;solicitar_agente;manual;AGENTE_HUMANO:operador
+¿Me puedes transferir con un agente?;solicitar_agente;manual;AGENTE_HUMANO:agente
+Quiero que me atienda una persona real;solicitar_agente;manual;AGENTE_HUMANO:persona real
+Por favor, comunícame con soporte técnico humano;solicitar_agente;manual;AGENTE_HUMANO:soporte técnico
+El bot no resuelve mi duda, pásame con alguien;solicitar_agente;manual;AGENTE_HUMANO:alguien
+Necesito ayuda de un asesor en vivo;solicitar_agente;manual;AGENTE_HUMANO:asesor
+Atención con un representante, por favor;solicitar_agente;manual;AGENTE_HUMANO:representante
+Prefiero hablar con un técnico de carne y hueso;solicitar_agente;manual;AGENTE_HUMANO:técnico
+¿Hay algún operador disponible para atenderme?;solicitar_agente;manual;AGENTE_HUMANO:operador
+Transferir a un agente humano de soporte;solicitar_agente;manual;AGENTE_HUMANO:soporte
+Quiero hablar con un especialista en directo;solicitar_agente;manual;AGENTE_HUMANO:especialista
+Por favor, pásame con atención al cliente;solicitar_agente;manual;AGENTE_HUMANO:atención al cliente
+Necesito escalar este problema con una persona;solicitar_agente;manual;AGENTE_HUMANO:persona
+No quiero hablar con el bot, dame con un humano;solicitar_agente;manual;AGENTE_HUMANO:humano
+¿Puedo chatear con un operador real?;solicitar_agente;manual;AGENTE_HUMANO:operador real
+Comunícame con el equipo de soporte presencial;solicitar_agente;manual;AGENTE_HUMANO:soporte presencial
+Pásame con un asesor, por favor;solicitar_agente;manual;AGENTE_HUMANO:asesor
+Necesito asistencia humana inmediata;solicitar_agente;manual;AGENTE_HUMANO:asistencia
+Póngame con el departamento de calidad;contactar_humano;manual;DEPARTAMENTO:departamento de calidad
+Necesito hablar con el area de ventas;contactar_humano;manual;DEPARTAMENTO:area de ventas
+Quiero consultar con el departamento de marketing;contactar_humano;manual;DEPARTAMENTO:departamento de marketing
+Derivame al equipo de soporte tecnico;contactar_humano;manual;DEPARTAMENTO:equipo de soporte tecnico
+Quiero comunicarme con el departamento de compras;contactar_humano;manual;DEPARTAMENTO:departamento de compras
+Transferir con el area de recursos humanos;contactar_humano;manual;DEPARTAMENTO:area de recursos humanos
+Ponme con el departamento de logistica;contactar_humano;manual;DEPARTAMENTO:departamento de logistica
+Necesito hablar con el departamento de administracion;contactar_humano;manual;DEPARTAMENTO:departamento de administracion
+Derivame con el equipo de atencion al cliente;contactar_humano;manual;DEPARTAMENTO:equipo de atencion al cliente
+Transferirme al departamento de sistemas;contactar_humano;manual;DEPARTAMENTO:departamento de sistemas
+Ponme en contacto con el area de produccion;contactar_humano;manual;DEPARTAMENTO:area de produccion
+Quiero hablar con el departamento de finanzas;contactar_humano;manual;DEPARTAMENTO:departamento de finanzas
+Necesito comunicarme con el departamento de ventas;contactar_humano;manual;DEPARTAMENTO:departamento de ventas
+Derivame al area de calidad;contactar_humano;manual;DEPARTAMENTO:area de calidad
+Transferir con el departamento de ingenieria;contactar_humano;manual;DEPARTAMENTO:departamento de ingenieria
+Ponme con el equipo de desarrollo;contactar_humano;manual;DEPARTAMENTO:equipo de desarrollo
+Necesito hablar con el departamento de seguridad;contactar_humano;manual;DEPARTAMENTO:departamento de seguridad
+Quiero un tecnico en informatica;contactar_humano;manual;AGENTE_HUMANO:tecnico
+Necesito un asesor comercial;contactar_humano;manual;AGENTE_HUMANO:asesor comercial
+Puedes pasarme con un ingeniero;contactar_humano;manual;ACCION_TRANSFERENCIA:pasarme|AGENTE_HUMANO:ingeniero
+Quiero consultar con un abogado;contactar_humano;manual;AGENTE_HUMANO:abogado
+Necesito hablar con un contable;contactar_humano;manual;AGENTE_HUMANO:contable
+Pongame con un consultor financiero;contactar_humano;manual;ACCION_TRANSFERENCIA:Pongame|AGENTE_HUMANO:consultor financiero
+Quiero un agente de seguros;contactar_humano;manual;AGENTE_HUMANO:agente de seguros
+Necesito un especialista en sistemas;contactar_humano;manual;AGENTE_HUMANO:especialista en sistemas
+Pasame con un tecnico de redes;contactar_humano;manual;ACCION_TRANSFERENCIA:Pasame|AGENTE_HUMANO:tecnico de redes
+Quiero hablar con un asesor tecnico;contactar_humano;manual;AGENTE_HUMANO:asesor tecnico
+Necesito un ejecutivo de cuentas;contactar_humano;manual;AGENTE_HUMANO:ejecutivo de cuentas
+Ponme con un soporte especializado;contactar_humano;manual;ACCION_TRANSFERENCIA:Ponme|AGENTE_HUMANO:soporte especializado
+Derivar con un consultor de negocios;contactar_humano;manual;ACCION_TRANSFERENCIA:Derivar|AGENTE_HUMANO:consultor de negocios
+Adios, gracias por todo;cerrar;manual;
+¡Listo, ticket resuelto por aquí!;cerrar;manual;
+¡Mergeado y probado, mil gracias!;cerrar;manual;
+Revisado y funcionando, cualquier cosa me dices;cerrar;manual;
+Queda cerrado el hilo por mi parte, un saludo;cerrar;manual;
+Perfecto, quedo al tanto de los logs;cerrar;manual;
+Vale, lo reviso y te comento luego;cerrar;manual;
+Te aviso en cuanto esté la PR lista, un abrazo;cerrar;manual;
+Nos vemos en la daily de mañana, ¡buen trabajo!;cerrar;manual;
+Me meto a una reunión, luego seguimos;cerrar;manual;
+Desconecto por hoy, mañana le echamos un ojo;cerrar;manual;
+¡Venga, un saludo y gracias por la ayuda!;cerrar;manual;
+Pase el pipeline a staging, me aviso si falla;cerrar;manual;
+Aparcao, ya quedó arreglado ese bug;cerrar;manual;
+Todo OK de mi lado, que vaya bien la tarde;cerrar;manual;
+Ya publiqué la nueva imagen en Docker Hub;cerrar;manual;
+¡Anotado! Seguimos hablando por la canal general;cerrar;manual;
+Cualquier otra duda sobre la API me escribes;cerrar;manual;
+Excelente, gracias por el review;cerrar;manual;
+¡Chao, nos leemos al rato!;cerrar;manual;
+Hasta luego, chao;cerrar;manual;
+Me despido por hoy;cerrar;manual;
+Fin de la conversación, gracias;cerrar;manual;
+No necesito más ayuda por ahora;cerrar;manual;
+Val bien, gracias;cerrar;manual;
+Voy a cerrar esta ventana;cerrar;manual;
+Que tenga buen día;cerrar;manual;
+Muchas gracias, hasta otra;cerrar;manual;
+Eso es todo por hoy;cerrar;manual;
+Me despido de la atención;cerrar;manual;
+Hasta la próxima, gracias;cerrar;manual;
+Quedo a disposición para cualquier duda;cerrar;manual;
+Estoy a su disposición para más asuntos;cerrar;manual;
+Quedo a la espera de sus comentarios;cerrar;manual;
+Quedo a la espera de sus indicaciones;cerrar;manual;
+Gracias por su tiempo, hasta pronto;cerrar;manual;
+Fue un placer asistirle, hasta la próxima;cerrar;manual;
+Que tenga un excelente día;cerrar;manual;
+Hasta la próxima reunión;cerrar;manual;
+Que le vaya bien en sus gestiones;cerrar;manual;
+Adios, gracias por todo;cerrar;manual;
+¡Listo, ticket resuelto por aquí!;cerrar;manual;
+¡Mergeado y probado, mil gracias!;cerrar;manual;
+Revisado y funcionando, cualquier cosa me dices;cerrar;manual;
+Queda cerrado el hilo por mi parte, un saludo;cerrar;manual;
+Perfecto, quedo al tanto de los logs;cerrar;manual;
+Vale, lo reviso y te comento luego;cerrar;manual;
+Te aviso en cuanto esté la PR lista, un abrazo;cerrar;manual;
+Nos vemos en la daily de mañana, ¡buen trabajo!;cerrar;manual;
+Me meto a una reunión, luego seguimos;cerrar;manual;
+Desconecto por hoy, mañana le echamos un ojo;cerrar;manual;
+¡Venga, un saludo y gracias por la ayuda!;cerrar;manual;
+Pase el pipeline a staging, me aviso si falla;cerrar;manual;
+Aparcao, ya quedó arreglado ese bug;cerrar;manual;
+Todo OK de mi lado, que vaya bien la tarde;cerrar;manual;
+Ya publiqué la nueva imagen en Docker Hub;cerrar;manual;
+¡Anotado! Seguimos hablando por la canal general;cerrar;manual;
+Cualquier otra duda sobre la API me escrites;cerrar;manual;
+Excelente, gracias por el review;cerrar;manual;
+¡Chao, nos leemos al rato!;cerrar;manual;
+Hasta luego, chao;cerrar;manual;
+Me despido por hoy;cerrar;manual;
+Fin de la conversación, gracias;cerrar;manual;
+No necesito más ayuda por ahora;cerrar;manual;
+Val bien, gracias;cerrar;manual;
+Voy a cerrar esta ventana;cerrar;manual;
+Que tenga buen día;cerrar;manual;
+Muchas gracias, hasta otra;cerrar;manual;
+Eso es todo por hoy;cerrar;manual;
+Me despido de la atención;cerrar;manual;
+Hasta la próxima, gracias;cerrar;manual;
+Quedo a disposición para cualquier duda;cerrar;manual;
+Estoy a su disposición para más asuntos;cerrar;manual;
+Quedo a la espera de sus comentarios;cerrar;manual;
+Quedo a la espera de sus indicaciones;cerrar;manual;
+Gracias por su tiempo, hasta pronto;cerrar;manual;
+Fue un placer asistirle, hasta la próxima;cerrar;manual;
+Que tenga un excelente día;cerrar;manual;
+Hasta la próxima reunión;cerrar;manual;
+Que le vaya bien en sus gestiones;cerrar;manual;
 Quiero hablar con un agente;contactar_humano;manual;ACCION_TRANSFERENCIA:hablar|AGENTE_HUMANO:agente
 Pasame con un operador por favor;contactar_humano;manual;ACCION_TRANSFERENCIA:Pasame|AGENTE_HUMANO:operador
 Por favor ponme con una persona;contactar_humano;manual;ACCION_TRANSFERENCIA:ponme|AGENTE_HUMANO:persona
@@ -109,16 +393,9 @@ Como envian las alertas en el monitoreo constante;consulta_tecnica;manual;SERVIC
 Cual es el informe final de la prueba de penetracion;consulta_tecnica;manual;SERVICIO:prueba de penetracion
 El backup diario guarda copias por cuanto tiempo;consulta_tecnica;manual;SERVICIO:backup diario
 Es compatible el modulo de inventario con mi software actual;consulta_tecnica;manual;SERVICIO:modulo de inventario
-Eso es todo por hoy muchas gracias;cerrar;manual;FINAL:todo por hoy
-Hasta luego que tengas buen dia;cerrar;manual;FINAL:hasta luego
-Ya no necesito nada mas me despido;cerrar;manual;FINAL:nada mas
 Terminamos la consulta gracias por todo;cerrar;manual;FINAL:Terminamos
 Podemos dar por finalizada la sesion;cerrar;manual;FINAL:finalizada
-Perfecto chau nos vemos;cerrar;manual;CONFIRMACION:Perfecto|FINAL:chau
 Listo todo claro cierro el chat;cerrar;manual;CONFIRMACION:Listo|FINAL:cierro el chat
-Gracias ya me puedo retirar;cerrar;manual;FINAL:retirar
-Adios que pases buena tarde;cerrar;manual;FINAL:Adios
-Con esto concluyo mi consulta hasta otra;cerrar;manual;FINAL:concluyo
 Muchas gracias nos vemos pronto;cerrar;manual;FINAL:nos vemos pronto
 Ya respondiste mi duda me desconecto;cerrar;manual;FINAL:me desconecto
 Es todo por mi parte feliz dia;cerrar;manual;FINAL:todo por mi parte
@@ -172,11 +449,9 @@ Quiero hablar con un agente de inmediato;contactar_humano;manual;ACCION_TRANSFER
 Pasame con un operador del centro de soporte;contactar_humano;manual;ACCION_TRANSFERENCIA:Pasame|AGENTE_HUMANO:operador|DEPARTAMENTO:soporte
 Por favor ponme con una persona real;contactar_humano;manual;ACCION_TRANSFERENCIA:ponme|AGENTE_HUMANO:persona
 Prefiero que me atienda un humano por favor;contactar_humano;manual;AGENTE_HUMANO:humano
-Me puedes transferir con atencion al cliente;contactar_humano;manual;ACCION_TRANSFERENCIA:transferir|DEPARTAMENTO:atencion al cliente
 Necesito asistencia humana para resolver esto;contactar_humano;manual;AGENTE_HUMANO:asistencia humana
 Hay algun soporte humano que me pueda orientar;contactar_humano;manual;AGENTE_HUMANO:soporte humano
 Transferirme con un representante del departamento tecnico;contactar_humano;manual;ACCION_TRANSFERENCIA:Transferirme|AGENTE_HUMANO:representante|DEPARTAMENTO:departamento tecnico
-No quiero hablar con un bot pasame con alguien;contactar_humano;manual;ACCION_TRANSFERENCIA:pasame|AGENTE_HUMANO:alguien
 Atiendeme con una persona de soporte;contactar_humano;manual;AGENTE_HUMANO:persona|DEPARTAMENTO:soporte
 Solicito ser atendido por un ejecutivo de ventas;contactar_humano;manual;AGENTE_HUMANO:ejecutivo|DEPARTAMENTO:ventas
 Comunicate con un operador humano inmediatamente;contactar_humano;manual;AGENTE_HUMANO:operador humano

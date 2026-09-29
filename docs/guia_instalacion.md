@@ -23,8 +23,8 @@ Este documento es la guía para instalar todo lo necesario para hacer funcionar 
 
 ## 7. Generar el modelo spaCy
 - python manage.py generar_nlp
-- python -m spacy init config config.cfg --lang es --pipeline ner,textcat_multilabel --optimize accuracy
-- python -m spacy train ./entrenamiento/spacy/config.cfg --output ./modelo --paths.train ./entrenamiento/spacy/train.spacy --paths.dev ./entrenamiento/spacy/dev.spacy
+- python -m spacy init config entrenamiento/spacy/config.cfg --lang es --pipeline ner,textcat --optimize accuracy
+- python -m spacy train ./entrenamiento/spacy/config.cfg --output ./entrenamiento/spacy/modelo --paths.train ./entrenamiento/spacy/train.spacy --paths.dev ./entrenamiento/spacy/dev.spacy
 
 ## 8. Installar y configurar Ollama
 - ollama pull llama3.2

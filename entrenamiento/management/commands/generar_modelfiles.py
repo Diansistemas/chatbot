@@ -3,16 +3,9 @@ import subprocess
 from pathlib import Path
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from core.acceso import nombre_modelo, dominios_desde_settings
+from core.acceso import nombre_modelo, dominios_desde_settings, MAPEO_INTENCION_MODELO
 
 from entrenamiento.models import EjemploLLM
-
-# Que intenciones reconocemos en el modelo
-TIPO_INTENCION = {
-    "compra": "compra",
-    "consulta_tecnica": "consulta",
-    "sin_clasificar": "otro",
-}
 
 # Carpeta donde tenemos los Modelfile.*
 LLMS_DIR = Path(settings.BASE_DIR) / "entrenamiento" / "llms"
@@ -113,10 +106,19 @@ class Command(BaseCommand):
                 ))
  
         for dominio in dominios:
-            for tipo, intencion in TIPO_INTENCION.items():
-                ok = self.generar_modelfile(intencion, dominio, solo_manual=options["solo_manual"])
+            # Agrupamos las intenciones por etiqueta de modelo: varias
+            # intenciones (confirmacion, cerrar...) comparten la etiqueta
+            # "otro", y si generamos un Modelfile por intencion la ultima
+            # sobrescribe a las anteriores. Asi el modelo recibe TODOS los
+            # ejemplos de las intenciones que lo componen.
+            por_etiqueta = {}
+            for intencion_bd, etiqueta in MAPEO_INTENCION_MODELO.items():
+                por_etiqueta.setdefault(etiqueta, []).append(intencion_bd)
+
+            for etiqueta, intenciones_bd in por_etiqueta.items():
+                ok = self.generar_modelfile(intenciones_bd, etiqueta, dominio, solo_manual=options["solo_manual"])
                 if ok and options["crear"]:
-                    self.crear_modelo_ollama(intencion, dominio)
+                    self.crear_modelo_ollama(etiqueta, dominio)
 
     #  Donde estan las cabezeras
     def ruta_cabecera(self, intencion, dominio):
@@ -164,16 +166,17 @@ class Command(BaseCommand):
         return True
  
     # Pillamos los ejemplos para añadir al modelfile
-    def obtener_ejemplos(self, intencion, dominio, solo_manual):
+    # intenciones_bd: nombres de las intenciones en BD (p.ej. ["cerrar", "otro"])
+    def obtener_ejemplos(self, intenciones_bd, dominio, solo_manual):
         base = EjemploLLM.objects.filter(
-            mensaje_respuesta__intencion__nombre=intencion
+            mensaje_respuesta__intencion__nombre__in=intenciones_bd
         ).select_related("mensaje_respuesta")
         if solo_manual:
             base = base.filter(origen="manual")
- 
+
         if dominio is None:
             return list(base[:MAX_EJEMPLOS_POR_MODELO])
- 
+
         ejemplos_dominio = list(
             base.filter(
                 mensaje_respuesta__mensaje_usuario__conversacion__dominio=dominio
@@ -181,25 +184,27 @@ class Command(BaseCommand):
         )
         if ejemplos_dominio:
             return ejemplos_dominio
- 
+
         # El dominio todavia no tiene ejemplos propios usamos los generales para que el modelo del dominio no se quede vacio.
         self.stdout.write(self.style.WARNING(
-            f"[{dominio}] No tiene ejemplos propios para '{intencion}'; "
+            f"[{dominio}] No tiene ejemplos propios para '{', '.join(intenciones_bd)}'; "
             f"uso los ejemplos generales como semilla."
         ))
         return list(base[:MAX_EJEMPLOS_POR_MODELO])
  
     # Creamos el modelfile
-    def generar_modelfile(self, intencion, dominio, solo_manual):
-        cabecera = self.resolver_cabecera(intencion, dominio)
+    # intenciones_bd: para buscar ejemplos en BD; etiqueta: para cabecera, nombre de
+    # fichero y modelo de Ollama (compra/consulta/otro)
+    def generar_modelfile(self, intenciones_bd, etiqueta, dominio, solo_manual):
+        cabecera = self.resolver_cabecera(etiqueta, dominio)
         if cabecera is None:
             return False
- 
-        ejemplos = self.obtener_ejemplos(intencion, dominio, solo_manual)
- 
+
+        ejemplos = self.obtener_ejemplos(intenciones_bd, dominio, solo_manual)
+
         if not ejemplos:
             self.stdout.write(self.style.WARNING(
-                f"No hay ejemplos en BD (ni propios ni generales) para intencion='{intencion}' "
+                f"No hay ejemplos en BD (ni propios ni generales) para intencion='{', '.join(intenciones_bd)}' "
                 f"dominio='{dominio or 'default'}'. Se genera el Modelfile solo con la cabecera."
             ))
  
@@ -213,8 +218,8 @@ class Command(BaseCommand):
  
         contenido = cabecera.rstrip() + "\n\n" + "\n".join(bloques_message) + "\n"
  
-        etiqueta = dominio or "default"
-        salida_path = LLMS_DIR / f"Modelfile.{etiqueta}.{intencion}"
+        etiqueta_fichero = dominio or "default"
+        salida_path = LLMS_DIR / f"Modelfile.{etiqueta_fichero}.{etiqueta}"
         salida_path.write_text(contenido, encoding="utf-8")
  
         self.stdout.write(self.style.SUCCESS(
@@ -224,10 +229,9 @@ class Command(BaseCommand):
         return True
 
     # Creamos la instancia del modelo en ollama
-    def crear_modelo_ollama(self, intencion, dominio):
-        etiqueta = dominio or "default"
-        modelfile = LLMS_DIR / f"Modelfile.{etiqueta}.{intencion}"
-        modelo = nombre_modelo(intencion, dominio)
+    def crear_modelo_ollama(self, etiqueta, dominio):
+        modelfile = LLMS_DIR / f"Modelfile.{dominio or 'default'}.{etiqueta}"
+        modelo = nombre_modelo(etiqueta, dominio)
         self.stdout.write(f"Ejecutando: ollama create {modelo} -f {modelfile.name}")
         try:
             subprocess.run(

@@ -24,9 +24,7 @@ Reglas:
 
 MESSAGE user """Quiero revisar mi infraestructura"""
 MESSAGE assistant """Claro, este servicio cuesta 120.00 euros y tarda 3 dias"""
-MESSAGE user """Quiero revisar mi infraestructura"""
-MESSAGE assistant """Claro, este servicio cuesta 120.00 euros y tarda 3 dias"""
-MESSAGE user """Quiero revisar mi infraestructura"""
-MESSAGE assistant """Claro, este servicio cuesta 120.00 euros y tarda 3 dias"""
-MESSAGE user """Quiero revisar mi infraestructura"""
-MESSAGE assistant """Claro, este servicio cuesta 120.00 euros y tarda 3 dias"""
+MESSAGE user """Me interesa el plan de hosting"""
+MESSAGE assistant """Nuestro plan de hosting cuesta 45 euros al mes e incluye soporte 24/7"""
+MESSAGE user """Cuantos usuarios incluye la licencia"""
+MESSAGE assistant """La licencia basica incluye hasta 10 usuarios y cuesta 80 euros al mes"""

@@ -23,7 +23,7 @@ fi
 echo "==> [3/5] spaCy training data + config"
 SPACY_DIR=entrenamiento/spacy
 mkdir -p "$SPACY_DIR"
-if [ ! -d /app/modelo/model-best ] || [ "$FORCE_TRAIN" = "1" ]; then
+if [ ! -d "$SPACY_DIR/modelo/model-best" ] || [ "$FORCE_TRAIN" = "1" ]; then
   python manage.py generar_nlp
   if [ ! -f "$SPACY_DIR/config.cfg" ]; then
     python -m spacy init config "$SPACY_DIR/config.cfg" \
@@ -32,7 +32,7 @@ if [ ! -d /app/modelo/model-best ] || [ "$FORCE_TRAIN" = "1" ]; then
 
   echo "==> [4/5] spaCy training (can take a while the first time)"
   python -m spacy train "$SPACY_DIR/config.cfg" \
-    --output ./modelo \
+    --output "$SPACY_DIR/modelo" \
     --paths.train "$SPACY_DIR/train.spacy" \
     --paths.dev "$SPACY_DIR/dev.spacy"
 else

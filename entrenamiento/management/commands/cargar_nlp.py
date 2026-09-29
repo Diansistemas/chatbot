@@ -36,8 +36,8 @@ class Command(BaseCommand):
         # Guardamos todos los ejemplos juntos, el tratamiento para el doc va en en el generar_nlp
         with ruta.open(encoding="utf-8-sig") as f, transaction.atomic():
             for n_fila, fila in enumerate(csv.DictReader(f, delimiter=";"), start=2):
-                texto = fila["texto"].strip()
-                nombre_intencion = fila.get("intencion", "").strip()
+                texto = (fila.get("texto") or "").strip()
+                nombre_intencion = (fila.get("intencion") or "").strip()
                 intencion = None
                 if nombre_intencion:
                     intencion = cache_intenciones.get(nombre_intencion)
@@ -45,16 +45,16 @@ class Command(BaseCommand):
                         self.stderr.write(self.style.WARNING(f"Fila {n_fila}: intencion '{nombre_intencion}' no existe, fila omitida"))
                         continue
 
-                if not texto or (not intencion and not fila.get("entidades", "").strip()):
+                if not texto or (not intencion and not (fila.get("entidades") or "").strip()):
                     self.stderr.write(self.style.WARNING(f"Fila {n_fila}: sin texto o sin intencion ni entidades, omitida"))
                     continue
                 
                 ejemplo = EjemploNLP.objects.create(
                     texto=texto, intencion=intencion,
-                    origen=fila.get("origen", "manual").strip() or "manual",
+                    origen=(fila.get("origen") or "").strip() or "manual",
                 )
 
-                for entrada in fila.get("entidades", "").split("|"):
+                for entrada in (fila.get("entidades") or "").split("|"):
                     entrada = entrada.strip()
                     if not entrada:
                         continue

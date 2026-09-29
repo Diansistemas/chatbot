@@ -4,19 +4,21 @@ __pycache__/
 
 # Virtual Environment
 venv/
+.venv/
 
 # IDEs y Editores
 .vscode/
 .idea/
 
-# Configuración y Variables de Entorno
+# Configuracion y Variables de Entorno
 .env
 
 # Archivos de Medios y Logs
 media/
+logs/
 *.log
 db.sqlite3
 
 # Modelos y Entrenamientos de spaCy
 modelo/
-entrenamiento/
+entrenamiento/spacy/

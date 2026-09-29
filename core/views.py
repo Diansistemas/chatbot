@@ -108,6 +108,7 @@ class ChatWidgetView(DominioPermitidoMixin, ListView):
             bienvenida = None
             if self.conversacion is None:
                 self.conversacion = Conversacion.objects.create()
+                logger.info("Nueva conversacion creada token=%s", self.conversacion.token)
                 mensaje_bienvenida = Mensaje.objects.create(
                     conversacion=self.conversacion,
                     texto="Hola, soy el asistente virtual de Dian Sistemas ¿que necesitas?",
@@ -172,6 +173,10 @@ class ChatWidgetView(DominioPermitidoMixin, ListView):
             #así el mensaje del usuario nunca se queda sin respuesta.
             try:
                 mensaje_bot = responder(mensaje_usuario)
+                logger.info(
+                    "Respuesta generada conv=%s mensaje_id=%s",
+                    self.conversacion.token, mensaje_usuario.pk,
+                )
             except Exception:
                 logger.exception("Error generando la respuesta del bot")
                 mensaje_bot = guardar_respuesta_bot(mensaje_usuario, "Hemos tenido un error")
