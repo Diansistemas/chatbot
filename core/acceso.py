@@ -12,6 +12,13 @@ _ESQUEMA_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*://")
 # Meter manualmente intenciones que consideremos oportunas con cada modelo
 # TODO: Comprobar que solo lo llamamos para los modelos de llm y no para detectar intenciones reales
 INTENCIONES_VALIDAS = {"compra", "consulta_tecnica", "otro"}
+
+# Mapeo de intención NLP -> nombre de modelo Ollama
+MODELO_POR_INTENCION = {
+    "compra": "compra",
+    "consulta_tecnica": "consulta",  # El modelo se llama "consulta"
+    "otro": "otro",
+}
  
 # Punto de aceso al modelo de spaCy
 # TODO: Limipiar cache antes de entrenar
@@ -32,12 +39,13 @@ def get_nlp():
 
 # Como nombramos al modelo
 def nombre_modelo(intencion="otro", dominio=None):
- 
+    # Mapear intención NLP a nombre de modelo Ollama
+    modelo_base = MODELO_POR_INTENCION.get(intencion, intencion)
+    
     if dominio and intencion in INTENCIONES_VALIDAS:
-        return f"chatbot-{dominio}-{intencion}"
- 
-    else:
-        return f"chatbot-{intencion}"
+        return f"chatbot-{dominio}-{modelo_base}"
+    
+    return f"chatbot-{modelo_base}"
  
 
 # Como llamamos al ollama
@@ -58,16 +66,30 @@ def llamar_llm(intencion, mensaje, historico, contexto, dominio=None):
         "role": "user",
         "content": f"{contexto}\n\n{mensaje}"
     }]
- 
-    modelo = nombre_modelo(intencion, dominio)
- 
-    try:
-        return _llamar_ollama_llm(modelo, mensajes)
-    except requests.HTTPError:
-        if not dominio:
-            raise
-        modelo_generico = nombre_modelo(intencion, None)
-        return _llamar_ollama_llm(modelo_generico, mensajes)
+
+    # Intentos en orden: dominio específico -> genérico -> fallback "otro"
+    intentos = []
+    if dominio and intencion in INTENCIONES_VALIDAS:
+        intentos.append(nombre_modelo(intencion, dominio))
+    if intencion in INTENCIONES_VALIDAS:
+        intentos.append(nombre_modelo(intencion, None))
+    # Fallback final al modelo "otro" si la intención no tiene modelo dedicado
+    if "otro" not in [m.split("-")[-1].split(":")[0] for m in intentos]:
+        intentos.append(nombre_modelo("otro", None))
+    # Último recurso: modelo base llama3.2
+    intentos.append("llama3.2")
+
+    for modelo in intentos:
+        try:
+            return _llamar_ollama_llm(modelo, mensajes)
+        except requests.HTTPError as e:
+            if e.response.status_code == 404:
+                continue  # Modelo no existe, probar siguiente
+            raise  # Otro error HTTP, relanzar
+        except Exception:
+            continue  # Timeout, connection error, etc. -> probar siguiente
+
+    raise RuntimeError(f"Ningun modelo LLM disponible para intencion '{intencion}'")
 
 # Tratamiento de nombres del domino
 def normalizar_dominio(host):

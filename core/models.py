@@ -73,12 +73,12 @@ def generar_pares_desde_conversacion(conversacion):
     # Por si acaso el analisis ha fallado y no tenemos una intencion
     intencion_otro = Intencion.objects.get(nombre="otro")
 
-    # Que par de mensaje
+    # Que par de mensaje - usar zip para evitar index out of range
     pares = []
-    for i in range(0, len(mensajes), 2):
-        mensaje_usuario = mensajes[i]
-        mensaje_chatbot = mensajes[i + 1]
-
+    usuarios = mensajes[::2]      # índices pares: 0, 2, 4...
+    chatbots = mensajes[1::2]     # índices impares: 1, 3, 5...
+    
+    for mensaje_usuario, mensaje_chatbot in zip(usuarios, chatbots):
         analisis = getattr(mensaje_usuario, "mensaje_analisis", None)
         intencion = analisis.intencion if (analisis and analisis.intencion) else intencion_otro
 

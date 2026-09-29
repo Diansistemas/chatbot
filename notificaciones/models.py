@@ -31,8 +31,9 @@ def clasificar_conversacion(conversacion):
     """
     Clasifica la conversación antes de generar el resumen.
     Usa el modelo spaCy entrenado para detectar intención de compra.
-    Retorna True si la intención principal es 'compra' o 'confirmacion',
-    False en otro caso (consulta_tecnica, contactar_humano, cerrar, otro).
+    Analiza CADA mensaje del CLIENTE individualmente y verifica si ALGUNO
+    tiene alta confianza en 'compra' o 'confirmacion'.
+    Retorna True si hay intención de compra, False en otro caso.
     Red de seguridad: si la conversación tiene Pedido asociado -> compra.
     """
     # Red de seguridad: si hay Pedido, es compra segura
@@ -47,33 +48,52 @@ def clasificar_conversacion(conversacion):
         if not hasattr(clasificar_conversacion, "_nlp"):
             clasificar_conversacion._nlp = spacy.load(settings.SPACY_MODEL_PATH)
         
-        texto = conversacion.transcripcion()
-        if not texto.strip():
+        # Analizar CADA mensaje del cliente individualmente
+        mensajes_cliente = conversacion.conversacion_mensajes.filter(remitente="usuario")
+        if not mensajes_cliente.exists():
             return False
         
-        doc = clasificar_conversacion._nlp(texto)
-        top_intencion = max(doc.cats, key=doc.cats.get)
-        confianza = doc.cats[top_intencion]
+        # Verificar si ALGÚN mensaje tiene intención compra/confirmacion con confianza >= 0.5
+        for mensaje in mensajes_cliente:
+            doc = clasificar_conversacion._nlp(mensaje.texto)
+            # Obtener confianza para compra y confirmacion
+            conf_compra = doc.cats.get("compra", 0.0)
+            conf_confirmacion = doc.cats.get("confirmacion", 0.0)
+            
+            if conf_compra >= 0.5 or conf_confirmacion >= 0.5:
+                top_intencion = "compra" if conf_compra >= conf_confirmacion else "confirmacion"
+                confianza = max(conf_compra, conf_confirmacion)
+                logger.debug(
+                    "Clasificación NLP conv %s (mensaje %s): %s (%.3f) -> COMPRA",
+                    conversacion.pk, mensaje.pk, top_intencion, confianza
+                )
+                return True
         
+        # Log del mensaje con mayor confianza en compra (para debug)
+        max_compra = max((clasificar_conversacion._nlp(m.texto).cats.get("compra", 0.0) 
+                         for m in mensajes_cliente), default=0.0)
+        max_confirm = max((clasificar_conversacion._nlp(m.texto).cats.get("confirmacion", 0.0) 
+                          for m in mensajes_cliente), default=0.0)
         logger.debug(
-            "Clasificación NLP conv %s: %s (%.3f)",
-            conversacion.pk, top_intencion, confianza
+            "Clasificación NLP conv %s: max compra=%.3f, max confirmacion=%.3f -> NO COMPRA",
+            conversacion.pk, max_compra, max_confirm
         )
         
-        # Compra o confirmación de compra -> enviar email
-        return top_intencion in ("compra", "confirmacion")
+        return False
         
     except Exception:
         logger.exception("Error en clasificación NLP, fallback a palabras clave")
         # Fallback a método anterior por si falla el modelo
-        texto = conversacion.transcripcion().lower()
+        # También usar solo mensajes del cliente en fallback
+        mensajes_cliente = conversacion.conversacion_mensajes.filter(remitente="usuario")
+        texto_cliente = " ".join(m.texto.lower() for m in mensajes_cliente)
         palabras_clave = [
             "compra", "presupuesto", "pedido", "servicio", "precio",
             "coste", "costo", "tarifa", "cuota", "reserva", "contratar",
             "cotización", "información sobre", "quiero", "necesito",
             "me gustaría", "disponible", "paquete"
         ]
-        score = sum(1 for p in palabras_clave if p in texto)
+        score = sum(1 for p in palabras_clave if p in texto_cliente)
         return score > 0
 
 
