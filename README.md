@@ -14,7 +14,9 @@ Chatbot con IA para uso comercial de Dian Sistemas
 - **Timer de inactividad frontend** — `static/js/inactividad.js`: reinicio en actividad, aviso a 4 min, cierre a 5 min, sincronizado con backend (410 Gone)
 - **Checklist en email** — El cuerpo del correo empieza con ✅ datos completos / ❌ faltan datos / ⏳ sin pedido
 - **Acceso directo al chat** — Permite abrir `/chat/` en navegador sin Referer (CSP `frame-ancestors` protege iframes)
-- **Entrenamiento NLP mejorado** — Reentrenado con casos "instalar/error" para corregir clasificación
+- **Entrenamiento NLP mejorado** — Reentrenado con casos "instalar/error", "contactar_humano", "confirmacion" para corregir clasificación
+- **Fallback LLM robusto** — Cadena de intentos: dominio específico → genérico → "otro" → llama3.2 (evita 404)
+- **Bug fixes** — Arreglado "list index out of range" en `generar_pares_desde_conversacion`
 
 ## Funciones no implementadas
 
@@ -22,12 +24,12 @@ Chatbot con IA para uso comercial de Dian Sistemas
 - **Servidor** — Hosteo del widget en un servidor
 - **Logger** — Mantener un log del funcionamiento de la aplicación
 
-## Flujo de notificaciones (nuevo)
+## Flujo de notificaciones
 
 1. Se cierra una conversación (botón, bot, o inactividad 5 min)
 2. Signal `post_save` en `Conversacion.estado="cerrada"`
-3. `clasificar_conversacion()` → keywords de compra
-4. Si **compra**: `crear_resumen()` → `enviar_resumen()` → email a admins
+3. `clasificar_conversacion()` → **modelo spaCy** (analiza solo mensajes del cliente)
+4. Si **compra/confirmacion**: `crear_resumen()` → `enviar_resumen()` → email a admins
 5. Si **no compra**: no hace nada
 6. Guardas: anti-duplicado (`resumenes.exists()`), solo en transición `estado`, `try/except` (SMTP caído no rompe cierre)
 
@@ -52,10 +54,10 @@ Este proyecto es una aplicación web de Django con la siguiente estructura:
 ## Tech Stack
 
 - **Backend:** Python, Django
-- **Database:** SQLite
+- **Database:** SQLite (producción: PostgreSQL recomendado)
 - **Frontend:** Bootstrap 5, JavaScript vanilla (ES6)
 - **NLP:** spaCy (textcat + tok2vec, vectors `es_core_news_lg`)
-- **LLM:** Ollama, Llama 3.2 (modelos por intención: `chatbot-compra`, `chatbot-consulta_tecnica`, `chatbot-otro`)
+- **LLM:** Ollama, Llama 3.2 (modelos por intención: `chatbot-compra`, `chatbot-consulta`, `chatbot-otro`)
 - **Email testing:** smtp4dev (SMTP 25, web UI puerto dinámico)
 
 ## Comandos útiles
@@ -89,6 +91,21 @@ python manage.py runserver 127.0.0.1:8000
 # Config .env: EMAIL_HOST=127.0.0.1, EMAIL_PORT=25, EMAIL_USE_TLS=False
 # RESUMEN_EMAIL_DESTINATARIOS=admin@diansistemas.com
 ```
+
+## Checklist producción (seguridad)
+
+Antes de desplegar a producción, revisar:
+
+- [ ] `DEBUG = False`
+- [ ] `SECRET_KEY` rotada y fuera de `.env` (gestor de secretos)
+- [ ] `ALLOWED_HOSTS = ['diansitemas.com', 'www.diansitemas.com']`
+- [ ] Cookies seguras: `SESSION_COOKIE_SECURE = True`, `CSRF_COOKIE_SECURE = True`, `CSRF_COOKIE_HTTPONLY = True`
+- [ ] HSTS: `SECURE_HSTS_SECONDS = 31536000`, `SECURE_HSTS_INCLUDE_SUBDOMAINS = True`, `SECURE_HSTS_PRELOAD = True`
+- [ ] PostgreSQL en lugar de SQLite
+- [ ] SMTP autenticado + TLS (`EMAIL_USE_TLS = True`)
+- [ ] Rate limiting en `/chat/`
+- [ ] Backups automatizados BD + test restore mensual
+- [ ] Monitoring (Sentry, Prometheus/Grafana)
 
 ## Créditos
 
