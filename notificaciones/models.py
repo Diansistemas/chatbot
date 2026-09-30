@@ -32,13 +32,26 @@ def clasificar_conversacion(conversacion):
     Clasifica la conversación antes de generar el resumen.
     Usa el modelo spaCy entrenado para detectar intención de compra.
     Analiza CADA mensaje del CLIENTE individualmente y verifica si ALGUNO
-    tiene alta confianza en 'compra' o 'confirmacion'.
+    tiene alta confianza en 'compra' o 'confirmacion' Y contiene palabras clave de compra.
     Retorna True si hay intención de compra, False en otro caso.
     Red de seguridad: si la conversación tiene Pedido asociado -> compra.
     """
     # Red de seguridad: si hay Pedido, es compra segura
     if conversacion.conversacion_pedido.exists():
         return True
+    
+    # Palabras clave que indican intención real de compra (no solo cortesía)
+    PALABRAS_COMPRA = {
+        "compra", "presupuesto", "pedido", "contratar", "precio", "coste",
+        "costo", "tarifa", "cuota", "reserva", "tarifa", "adquirir",
+        "comprar", "pagar", "facturar", "contratacion", "contratación",
+        "acepto", "confirmo", "confirmacion", "confirmación", "aceptar",
+        "quiero", "necesito", "interesa", "interesado", "quiero comprar",
+        "me interesa", "quiero contratar", "solicito", "solicitar",
+        "auditoria", "auditoría", "mantenimiento", "servicio", "pack",
+        "paquete", "plan", "anual", "mensual", "euros", "eur", "€",
+        "coste", "precio", "importe", "total"
+    }
     
     try:
         import spacy
@@ -53,23 +66,38 @@ def clasificar_conversacion(conversacion):
         if not mensajes_cliente.exists():
             return False
         
-        # Verificar si ALGÚN mensaje tiene intención compra/confirmacion con confianza >= 0.5
+        # Verificar si ALGÚN mensaje tiene intención compra/confirmacion con confianza >= 0.6
+        # Y contiene al menos una palabra clave de compra
         for mensaje in mensajes_cliente:
+            texto_lower = mensaje.texto.lower()
             doc = clasificar_conversacion._nlp(mensaje.texto)
+            
             # Obtener confianza para compra y confirmacion
             conf_compra = doc.cats.get("compra", 0.0)
             conf_confirmacion = doc.cats.get("confirmacion", 0.0)
             
-            if conf_compra >= 0.5 or conf_confirmacion >= 0.5:
+            # Verificar si el mensaje contiene palabras clave de compra
+            tiene_palabras_compra = any(p in texto_lower for p in PALABRAS_COMPRA)
+            
+            # Requiere: (confianza alta Y palabras clave) O confianza muy alta (>=0.9) para COMPRA
+            if (conf_compra >= 0.6 or conf_confirmacion >= 0.6) and tiene_palabras_compra:
                 top_intencion = "compra" if conf_compra >= conf_confirmacion else "confirmacion"
                 confianza = max(conf_compra, conf_confirmacion)
                 logger.debug(
-                    "Clasificación NLP conv %s (mensaje %s): %s (%.3f) -> COMPRA",
+                    "Clasificación NLP conv %s (mensaje %s): %s (%.3f) + keywords -> COMPRA",
                     conversacion.pk, mensaje.pk, top_intencion, confianza
                 )
                 return True
+            
+            # Confianza muy alta (>=0.9) SOLO para compra (no confirmacion, que da falsos positivos en mensajes corteses)
+            if conf_compra >= 0.9:
+                logger.debug(
+                    "Clasificación NLP conv %s (mensaje %s): compra (%.3f) muy alta -> COMPRA",
+                    conversacion.pk, mensaje.pk, conf_compra
+                )
+                return True
         
-        # Log del mensaje con mayor confianza en compra (para debug)
+        # Log para debug
         max_compra = max((clasificar_conversacion._nlp(m.texto).cats.get("compra", 0.0) 
                          for m in mensajes_cliente), default=0.0)
         max_confirm = max((clasificar_conversacion._nlp(m.texto).cats.get("confirmacion", 0.0) 
@@ -84,7 +112,6 @@ def clasificar_conversacion(conversacion):
     except Exception:
         logger.exception("Error en clasificación NLP, fallback a palabras clave")
         # Fallback a método anterior por si falla el modelo
-        # También usar solo mensajes del cliente en fallback
         mensajes_cliente = conversacion.conversacion_mensajes.filter(remitente="usuario")
         texto_cliente = " ".join(m.texto.lower() for m in mensajes_cliente)
         palabras_clave = [

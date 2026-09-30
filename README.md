@@ -92,6 +92,111 @@ python manage.py runserver 127.0.0.1:8000
 # RESUMEN_EMAIL_DESTINATARIOS=admin@diansistemas.com
 ```
 
+## Instalación con Docker (Recomendado para producción)
+
+El proyecto incluye `Dockerfile` y `docker-compose.yml` listos para usar. El contenedor `setup` ejecuta automáticamente migraciones, carga de datos, entrenamiento spaCy y creación de modelos Ollama al primer inicio.
+
+### Instalación rápida con Docker
+
+```bash
+# 1. Clonar repositorio
+git clone https://github.com/josecursoprogramacion-coder/Chatbot.git
+cd Chatbot
+
+# 2. Configurar variables de entorno
+cp .env.example .env  # Editar con tus valores reales
+
+# 3. Levantar todo (build + setup + web + ollama)
+docker compose up -d
+
+# 4. Verificar logs del setup (migraciones, datos, entrenamiento spaCy, modelos Ollama)
+docker compose logs -f setup
+
+# Una vez setup termine (Exit 0), la web estará disponible en:
+# http://localhost:8000/chat/
+# http://localhost:8000/admin/
+```
+
+### Servicios incluidos en docker-compose.yml
+
+| Servicio | Descripción |
+|----------|-------------|
+| `setup` | Bootstrap: migraciones → carga datos → entrenamiento spaCy → modelos Ollama |
+| `web` | Aplicación Django (gunicorn, 2 workers, 4 threads, timeout 300s) |
+| `ollama` | Servidor Ollama para LLMs (con healthcheck) |
+| `ollama-init` | Descarga inicial de `llama3.2` |
+| `db` (profile: mysql) | MySQL 8.4 opcional (usa `--profile mysql`) |
+
+### Comandos Docker útiles
+
+```bash
+# Ver logs en tiempo real
+docker compose logs -f web
+
+# Ver logs del setup (bootstrap)
+docker compose logs -f setup
+
+# Parar servicios
+docker compose down
+
+# Reiniciar solo la web
+docker compose restart web
+
+# Rebuild completo (cambio en requirements.txt, Dockerfile, etc.)
+docker compose build --no-cache && docker compose up -d
+
+# Ver estado de contenedores
+docker compose ps
+
+# Entrar al contenedor web
+docker compose exec web bash
+
+# Ver logs de Ollama
+docker compose logs -f ollama
+
+# Usar MySQL en lugar de SQLite (requiere variables en .env)
+docker compose --profile mysql up -d
+```
+
+### Variables de entorno para Docker
+
+El archivo `.env` se pasa a todos los contenedores. Variables importantes:
+
+```bash
+# .env
+OLLAMA_HOST=http://ollama:11434    # En Docker usa el nombre del servicio, no localhost
+SQLITE_PATH=/data/db.sqlite3       # Ruta SQLite en volumen persistente
+# Para MySQL (profile mysql):
+DB_NAME=chatbot
+DB_USER=chatbot
+DB_PASSWORD=secreto
+DB_ROOT_PASSWORD=rootsecreto
+```
+
+### Volúmenes persistentes
+
+| Volumen | Contenido |
+|---------|-----------|
+| `app_data` | SQLite (`/data/db.sqlite3`) + marker `.data_loaded` |
+| `spacy_model` | Modelo spaCy entrenado (`/app/entrenamiento/spacy/modelo`) |
+| `ollama_data` | Modelos Ollama descargados (`/root/.ollama`) |
+| `mysql_data` | Datos MySQL (solo con `--profile mysql`) |
+
+### Forzar re-entrenamiento o recarga de datos
+
+```bash
+# Forzar re-importación de datos iniciales
+docker compose run --rm -e FORCE_RELOAD=1 setup
+
+# Forzar re-entrenamiento spaCy
+docker compose run --rm -e FORCE_TRAIN=1 setup
+
+# Ambos a la vez
+docker compose run --rm -e FORCE_RELOAD=1 -e FORCE_TRAIN=1 setup
+```
+
+---
+
 ## Checklist producción (seguridad)
 
 Antes de desplegar a producción, revisar:
