@@ -203,77 +203,7 @@ Quiero hablar con un asesor tecnico;contactar_humano;manual;AGENTE_HUMANO:asesor
 Necesito un ejecutivo de cuentas;contactar_humano;manual;AGENTE_HUMANO:ejecutivo de cuentas
 Ponme con un soporte especializado;contactar_humano;manual;ACCION_TRANSFERENCIA:Ponme|AGENTE_HUMANO:soporte especializado
 Derivar con un consultor de negocios;contactar_humano;manual;ACCION_TRANSFERENCIA:Derivar|AGENTE_HUMANO:consultor de negocios
-Adios, gracias por todo;cerrar;manual;
-¡Listo, ticket resuelto por aquí!;cerrar;manual;
-¡Mergeado y probado, mil gracias!;cerrar;manual;
-Revisado y funcionando, cualquier cosa me dices;cerrar;manual;
-Queda cerrado el hilo por mi parte, un saludo;cerrar;manual;
-Perfecto, quedo al tanto de los logs;cerrar;manual;
-Vale, lo reviso y te comento luego;cerrar;manual;
-Te aviso en cuanto esté la PR lista, un abrazo;cerrar;manual;
-Nos vemos en la daily de mañana, ¡buen trabajo!;cerrar;manual;
-Me meto a una reunión, luego seguimos;cerrar;manual;
-Desconecto por hoy, mañana le echamos un ojo;cerrar;manual;
-¡Venga, un saludo y gracias por la ayuda!;cerrar;manual;
-Pase el pipeline a staging, me aviso si falla;cerrar;manual;
-Aparcao, ya quedó arreglado ese bug;cerrar;manual;
-Todo OK de mi lado, que vaya bien la tarde;cerrar;manual;
-Ya publiqué la nueva imagen en Docker Hub;cerrar;manual;
-¡Anotado! Seguimos hablando por la canal general;cerrar;manual;
 Cualquier otra duda sobre la API me escribes;cerrar;manual;
-Excelente, gracias por el review;cerrar;manual;
-¡Chao, nos leemos al rato!;cerrar;manual;
-Hasta luego, chao;cerrar;manual;
-Me despido por hoy;cerrar;manual;
-Fin de la conversación, gracias;cerrar;manual;
-No necesito más ayuda por ahora;cerrar;manual;
-Val bien, gracias;cerrar;manual;
-Voy a cerrar esta ventana;cerrar;manual;
-Que tenga buen día;cerrar;manual;
-Muchas gracias, hasta otra;cerrar;manual;
-Eso es todo por hoy;cerrar;manual;
-Me despido de la atención;cerrar;manual;
-Hasta la próxima, gracias;cerrar;manual;
-Quedo a disposición para cualquier duda;cerrar;manual;
-Estoy a su disposición para más asuntos;cerrar;manual;
-Quedo a la espera de sus comentarios;cerrar;manual;
-Quedo a la espera de sus indicaciones;cerrar;manual;
-Gracias por su tiempo, hasta pronto;cerrar;manual;
-Fue un placer asistirle, hasta la próxima;cerrar;manual;
-Que tenga un excelente día;cerrar;manual;
-Hasta la próxima reunión;cerrar;manual;
-Que le vaya bien en sus gestiones;cerrar;manual;
-Adios, gracias por todo;cerrar;manual;
-¡Listo, ticket resuelto por aquí!;cerrar;manual;
-¡Mergeado y probado, mil gracias!;cerrar;manual;
-Revisado y funcionando, cualquier cosa me dices;cerrar;manual;
-Queda cerrado el hilo por mi parte, un saludo;cerrar;manual;
-Perfecto, quedo al tanto de los logs;cerrar;manual;
-Vale, lo reviso y te comento luego;cerrar;manual;
-Te aviso en cuanto esté la PR lista, un abrazo;cerrar;manual;
-Nos vemos en la daily de mañana, ¡buen trabajo!;cerrar;manual;
-Me meto a una reunión, luego seguimos;cerrar;manual;
-Desconecto por hoy, mañana le echamos un ojo;cerrar;manual;
-¡Venga, un saludo y gracias por la ayuda!;cerrar;manual;
-Pase el pipeline a staging, me aviso si falla;cerrar;manual;
-Aparcao, ya quedó arreglado ese bug;cerrar;manual;
-Todo OK de mi lado, que vaya bien la tarde;cerrar;manual;
-Ya publiqué la nueva imagen en Docker Hub;cerrar;manual;
-¡Anotado! Seguimos hablando por la canal general;cerrar;manual;
-Cualquier otra duda sobre la API me escrites;cerrar;manual;
-Excelente, gracias por el review;cerrar;manual;
-¡Chao, nos leemos al rato!;cerrar;manual;
-Hasta luego, chao;cerrar;manual;
-Me despido por hoy;cerrar;manual;
-Fin de la conversación, gracias;cerrar;manual;
-No necesito más ayuda por ahora;cerrar;manual;
-Val bien, gracias;cerrar;manual;
-Voy a cerrar esta ventana;cerrar;manual;
-Que tenga buen día;cerrar;manual;
-Muchas gracias, hasta otra;cerrar;manual;
-Eso es todo por hoy;cerrar;manual;
-Me despido de la atención;cerrar;manual;
-Hasta la próxima, gracias;cerrar;manual;
 Quedo a disposición para cualquier duda;cerrar;manual;
 Estoy a su disposición para más asuntos;cerrar;manual;
 Quedo a la espera de sus comentarios;cerrar;manual;
@@ -303,16 +233,16 @@ Listo todo aclarado cierro el chat;cerrar;manual;CONFIRMACION:Listo|FINAL:cierro
 Gracias ya me puedo retirar;cerrar;manual;FINAL:retirar
 Adios que pases buena tarde;cerrar;manual;FINAL:Adios
 Con esto concluyo mi consulta hasta otra;cerrar;manual;FINAL:concluyo
-Quiero contratar la revision general por 120 euros;compra;manual;SERVICIO:revision general|PRECIO:120 euros
+Quiero contratar la revision general por 120 euros;compra;manual;PRECIO:120 euros|SERVICIO:revision general
 Deseo adquirir el mantenimiento anual;compra;manual;SERVICIO:mantenimiento anual
-Quiero comprar el paquete basico por 50 euros;compra;manual;SERVICIO:paquete basico|PRECIO:50 euros
+Quiero comprar el paquete basico por 50 euros;compra;manual;PRECIO:50 euros|SERVICIO:paquete basico
 Me interesa contratar el servicio tecnico urgente;compra;manual;SERVICIO:servicio tecnico urgente
-Quiero pagar la auditoria por 300 euros;compra;manual;SERVICIO:auditoria|PRECIO:300 euros
+Quiero pagar la auditoria por 300 euros;compra;manual;PRECIO:300 euros|SERVICIO:auditoria
 Cual es la duracion de la revision general;consulta_tecnica;manual;SERVICIO:revision general
 El mantenimiento anual incluye piezas de repuesto;consulta_tecnica;manual;SERVICIO:mantenimiento anual
-Que garantia tiene la auditoria de 300 euros;consulta_tecnica;manual;SERVICIO:auditoria|PRECIO:300 euros
+Que garantia tiene la auditoria de 300 euros;consulta_tecnica;manual;PRECIO:300 euros|SERVICIO:auditoria
 Como se realiza la configuracion inicial;consulta_tecnica;manual;SERVICIO:configuracion inicial
-El diagnostico por 80 euros incluye informe escrito;consulta_tecnica;manual;SERVICIO:diagnostico|PRECIO:80 euros
+El diagnostico por 80 euros incluye informe escrito;consulta_tecnica;manual;PRECIO:80 euros|SERVICIO:diagnostico
 Si estoy de acuerdo con el servicio;confirmacion;manual;CONFIRMACION:Si|SERVICIO:servicio
 Perfecto acepto el presupuesto de 150 euros;confirmacion;manual;CONFIRMACION:Perfecto|PRECIO:150 euros
 De acuerdo procedan con el pedido;confirmacion;manual;CONFIRMACION:De acuerdo
@@ -323,72 +253,72 @@ Cual es el horario de atencion;otro;manual;
 Aceptan pagos con tarjeta de credito;otro;manual;
 Tienen estacionamiento para clientes;otro;manual;
 A que correo puedo enviar una sugerencia;otro;manual;
-Deseo contratar el servicio de mantenimiento web por 200 euros;compra;manual;SERVICIO:mantenimiento web|PRECIO:200 euros
+Deseo contratar el servicio de mantenimiento web por 200 euros;compra;manual;PRECIO:200 euros|SERVICIO:mantenimiento web
 Quiero comprar el plan profesional;compra;manual;SERVICIO:plan profesional
-Me interesa adquirir la auditoria de seguridad por 450 euros;compra;manual;SERVICIO:auditoria de seguridad|PRECIO:450 euros
+Me interesa adquirir la auditoria de seguridad por 450 euros;compra;manual;PRECIO:450 euros|SERVICIO:auditoria de seguridad
 Quiero solicitar la instalacion del sistema;compra;manual;SERVICIO:instalacion del sistema
-Deseo contratar la revision preventiva por 90 euros;compra;manual;SERVICIO:revision preventiva|PRECIO:90 euros
-Quiero la suscripcion anual por 1200 euros;compra;manual;SERVICIO:suscripcion anual|PRECIO:1200 euros
+Deseo contratar la revision preventiva por 90 euros;compra;manual;PRECIO:90 euros|SERVICIO:revision preventiva
+Quiero la suscripcion anual por 1200 euros;compra;manual;PRECIO:1200 euros|SERVICIO:suscripcion anual
 Me gustaría adquirir el paquete de horas de soporte;compra;manual;SERVICIO:paquete de horas de soporte
-Quiero contratar la optimización SEO por 350 euros;compra;manual;SERVICIO:optimización SEO|PRECIO:350 euros
+Quiero contratar la optimización SEO por 350 euros;compra;manual;PRECIO:350 euros|SERVICIO:optimización SEO
 Deseo comprar la licencia corporativa;compra;manual;SERVICIO:licencia corporativa
-Quiero adquirir el soporte 24 horas por 500 euros;compra;manual;SERVICIO:soporte 24 horas|PRECIO:500 euros
-Quiero pedir el diagnostico de red por 75 euros;compra;manual;SERVICIO:diagnostico de red|PRECIO:75 euros
+Quiero adquirir el soporte 24 horas por 500 euros;compra;manual;PRECIO:500 euros|SERVICIO:soporte 24 horas
+Quiero pedir el diagnostico de red por 75 euros;compra;manual;PRECIO:75 euros|SERVICIO:diagnostico de red
 Me interesa contratar la migracion de servidor;compra;manual;SERVICIO:migracion de servidor
-Deseo adquirir el servicio de limpieza de virus por 60 euros;compra;manual;SERVICIO:limpieza de virus|PRECIO:60 euros
-Quiero la membresia VIP por 100 euros al mes;compra;manual;SERVICIO:membresia VIP|PRECIO:100 euros
+Deseo adquirir el servicio de limpieza de virus por 60 euros;compra;manual;PRECIO:60 euros|SERVICIO:limpieza de virus
+Quiero la membresia VIP por 100 euros al mes;compra;manual;PRECIO:100 euros|SERVICIO:membresia VIP
 Quiero comprar el modulo de facturacion;compra;manual;SERVICIO:modulo de facturacion
-Deseo contratar el respaldo en la nube por 150 euros;compra;manual;SERVICIO:respaldo en la nube|PRECIO:150 euros
+Deseo contratar el respaldo en la nube por 150 euros;compra;manual;PRECIO:150 euros|SERVICIO:respaldo en la nube
 Quiero adquirir el servicio de consultoria;compra;manual;SERVICIO:consultoria
-Me interesa comprar la garantia extendida por 80 euros;compra;manual;SERVICIO:garantia extendida|PRECIO:80 euros
+Me interesa comprar la garantia extendida por 80 euros;compra;manual;PRECIO:80 euros|SERVICIO:garantia extendida
 Quiero contratar la configuracion de firewall;compra;manual;SERVICIO:configuracion de firewall
-Deseo comprar el paquete de diseño por 600 euros;compra;manual;SERVICIO:paquete de diseño|PRECIO:600 euros
-Quiero la renovacion del dominio por 25 euros;compra;manual;SERVICIO:renovacion del dominio|PRECIO:25 euros
-Deseo adquirir la capacitacion de personal por 400 euros;compra;manual;SERVICIO:capacitacion de personal|PRECIO:400 euros
+Deseo comprar el paquete de diseño por 600 euros;compra;manual;PRECIO:600 euros|SERVICIO:paquete de diseño
+Quiero la renovacion del dominio por 25 euros;compra;manual;PRECIO:25 euros|SERVICIO:renovacion del dominio
+Deseo adquirir la capacitacion de personal por 400 euros;compra;manual;PRECIO:400 euros|SERVICIO:capacitacion de personal
 Quiero contratar el analisis de datos;compra;manual;SERVICIO:analisis de datos
-Me interesa comprar el certificado SSL por 40 euros;compra;manual;SERVICIO:certificado SSL|PRECIO:40 euros
-Quiero adquirir la integracion de API por 800 euros;compra;manual;SERVICIO:integracion de API|PRECIO:800 euros
+Me interesa comprar el certificado SSL por 40 euros;compra;manual;PRECIO:40 euros|SERVICIO:certificado SSL
+Quiero adquirir la integracion de API por 800 euros;compra;manual;PRECIO:800 euros|SERVICIO:integracion de API
 Deseo contratar la gestion de redes sociales;compra;manual;SERVICIO:gestion de redes sociales
-Quiero comprar la reparacion de equipo por 110 euros;compra;manual;SERVICIO:reparacion de equipo|PRECIO:110 euros
-Me interesa el plan básico por 30 euros;compra;manual;SERVICIO:plan básico|PRECIO:30 euros
+Quiero comprar la reparacion de equipo por 110 euros;compra;manual;PRECIO:110 euros|SERVICIO:reparacion de equipo
+Me interesa el plan básico por 30 euros;compra;manual;PRECIO:30 euros|SERVICIO:plan básico
 Quiero contratar el desarrollo a medida;compra;manual;SERVICIO:desarrollo a medida
-Deseo adquirir la plantilla premium por 95 euros;compra;manual;SERVICIO:plantilla premium|PRECIO:95 euros
-Quiero el pack de mantenimiento por 180 euros;compra;manual;SERVICIO:pack de mantenimiento|PRECIO:180 euros
+Deseo adquirir la plantilla premium por 95 euros;compra;manual;PRECIO:95 euros|SERVICIO:plantilla premium
+Quiero el pack de mantenimiento por 180 euros;compra;manual;PRECIO:180 euros|SERVICIO:pack de mantenimiento
 Quiero contratar el monitoreo constante;compra;manual;SERVICIO:monitoreo constante
-Deseo comprar la prueba de penetracion por 900 euros;compra;manual;SERVICIO:prueba de penetracion|PRECIO:900 euros
-Me interesa contratar el servicio de backup diario por 50 euros;compra;manual;SERVICIO:backup diario|PRECIO:50 euros
+Deseo comprar la prueba de penetracion por 900 euros;compra;manual;PRECIO:900 euros|SERVICIO:prueba de penetracion
+Me interesa contratar el servicio de backup diario por 50 euros;compra;manual;PRECIO:50 euros|SERVICIO:backup diario
 Quiero adquirir el modulo de inventario;compra;manual;SERVICIO:modulo de inventario
 Cual es la duracion del servicio de mantenimiento web;consulta_tecnica;manual;SERVICIO:mantenimiento web
-El plan profesional incluye certificado SSL;consulta_tecnica;manual;SERVICIO:plan profesional|SERVICIO:certificado SSL
-Que abarca la auditoria de seguridad de 450 euros;consulta_tecnica;manual;SERVICIO:auditoria de seguridad|PRECIO:450 euros
+El plan profesional incluye certificado SSL;consulta_tecnica;manual;SERVICIO:certificado SSL|SERVICIO:plan profesional
+Que abarca la auditoria de seguridad de 450 euros;consulta_tecnica;manual;PRECIO:450 euros|SERVICIO:auditoria de seguridad
 Cuanto tiempo tarda la instalacion del sistema;consulta_tecnica;manual;SERVICIO:instalacion del sistema
-Que herramientas usan en la revision preventiva por 90 euros;consulta_tecnica;manual;SERVICIO:revision preventiva|PRECIO:90 euros
-La suscripcion anual de 1200 euros permite pagos mensuales;consulta_tecnica;manual;SERVICIO:suscripcion anual|PRECIO:1200 euros
+Que herramientas usan en la revision preventiva por 90 euros;consulta_tecnica;manual;PRECIO:90 euros|SERVICIO:revision preventiva
+La suscripcion anual de 1200 euros permite pagos mensuales;consulta_tecnica;manual;PRECIO:1200 euros|SERVICIO:suscripcion anual
 Cuantas horas incluye el paquete de horas de soporte;consulta_tecnica;manual;SERVICIO:paquete de horas de soporte
 Que estrategias incluye la optimizacion SEO;consulta_tecnica;manual;SERVICIO:optimizacion SEO
 Cual es el limite de usuarios en la licencia corporativa;consulta_tecnica;manual;SERVICIO:licencia corporativa
 El soporte 24 horas responde por telefono;consulta_tecnica;manual;SERVICIO:soporte 24 horas
-En que consiste el diagnostico de red de 75 euros;consulta_tecnica;manual;SERVICIO:diagnostico de red|PRECIO:75 euros
+En que consiste el diagnostico de red de 75 euros;consulta_tecnica;manual;PRECIO:75 euros|SERVICIO:diagnostico de red
 La migracion de servidor causa interrupciones en la pagina;consulta_tecnica;manual;SERVICIO:migracion de servidor
-La limpieza de virus por 60 euros recupera mis archivos;consulta_tecnica;manual;SERVICIO:limpieza de virus|PRECIO:60 euros
+La limpieza de virus por 60 euros recupera mis archivos;consulta_tecnica;manual;PRECIO:60 euros|SERVICIO:limpieza de virus
 Que beneficios adicionales tiene la membresia VIP;consulta_tecnica;manual;SERVICIO:membresia VIP
 El modulo de facturacion se integra con bancos;consulta_tecnica;manual;SERVICIO:modulo de facturacion
-Cuanta capacidad tiene el respaldo en la nube de 150 euros;consulta_tecnica;manual;SERVICIO:respaldo en la nube|PRECIO:150 euros
+Cuanta capacidad tiene el respaldo en la nube de 150 euros;consulta_tecnica;manual;PRECIO:150 euros|SERVICIO:respaldo en la nube
 La consultoria puede ser en modalidad presencial;consulta_tecnica;manual;SERVICIO:consultoria
-Que cubre la garantia extendida por 80 euros;consulta_tecnica;manual;SERVICIO:garantia extendida|PRECIO:80 euros
+Que cubre la garantia extendida por 80 euros;consulta_tecnica;manual;PRECIO:80 euros|SERVICIO:garantia extendida
 El firewall incluye proteccion contra ataques DDoS;consulta_tecnica;manual;SERVICIO:firewall
 Cuantas revisiones incluye el paquete de diseño;consulta_tecnica;manual;SERVICIO:paquete de diseño
-El dominio por 25 euros incluye cuentas de correo;consulta_tecnica;manual;SERVICIO:dominio|PRECIO:25 euros
+El dominio por 25 euros incluye cuentas de correo;consulta_tecnica;manual;PRECIO:25 euros|SERVICIO:dominio
 Cuantas personas pueden estar en la capacitacion de personal;consulta_tecnica;manual;SERVICIO:capacitacion de personal
 Que tecnologias usan para el analisis de datos;consulta_tecnica;manual;SERVICIO:analisis de datos
-El certificado SSL de 40 euros es valido por un año;consulta_tecnica;manual;SERVICIO:certificado SSL|PRECIO:40 euros
-Cuanto demora la integracion de API de 800 euros;consulta_tecnica;manual;SERVICIO:integracion de API|PRECIO:800 euros
+El certificado SSL de 40 euros es valido por un año;consulta_tecnica;manual;PRECIO:40 euros|SERVICIO:certificado SSL
+Cuanto demora la integracion de API de 800 euros;consulta_tecnica;manual;PRECIO:800 euros|SERVICIO:integracion de API
 Incluye publicaciones diarias la gestion de redes sociales;consulta_tecnica;manual;SERVICIO:gestion de redes sociales
 Que garantia tiene la reparacion de equipo;consulta_tecnica;manual;SERVICIO:reparacion de equipo
-El plan basico de 30 euros soporta multiples usuarios;consulta_tecnica;manual;SERVICIO:plan basico|PRECIO:30 euros
+El plan basico de 30 euros soporta multiples usuarios;consulta_tecnica;manual;PRECIO:30 euros|SERVICIO:plan basico
 Que lenguaje utilizan para el desarrollo a medida;consulta_tecnica;manual;SERVICIO:desarrollo a medida
 La plantilla premium incluye soporte tecnico;consulta_tecnica;manual;SERVICIO:plantilla premium
-Que tareas cubre el pack de mantenimiento de 180 euros;consulta_tecnica;manual;SERVICIO:pack de mantenimiento|PRECIO:180 euros
+Que tareas cubre el pack de mantenimiento de 180 euros;consulta_tecnica;manual;PRECIO:180 euros|SERVICIO:pack de mantenimiento
 Como envian las alertas en el monitoreo constante;consulta_tecnica;manual;SERVICIO:monitoreo constante
 Cual es el informe final de la prueba de penetracion;consulta_tecnica;manual;SERVICIO:prueba de penetracion
 El backup diario guarda copias por cuanto tiempo;consulta_tecnica;manual;SERVICIO:backup diario
@@ -620,3 +550,12 @@ Tengo que entregar el informe hoy;otro;manual;
 Mi jefe no me deja salir temprano;otro;manual;
 Estoy preparando una oposicion;otro;manual;
 Me mudare a otra ciudad el mes que viene;otro;manual;
+Cualquier cosa me escribes por aqui sin problema;cerrar;manual;
+Cualquier otra duda me la planteas sin miedo;cerrar;manual;
+Que le vaya bien, quedo a su disposicion;cerrar;manual;
+Nada mas por mi parte, un saludo cordial;cerrar;manual;
+Doy por finalizada la conversacion, gracias;cerrar;manual;
+Me voy por aqui, cualquier cosa me avisas;cerrar;manual;
+Por mi parte nada mas, que vaya bien;cerrar;manual;
+Cierro por aqui, gracias por la atencion;cerrar;manual;
+Todo listo de mi lado, hasta la proxima;cerrar;manual;
