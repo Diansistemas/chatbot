@@ -29,11 +29,11 @@ Confirmo que leerlo todo;confirmacion;manual;CONFIRMACION:leerlo todo
 Sí, soy el responsable;confirmacion;manual;CONFIRMACION:responsable
 Confirmo mi dirección y datos;confirmacion;manual;CONFIRMACION:dirección y datos
 Acepto las condiciones generales;confirmacion;manual;CONFIRMACION:condiciones generales
-Confirmo el presupuesto de 200 euros;confirmacion;manual;CONFIRMACION:presupuesto 200 euros
+Confirmo el presupuesto de 200 euros;confirmacion;manual;CONFIRMACION:presupuesto de 200 euros
 Sí, confirmo el servicio técnico;confirmacion;manual;CONFIRMACION:servicio técnico
 Estoy conforme con lo expuesto;confirmacion;manual;CONFIRMACION:conforme
 Confirmo la hora de la cita;confirmacion;manual;CONFIRMACION:hora de la cita
-Confirmo el domicilio de entrega;confirmacion;manual;CONFIRMACION:domicilio entrega
+Confirmo el domicilio de entrega;confirmacion;manual;CONFIRMACION:domicilio de entrega
 Estoy de acuerdo con el precio;confirmacion;manual;CONFIRMACION:precio
 ¿Cómo restablezco mi contraseña?;consulta_tecnica;manual;
 ¿Cuál es mi dirección IP pública?;consulta_tecnica;manual;
@@ -46,10 +46,10 @@ Mi equipo no enciende;consulta_tecnica;manual;SERVICIO:equipo
 No puedo acceder a la web;consulta_tecnica;manual;SERVICIO:web
 ¿Cómo actualizo los drivers?;consulta_tecnica;manual;SERVICIO:drivers
 ¿Por qué va lento mi equipo?;consulta_tecnica;manual;SERVICIO:equipo
-¿Cómo limpio el virus?;consulta_tecnica;manual;SERVICIO:seguridad
+¿Cómo limpio el virus?;consulta_tecnica;manual;SERVICIO:virus
 Quiero hablar con un asesor;contactar_humano;manual;ACCION_TRANSFERENCIA:hablar|AGENTE_HUMANO:asesor
 Necesito contactar con soporte técnico;contactar_humano;manual;ACCION_TRANSFERENCIA:soporte técnico
-Pásame con un supervisor;contactar_humano;manual;ACCION_TRANSFERENCIA:pasar|AGENTE_HUMANO:supervisor
+Pásame con un supervisor;contactar_humano;manual;ACCION_TRANSFERENCIA:Pásame|AGENTE_HUMANO:supervisor
 Quiero una reunión con el equipo;contactar_humano;manual;ACCION_TRANSFERENCIA:reunión
 Necesito hablar con ventas;contactar_humano;manual;ACCION_TRANSFERENCIA:ventas
 Quiero un gestor de cuenta personal;contactar_humano;manual;ACCION_TRANSFERENCIA:gestor
@@ -91,26 +91,26 @@ Contratar seguridad informática;compra;manual;SERVICIO:seguridad
 Necesito antivirus para empresa;compra;manual;SERVICIO:antivirus
 Quiero monitoreo de red;compra;manual;SERVICIO:monitoreo
 Necesito solución de disaster recovery;compra;manual;SERVICIO:recovery
-Confirmo todo lo dicho;confirmacion;manual;CONFIRMACION:confirmo
+Confirmo todo lo dicho;confirmacion;manual;CONFIRMACION:Confirmo
 Estoy totalmente de acuerdo;confirmacion;manual;CONFIRMACION:de acuerdo
 Confirmo mi identidad;confirmacion;manual;CONFIRMACION:identidad
 Acepto los términos completos;confirmacion;manual;CONFIRMACION:términos
-Confirmo la dirección de envío;confirmacion;manual;CONFIRMACION:dirección envío
+Confirmo la dirección de envío;confirmacion;manual;CONFIRMACION:dirección de envío
 Estoy conforme con el presupuesto;confirmacion;manual;CONFIRMACION:presupuesto
-Confirmo la fecha de instalación;confirmacion;manual;CONFIRMACION:fecha instalación
+Confirmo la fecha de instalación;confirmacion;manual;CONFIRMACION:fecha de instalación
 Acepto las condiciones legales;confirmacion;manual;CONFIRMACION:condiciones legales
 Confirmo los datos de facturación;confirmacion;manual;CONFIRMACION:facturación
 Sí, confirmo la suscripción;confirmacion;manual;CONFIRMACION:suscripción
 Estoy de acuerdo con la política;confirmacion;manual;CONFIRMACION:política
 ¿Cómo cambio mi plano?;consulta_tecnica;manual;
 ¿Cuál es mi velocidad real?;consulta_tecnica;manual;SERVICIO:velocidad
-No me funciona el printer;consulta_tecnica;manual;SERVICIO:impresora
+No me funciona el printer;consulta_tecnica;manual;SERVICIO:printer
 ¿Por qué se corta la conexión?;consulta_tecnica;manual;SERVICIO:conexión
 ¿Cómo resetear el equipo?;consulta_tecnica;manual;SERVICIO:equipo
 ¿Cuál es mi plan actual?;consulta_tecnica;manual;
 Necesito ayuda con el email;consulta_tecnica;manual;SERVICIO:email
 ¿Por qué va lento el móvil?;consulta_tecnica;manual;SERVICIO:móvil
-¿Cómo activo el servicio?;consulta_tecnica;manual;SERVICIO:activación
+¿Cómo activo el servicio?;consulta_tecnica;manual;SERVICIO:servicio
 ¿Cuándo es el mantenimiento?;consulta_tecnica;manual;
 Necesito desbloquear el router;consulta_tecnica;manual;SERVICIO:router
 Quiero hablar con el director;contactar_humano;manual;ACCION_TRANSFERENCIA:hablar|AGENTE_HUMANO:director
@@ -294,9 +294,9 @@ Transferirme con un representante por favor;contactar_humano;manual;ACCION_TRANS
 No quiero hablar con un bot pasame con alguien;contactar_humano;manual;ACCION_TRANSFERENCIA:pasame|AGENTE_HUMANO:alguien
 Atiendeme con una persona del equipo;contactar_humano;manual;AGENTE_HUMANO:persona
 Eso es todo por hoy muchas gracias;cerrar;manual;FINAL:todo por hoy
-Hasta luego que tengas buen dia;cerrar;manual;FINAL:hasta luego
+Hasta luego que tengas buen dia;cerrar;manual;FINAL:Hasta luego
 Ya no necesito nada mas me despido;cerrar;manual;FINAL:nada mas
-Terminamos la consulta gracias por la ayuda;cerrar;manual;FINAL:terminamos
+Terminamos la consulta gracias por la ayuda;cerrar;manual;FINAL:Terminamos
 Podemos dar por finalizada la conversacion;cerrar;manual;FINAL:finalizada
 Perfecto chau nos vemos;cerrar;manual;CONFIRMACION:Perfecto|FINAL:chau
 Listo todo aclarado cierro el chat;cerrar;manual;CONFIRMACION:Listo|FINAL:cierro el chat
@@ -330,7 +330,7 @@ Quiero solicitar la instalacion del sistema;compra;manual;SERVICIO:instalacion d
 Deseo contratar la revision preventiva por 90 euros;compra;manual;SERVICIO:revision preventiva|PRECIO:90 euros
 Quiero la suscripcion anual por 1200 euros;compra;manual;SERVICIO:suscripcion anual|PRECIO:1200 euros
 Me gustaría adquirir el paquete de horas de soporte;compra;manual;SERVICIO:paquete de horas de soporte
-Quiero contratar la optimización SEO por 350 euros;compra;manual;SERVICIO:optimizacion SEO|PRECIO:350 euros
+Quiero contratar la optimización SEO por 350 euros;compra;manual;SERVICIO:optimización SEO|PRECIO:350 euros
 Deseo comprar la licencia corporativa;compra;manual;SERVICIO:licencia corporativa
 Quiero adquirir el soporte 24 horas por 500 euros;compra;manual;SERVICIO:soporte 24 horas|PRECIO:500 euros
 Quiero pedir el diagnostico de red por 75 euros;compra;manual;SERVICIO:diagnostico de red|PRECIO:75 euros
@@ -350,7 +350,7 @@ Me interesa comprar el certificado SSL por 40 euros;compra;manual;SERVICIO:certi
 Quiero adquirir la integracion de API por 800 euros;compra;manual;SERVICIO:integracion de API|PRECIO:800 euros
 Deseo contratar la gestion de redes sociales;compra;manual;SERVICIO:gestion de redes sociales
 Quiero comprar la reparacion de equipo por 110 euros;compra;manual;SERVICIO:reparacion de equipo|PRECIO:110 euros
-Me interesa el plan básico por 30 euros;compra;manual;SERVICIO:plan basico|PRECIO:30 euros
+Me interesa el plan básico por 30 euros;compra;manual;SERVICIO:plan básico|PRECIO:30 euros
 Quiero contratar el desarrollo a medida;compra;manual;SERVICIO:desarrollo a medida
 Deseo adquirir la plantilla premium por 95 euros;compra;manual;SERVICIO:plantilla premium|PRECIO:95 euros
 Quiero el pack de mantenimiento por 180 euros;compra;manual;SERVICIO:pack de mantenimiento|PRECIO:180 euros
@@ -376,9 +376,9 @@ El modulo de facturacion se integra con bancos;consulta_tecnica;manual;SERVICIO:
 Cuanta capacidad tiene el respaldo en la nube de 150 euros;consulta_tecnica;manual;SERVICIO:respaldo en la nube|PRECIO:150 euros
 La consultoria puede ser en modalidad presencial;consulta_tecnica;manual;SERVICIO:consultoria
 Que cubre la garantia extendida por 80 euros;consulta_tecnica;manual;SERVICIO:garantia extendida|PRECIO:80 euros
-El firewall incluye proteccion contra ataques DDoS;consulta_tecnica;manual;SERVICIO:configuracion de firewall
+El firewall incluye proteccion contra ataques DDoS;consulta_tecnica;manual;SERVICIO:firewall
 Cuantas revisiones incluye el paquete de diseño;consulta_tecnica;manual;SERVICIO:paquete de diseño
-El dominio por 25 euros incluye cuentas de correo;consulta_tecnica;manual;SERVICIO:renovacion del dominio|PRECIO:25 euros
+El dominio por 25 euros incluye cuentas de correo;consulta_tecnica;manual;SERVICIO:dominio|PRECIO:25 euros
 Cuantas personas pueden estar en la capacitacion de personal;consulta_tecnica;manual;SERVICIO:capacitacion de personal
 Que tecnologias usan para el analisis de datos;consulta_tecnica;manual;SERVICIO:analisis de datos
 El certificado SSL de 40 euros es valido por un año;consulta_tecnica;manual;SERVICIO:certificado SSL|PRECIO:40 euros
@@ -468,7 +468,7 @@ Conectame con un operador del area de pagos;contactar_humano;manual;ACCION_TRANS
 Exijo hablar con un representante de la empresa;contactar_humano;manual;ACCION_TRANSFERENCIA:hablar|AGENTE_HUMANO:representante
 Pasame con alguien del equipo de atencion;contactar_humano;manual;ACCION_TRANSFERENCIA:Pasame|AGENTE_HUMANO:alguien|DEPARTAMENTO:atencion
 Hay alguna persona libre para atender mi llamada;contactar_humano;manual;AGENTE_HUMANO:persona
-Pásame con una persona no entiendo las opciones;contactar_humano;manual;ACCION_TRANSFERENCIA:Pasame|AGENTE_HUMANO:persona
+Pásame con una persona no entiendo las opciones;contactar_humano;manual;ACCION_TRANSFERENCIA:Pásame|AGENTE_HUMANO:persona
 Deseo contactar con un agente del servicio oficial;contactar_humano;manual;ACCION_TRANSFERENCIA:contactar|AGENTE_HUMANO:agente
 Transferir a un operador por favor;contactar_humano;manual;ACCION_TRANSFERENCIA:Transferir|AGENTE_HUMANO:operador
 Necesto la intervencion de un asistente humano;contactar_humano;manual;AGENTE_HUMANO:asistente humano
