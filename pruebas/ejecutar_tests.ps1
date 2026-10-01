@@ -21,7 +21,7 @@ try {
     if (-not $SoloUnit) {
         Write-Host "`n=== TEST FUNCIONAL (HTTP + NLP + LLM + cierre/email) ===" -ForegroundColor Cyan
         Write-Host "(requiere Ollama en localhost:11434; ~90-120 s)"
-        python pruebas\test_funcional.py
+        python pruebas\funcional\test_funcional.py
         $func = $LASTEXITCODE
     } else { $func = 0 }
 
