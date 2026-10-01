@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 """
 Tests de funcionamiento: flujos completos de la aplicacion.
-Ejecuta: python pruebas/aplicacion/test_flujo.py   (o via: python manage.py test)
+Ejecuta: python manage.py test pruebas.aplicacion.test_flujo
+
+NOTA: hay que ejecutarlo con manage.py test; si se lanza el archivo
+directamente usa la BD de desarrollo y las intenciones ya existentes
+provocan "UNIQUE constraint failed: entrenamiento_intencion.nombre".
 
 Cobertura nueva (ademas de tests.py, test_views.py y test_comprehensive.py):
   * crear_pedido_si_completo: extraccion de datos del cliente y auto-pedido
@@ -190,7 +194,9 @@ class TestContactarHumano(BaseConServicio):
         conv = self.nueva_conversacion()
         conv.tenemosCompra = True
         conv.save(update_fields=["tenemosCompra"])
-        self.mensaje_usuario(conv, "Quiero contratar por 30 euros")
+        # Con email en el mensaje, el pedido auto-creado sale completo
+        # (presupuesto + contacto) y la derivacion no se queda sin datos.
+        self.mensaje_usuario(conv, "Quiero contratar por 30 euros, mi email es dian@dian.com")
         mensaje, analisis = self._mensaje_con_analisis(conv, "Pasame con un supervisor")
 
         respuesta = responder(mensaje, analisis=analisis)

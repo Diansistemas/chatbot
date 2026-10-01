@@ -1,10 +1,21 @@
-# Compara el modelo ACTUAL con el NUEVO en todas las pruebas del proyecto.
+# Compara el modelo ACTUAL con otro modelo en todas las pruebas del proyecto.
 # Sirve para decidir si merece la pena hacer el swap.
+#
+#   python pruebas/evaluacion/evaluar_modelos.py
+#   python pruebas/evaluacion/evaluar_modelos.py <ruta/al/modelo/candidato>
+#
+# Por defecto compara entrenamiento/spacy/modelo/model-best contra
+# entrenamiento/spacy/modelo_nuevo/model-best (solo existe tras un entrenamiento).
 import sys
+from pathlib import Path
+
 import spacy
 
-RUTA_ACTUAL = "entrenamiento/spacy/modelo/model-best"
-RUTA_NUEVO = "entrenamiento/spacy/modelo_nuevo/model-best"
+# Raiz del proyecto: pruebas/evaluacion/ -> raiz
+RAIZ = Path(__file__).resolve().parents[2]
+
+RUTA_ACTUAL = RAIZ / "entrenamiento/spacy/modelo/model-best"
+RUTA_NUEVO = Path(sys.argv[1]) if len(sys.argv) > 1 else RAIZ / "entrenamiento/spacy/modelo_nuevo/model-best"
 
 # (frase, intencion esperada)
 CASOS_INTENCION = [
@@ -53,7 +64,7 @@ def frases_del_csv():
     """Carga los textos de entrenamiento para poder descartar los casos memorizados."""
     import csv
     try:
-        with open("entrenamiento/datos/nlp_final.csv", encoding="utf-8-sig") as f:
+        with open(RAIZ / "entrenamiento/datos/nlp_final.csv", encoding="utf-8-sig") as f:
             return {(" ".join((r["texto"] or "").lower().split()))
                     for r in csv.DictReader(f, delimiter=";")}
     except OSError:
@@ -133,10 +144,12 @@ def main():
                                  "MANTENER ACTUAL" if total_n < total_a else "IGUAL"))
 
     texto = "\n".join(lineas)
-    with open("evaluacion_modelos.txt", "w", encoding="utf-8") as f:
+    salida = RAIZ / "pruebas/informes/evaluacion_modelos.txt"
+    salida.parent.mkdir(parents=True, exist_ok=True)
+    with open(salida, "w", encoding="utf-8") as f:
         f.write(texto + "\n")
     print(texto)
-    print("\nGuardado en evaluacion_modelos.txt")
+    print(f"\nGuardado en {salida.relative_to(RAIZ)}")
 
 
 if __name__ == "__main__":

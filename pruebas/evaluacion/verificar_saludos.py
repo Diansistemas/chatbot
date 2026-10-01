@@ -1,6 +1,15 @@
 # Verifica que los saludos ya NO se clasifican como compra
+# Ejecutar desde la raiz: python pruebas/evaluacion/verificar_saludos.py
 import os
+import sys
+from pathlib import Path
+
 import django
+
+# Raiz del proyecto: pruebas/evaluacion/ -> raiz
+RAIZ = Path(__file__).resolve().parents[2]
+
+sys.path.insert(0, str(RAIZ))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 django.setup()
 
@@ -46,7 +55,9 @@ for frase, esperada in CASOS:
         + ", ".join(f"{k}={v:.2f}" for k, v in sorted(doc.cats.items(), key=lambda kv: -kv[1])[:3])
     )
 
-with open("verificacion_saludos.txt", "w", encoding="utf-8") as f:
+salida_txt = RAIZ / "pruebas/informes/verificacion_saludos.txt"
+salida_txt.parent.mkdir(parents=True, exist_ok=True)
+with open(salida_txt, "w", encoding="utf-8") as f:
     f.write("\n".join(salida) + f"\n\nTOTAL: {pasados}/{len(CASOS)} pasados\n")
 
-print(f"TOTAL: {pasados}/{len(CASOS)} pasados -> verificacion_saludos.txt")
+print(f"TOTAL: {pasados}/{len(CASOS)} pasados -> {salida_txt.relative_to(RAIZ)}")
