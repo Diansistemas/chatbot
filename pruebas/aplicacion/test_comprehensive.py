@@ -17,7 +17,7 @@ import json
 from unittest.mock import patch, MagicMock
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 django.setup()
 
 from django.test import TestCase, Client, override_settings
@@ -246,7 +246,11 @@ class EmailTests(TestCase):
         from notificaciones.models import Resumen, _construir_cuerpo_email
         
         c = Conversacion.objects.create(dominio="test")
-        servicio = Servicio.objects.first()
+        # La BD de prueba arranca sin servicios: creamos uno si no existe
+        servicio = Servicio.objects.first() or Servicio.objects.create(
+            nombre="Servicio de prueba", descripcion="Servicio para tests",
+            coste=100, tiempo_aproximado=1,
+        )
         pedido = Pedido.objects.create(
             conversacion=c, nombre="Test", direccion="Dir",
             servicio=servicio, presupuesto=1000, forma_contacto="test@test.com"
@@ -301,7 +305,11 @@ class DatabaseTests(TestCase):
         m = Mensaje.objects.create(conversacion=c, texto="Test", remitente="usuario")
         self.assertEqual(m.conversacion, c)
         
-        s = Servicio.objects.first()
+        # La BD de prueba arranca sin servicios: creamos uno si no existe
+        s = Servicio.objects.first() or Servicio.objects.create(
+            nombre="Servicio de prueba", descripcion="Servicio para tests",
+            coste=100, tiempo_aproximado=1,
+        )
         p = Pedido.objects.create(conversacion=c, nombre="Test", direccion="Dir", servicio=s, presupuesto=100, forma_contacto="test@test.com")
         self.assertEqual(p.conversacion, c)
         self.assertEqual(p.servicio, s)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 Tests de integración para las vistas web (ChatWidgetView)
-Ejecuta: python test_views.py
+Ejecuta: python pruebas/aplicacion/test_views.py
 """
 import os
 import sys
@@ -9,7 +9,7 @@ import django
 import json
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 django.setup()
 
 from django.test import TestCase, Client
@@ -172,7 +172,13 @@ class InactividadTests(TestCase):
 
 class SignalTests(TestCase):
     def setUp(self):
-        self.servicio = Servicio.objects.first()
+        # La BD de prueba arranca sin servicios: creamos uno si no existe
+        self.servicio = Servicio.objects.first() or Servicio.objects.create(
+            nombre="Servicio de prueba",
+            descripcion="Servicio para tests",
+            coste=100,
+            tiempo_aproximado=1,
+        )
         
     def test_signal_envia_email_al_cerrar_compra(self):
         from notificaciones.models import Resumen, enviar_resumen
@@ -275,8 +281,22 @@ class ManagementCommandTests(TestCase):
     def test_generar_nlp(self):
         from django.core.management import call_command
         from io import StringIO
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+        from unittest.mock import patch
+
+        from entrenamiento.models import EjemploNLP, Intencion
+
+        # La BD de prueba esta vacia: creamos una intencion activa y un ejemplo
+        intencion = Intencion.objects.create(nombre="saludo", activa=True)
+        EjemploNLP.objects.create(texto="Hola", intencion=intencion, origen="manual")
+
         out = StringIO()
-        call_command("generar_nlp", stdout=out)
+        # Los .spacy se generan en un temporal para no tocar los archivos reales
+        with TemporaryDirectory() as tmp, patch(
+            "entrenamiento.management.commands.generar_nlp.SPACY_DIR", Path(tmp)
+        ):
+            call_command("generar_nlp", stdout=out)
         output = out.getvalue()
         self.assertIn("train.spacy", output)
         self.assertIn("dev.spacy", output)

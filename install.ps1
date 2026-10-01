@@ -1,4 +1,4 @@
-<# 
+﻿<# 
 .SYNOPSIS
     Instalador automático del Chatbot DianSistemas para Windows
 .DESCRIPTION
@@ -89,41 +89,19 @@ $pip = ".\venv\Scripts\pip.exe"
 & $pip install -r requirements.txt
 Write-Host "  ✓ Dependencias instaladas" -ForegroundColor Green
 
-# Verificar/crear .env
-Write-Host "`n[5/8] Configurando variables de entorno..." -ForegroundColor Yellow
-if (-not (Test-Path ".env")) {
-    if (Test-Path ".env.example") {
-        Copy-Item ".env.example" ".env"
-        Write-Host "  ✓ .env creado desde .env.example" -ForegroundColor Green
-        Write-Host "  ⚠ IMPORTANTE: Edita .env con tus claves reales" -ForegroundColor Yellow
-    } else {
-        # Crear .env básico
-        @"
-# Django
-SECRET_KEY=django-insecure-cambia-esta-clave-en-produccion
-DEBUG=True
-
-# Dominios permitidos (para iframe embedding)
-DOMINIOS_PERMITIDOS=https://diansitemas.com, http://localhost:8000
-
-# Base de datos (SQLite por defecto)
-# DATABASE_URL=sqlite:///db.sqlite3
-
-# Ollama
-OLLAMA_HOST=http://localhost:11434
-
-# Email (smtp4dev local)
-EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-EMAIL_HOST=127.0.0.1
-EMAIL_PORT=25
-EMAIL_HOST_USER=
-EMAIL_HOST_PASSWORD=
-EMAIL_USE_TLS=False
-RESUMEN_EMAIL_DESTINATARIOS=admin@diansistemas.com
-"@ | Out-File -Encoding UTF8 ".env"
-        Write-Host "  ✓ .env creado con valores por defecto" -ForegroundColor Green
-        Write-Host "  ⚠ IMPORTANTE: Edita .env con tus claves reales" -ForegroundColor Yellow
+# Configurar .env con el asistente (va pidiendo los datos para configurarse)
+Write-Host "`n[5/8] Configurando variables de entorno (asistente interactivo)..." -ForegroundColor Yellow
+if (Test-Path "configurar_entorno.py") {
+    & $pythonExe configurar_entorno.py
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "  X Configuracion cancelada." -ForegroundColor Red
+        exit 1
     }
+    Write-Host "  + .env configurado con el asistente" -ForegroundColor Green
+} elseif (-not (Test-Path ".env") -and (Test-Path ".env.example")) {
+    # Respaldo: copia de la plantilla si no esta el asistente
+    Copy-Item ".env.example" ".env"
+    Write-Host "  + .env creado desde .env.example (editalo a mano)" -ForegroundColor Yellow
 } else {
     Write-Host "  .env ya existe" -ForegroundColor Yellow
 }
@@ -161,6 +139,13 @@ if (-not $SkipLlmLoad -and (Get-Command ollama -ErrorAction SilentlyContinue)) {
 if ($UseDocker) {
     Write-Host "`n[Docker] Construyendo imagen y levantando contenedores..." -ForegroundColor Yellow
     
+    # Puerto configurado en .env por el asistente (por defecto 8000)
+    $webPort = "8000"
+    if (Test-Path ".env") {
+        $m = Select-String -Path ".env" -Pattern '^WEB_PORT=(.+)' | Select-Object -First 1
+        if ($m) { $webPort = $m.Matches[0].Groups[1].Value.Trim() }
+    }
+    
     # Verificar Docker
     if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
         Write-Host "  ⚠ Docker no está instalado. Saltando opción Docker." -ForegroundColor Yellow
@@ -180,7 +165,7 @@ if ($UseDocker) {
         # Esperar a que setup termine (máx 5 min)
         $timeout = 300
         $start = Get-Date
-        while ((Get-Date) - $start).TotalSeconds -lt $timeout {
+        while (((Get-Date) - $start).TotalSeconds -lt $timeout) {
             $status = & $dc ps --format "table {{.Service}}\t{{.Status}}" | Where-Object { $_ -match "setup" }
             if ($status -and $status -match "Exited \(0\)") {
                 Write-Host "  ✓ Setup completado exitosamente" -ForegroundColor Green
@@ -192,7 +177,7 @@ if ($UseDocker) {
             Start-Sleep -Seconds 5
         }
         
-        Write-Host "  ✓ Docker levantado. Web en http://localhost:8000" -ForegroundColor Green
+        Write-Host "  ✓ Docker levantado. Web en http://localhost:$webPort" -ForegroundColor Green
         Write-Host "  Ver logs: $dc logs -f web" -ForegroundColor Gray
     }
 }
@@ -223,8 +208,8 @@ Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host ""
 if ($UseDocker) {
     Write-Host "Docker levantado. Servicios:" -ForegroundColor Yellow
-    Write-Host "  - Web: http://localhost:8000" -ForegroundColor White
-    Write-Host "  - Admin: http://localhost:8000/admin/" -ForegroundColor White
+    Write-Host "  - Web: http://localhost:$webPort" -ForegroundColor White
+    Write-Host "  - Admin: http://localhost:$webPort/admin/" -ForegroundColor White
     Write-Host "  - Ollama: http://localhost:11434" -ForegroundColor White
     Write-Host "" -ForegroundColor White
     Write-Host "Comandos útiles:" -ForegroundColor Yellow

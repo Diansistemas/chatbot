@@ -366,7 +366,7 @@ docker compose run --rm -e FORCE_TRAIN=1 setup
 ### Script de verificación (16 casos)
 
 ```bash
-python verificar_nlp.py entrenamiento/spacy/modelo/model-best
+python pruebas/evaluacion/verificar_nlp.py entrenamiento/spacy/modelo/model-best
 ```
 
 Casos de prueba:

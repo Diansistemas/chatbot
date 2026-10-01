@@ -1,4 +1,4 @@
-# Resumen Final - Tests Chatbot DianSistemas
+﻿# Resumen Final - Tests Chatbot DianSistemas
 
 ## Estado Final: ✅ COMPLETADO
 
@@ -112,13 +112,13 @@ Resultado: 14/16 aciertos (87.5%)
 ### Comandos de Ejecución
 ```bash
 # Suite completa
-.\venv\Scripts\python.exe test_suite.py
+.\venv\Scripts\python.exe pruebas\funcional\test_suite.py
 
 # Tests vistas
-.\venv\Scripts\python.exe test_views.py
+.\venv\Scripts\python.exe pruebas\aplicacion\test_views.py
 
 # Verificador NLP
-.\venv\Scripts\python.exe verificar_nlp.py .\entrenamiento\spacy\modelo\model-best
+.\venv\Scripts\python.exe pruebas\evaluacion\verificar_nlp.py .\entrenamiento\spacy\modelo\model-best
 
 # Tests individuales
 .\venv\Scripts\python.exe test_interaccion_normal.py

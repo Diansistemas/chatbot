@@ -8,7 +8,9 @@ x-app: &app
     SQLITE_PATH: /data/db.sqlite3
   volumes:
     - app_data:/data            # SQLite file + "data imported" marker
-    - spacy_model:/app/entrenamiento/spacy/modelo   # trained spaCy model
+    # Modelo spaCy: volumen con nombre (entrenado en el contenedor) o, si
+    # SPACY_MODEL_HOST_PATH apunta a una ruta en el host, esa carpeta
+    - ${SPACY_MODEL_HOST_PATH:-spacy_model}:/app/entrenamiento/spacy/modelo
 
 services:
   # 1) One-shot bootstrap: migrate -> import data -> train spaCy -> create Ollama models
@@ -32,7 +34,7 @@ services:
       <<: *app-env
       RUN_COLLECTSTATIC: "1"
     ports:
-      - "8000:8000"
+      - "${WEB_PORT:-8000}:8000"
     depends_on:
       setup:
         condition: service_completed_successfully
@@ -67,7 +69,7 @@ services:
         condition: service_healthy
     environment:
       OLLAMA_HOST: http://ollama:11434
-    entrypoint: ["ollama", "pull", "llama3.2"]
+    entrypoint: ["ollama", "pull", "${OLLAMA_MODEL_RESUMEN:-llama3.2}"]
     restart: "no"
 
   # Future: docker compose --profile mysql up -d

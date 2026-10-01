@@ -22,12 +22,24 @@ load_dotenv(BASE_DIR / '.env')
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+# (configurar_entorno.py la genera y la escribe en .env; el fallback solo
+#  evita que Django arranque con la clave vacia)
+SECRET_KEY = os.getenv('SECRET_KEY') or 'django-insecure-cambia-esta-clave-en-CONFIGURAR'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+# Ojo: getenv devuelve texto; "False" como texto seria cierto, hay que convertirlo
+DEBUG = os.getenv('DEBUG', 'False').strip().lower() in ('1', 'true', 'yes')
 
-ALLOWED_HOSTS = ['testserver', 'localhost', '127.0.0.1']
+# Hosts que puede servir: base de desarrollo/test + los declarados en .env
+ALLOWED_HOSTS = list(dict.fromkeys(
+    ['testserver', 'localhost', '127.0.0.1']
+    + [h.strip() for h in os.getenv('ALLOWED_HOSTS', '').split(',') if h.strip()]
+))
+
+# Origenes admitidos en peticiones cross-origin (widget embebido en otros sitios)
+CSRF_TRUSTED_ORIGINS = [
+    o.strip() for o in os.getenv('CSRF_TRUSTED_ORIGINS', '').split(',') if o.strip()
+]
 
 
 # Application definition
@@ -83,7 +95,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # En Docker, SQLITE_PATH=/data/db.sqlite3 apunta al volumen (persistencia)
+        'NAME': os.getenv('SQLITE_PATH') or (BASE_DIR / 'db.sqlite3'),
     }
 }
 
@@ -165,7 +178,11 @@ RESUMEN_EMAIL_DESTINATARIOS = [
     if email.strip()
 ]
 #Dominios que tienen permitido usar esa app
-DOMINIOS_PERMITIDOS = os.getenv('DOMINIOS_PERMITIDOS').split(",")
+DOMINIOS_PERMITIDOS = [
+    d.strip()
+    for d in os.getenv('DOMINIOS_PERMITIDOS', 'http://localhost:8000').split(',')
+    if d.strip()
+]
 
 #CONFIGURACIÓN JAZZMIN
 JAZZMIN_SETTINGS = {
@@ -261,9 +278,8 @@ JAZZMIN_UI_TWEAKS = {
     "theme": "lux", 
 }
 
-# Modelo_del resumen
-# No entrenamos los resumenes, es el modelo base
-OLLAMA_MODEL_RESUMEN = "llama3.2"
+# Modelo del resumen (configurable desde .env; docker-compose lo baja en el setup)
+OLLAMA_MODEL_RESUMEN = os.getenv('OLLAMA_MODEL_RESUMEN', 'llama3.2')
 
 # Logging de la aplicacion
 # - Consola: para desarrollo (runserver)
