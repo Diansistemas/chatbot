@@ -166,39 +166,20 @@ pip install --upgrade pip -q
 pip install -r requirements.txt
 log_ok "Dependencias instaladas"
 
-# Verificar/crear .env
-log_step 5 "Configurando variables de entorno..."
-if [ ! -f ".env" ]; then
-    if [ -f ".env.example" ]; then
-        cp ".env.example" ".env"
-        log_ok ".env creado desde .env.example"
-    else
-        cat > .env << 'EOF'
-# Django
-SECRET_KEY=django-insecure-cambia-esta-clave-en-produccion
-DEBUG=True
-
-# Dominios permitidos (para iframe embedding)
-DOMINIOS_PERMITIDOS=https://diansitemas.com, http://localhost:8000
-
-# Base de datos (SQLite por defecto)
-# DATABASE_URL=sqlite:///db.sqlite3
-
-# Ollama
-OLLAMA_HOST=http://localhost:11434
-
-# Email (smtp4dev local)
-EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
-EMAIL_HOST=127.0.0.1
-EMAIL_PORT=25
-EMAIL_HOST_USER=
-EMAIL_HOST_PASSWORD=
-EMAIL_USE_TLS=False
-RESUMEN_EMAIL_DESTINATARIOS=admin@diansistemas.com
-EOF
-        log_ok ".env creado con valores por defecto"
-    fi
-    log_warn "IMPORTANTE: Edita .env con tus claves reales"
+# Configurar .env con el asistente (va pidiendo los datos para configurarse)
+log_step 5 "Configurando variables de entorno (asistente interactivo)..."
+if command -v python3 &> /dev/null; then
+    PY=python3
+else
+    PY=python
+fi
+if [ -f "configurar_entorno.py" ]; then
+    $PY configurar_entorno.py || { log_error "Configuracion cancelada"; exit 1; }
+    log_ok ".env configurado con el asistente"
+elif [ ! -f ".env" ] && [ -f ".env.example" ]; then
+    # Respaldo: copia de la plantilla si no esta el asistente
+    cp ".env.example" ".env"
+    log_ok ".env creado desde .env.example (editalo a mano)"
 else
     log_warn ".env ya existe"
 fi
@@ -235,6 +216,10 @@ fi
 if [ "$USE_DOCKER" = true ]; then
     log_step 8 "Construyendo imagen y levantando contenedores con Docker..."
     
+    # Puerto configurado en .env por el asistente (por defecto 8000)
+    WEB_PORT=$(grep -E '^WEB_PORT=' .env 2>/dev/null | tail -n 1 | cut -d= -f2)
+    WEB_PORT=${WEB_PORT:-8000}
+    
     # Verificar Docker
     if ! command -v docker &> /dev/null; then
         log_warn "Docker no está instalado. Saltando opción Docker."
@@ -270,7 +255,7 @@ if [ "$USE_DOCKER" = true ]; then
             sleep 5
         done
         
-        log_ok "Docker levantado. Web en http://localhost:8000"
+        log_ok "Docker levantado. Web en http://localhost:$WEB_PORT"
         log_warn "Ver logs: $DC logs -f web"
     fi
 fi
@@ -292,8 +277,8 @@ echo -e "${CYAN}==========================================${NC}"
 echo ""
 if [ "$USE_DOCKER" = true ]; then
     echo -e "${YELLOW}Docker levantado. Servicios:${NC}"
-    echo -e "  - Web: ${GREEN}http://localhost:8000${NC}"
-    echo -e "  - Admin: ${GREEN}http://localhost:8000/admin/${NC}"
+    echo -e "  - Web: ${GREEN}http://localhost:$WEB_PORT${NC}"
+    echo -e "  - Admin: ${GREEN}http://localhost:$WEB_PORT/admin/${NC}"
     echo -e "  - Ollama: ${GREEN}http://localhost:11434${NC}"
     echo ""
     echo -e "${YELLOW}Comandos útiles:${NC}"
