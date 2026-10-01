@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 Tests de integración para las vistas web (ChatWidgetView)
-Ejecuta: python test_views.py
+Ejecuta: python pruebas/aplicacion/test_views.py
 """
 import os
 import sys
@@ -9,7 +9,7 @@ import django
 import json
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 django.setup()
 
 from django.test import TestCase, Client

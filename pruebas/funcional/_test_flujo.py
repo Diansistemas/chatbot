@@ -1,10 +1,12 @@
 """Flujo completo: conversacion -> cierre -> resumen -> email -> smtp4dev."""
 import os
+import sys
 import traceback
 
 import django
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 django.setup()
 
 from chat.models import Conversacion, Mensaje  # noqa: E402

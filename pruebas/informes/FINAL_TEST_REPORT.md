@@ -1,4 +1,4 @@
-# Resumen Final - Tests Chatbot DianSistemas
+﻿# Resumen Final - Tests Chatbot DianSistemas
 
 ## ✅ ESTADO FINAL: TODOS LOS TESTS PASANDO
 
@@ -86,16 +86,16 @@
 
 ```bash
 # Suite principal
-.\venv\Scripts\python.exe test_suite.py
+.\venv\Scripts\python.exe pruebas\funcional\test_suite.py
 
 # Tests vistas web (Django TestCase)
-.\venv\Scripts\python.exe test_views.py
+.\venv\Scripts\python.exe pruebas\aplicacion\test_views.py
 
 # Suite comprehensiva
-.\venv\Scripts\python.exe test_comprehensive.py
+.\venv\Scripts\python.exe pruebas\aplicacion\test_comprehensive.py
 
 # Verificador NLP
-.\venv\Scripts\python.exe verificar_nlp.py .\entrenamiento\spacy\modelo\model-best
+.\venv\Scripts\python.exe pruebas\evaluacion\verificar_nlp.py .\entrenamiento\spacy\modelo\model-best
 
 # Tests individuales
 .\venv\Scripts\python.exe test_interaccion_normal.py

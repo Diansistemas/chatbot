@@ -1,4 +1,4 @@
-# Test Suite Summary - Chatbot DianSistemas
+﻿# Test Suite Summary - Chatbot DianSistemas
 
 ## Resumen General
 - **Total tests**: 42 tests (20 en test_suite.py + 22 en test_views.py)
@@ -132,13 +132,13 @@
 
 ```bash
 # Suite completa
-.\venv\Scripts\python.exe test_suite.py
+.\venv\Scripts\python.exe pruebas\funcional\test_suite.py
 
 # Tests de vistas
-.\venv\Scripts\python.exe test_views.py
+.\venv\Scripts\python.exe pruebas\aplicacion\test_views.py
 
 # Verificador NLP
-.\venv\Scripts\python.exe verificar_nlp.py
+.\venv\Scripts\python.exe pruebas\evaluacion\verificar_nlp.py
 
 # Tests individuales
 .\venv\Scripts\python.exe test_interaccion_normal.py

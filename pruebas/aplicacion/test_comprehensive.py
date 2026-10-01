@@ -17,7 +17,7 @@ import json
 from unittest.mock import patch, MagicMock
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 django.setup()
 
 from django.test import TestCase, Client, override_settings
