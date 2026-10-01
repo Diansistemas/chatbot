@@ -179,7 +179,13 @@ class ChatWidgetView(DominioPermitidoMixin, ListView):
                 )
             except Exception:
                 logger.exception("Error generando la respuesta del bot")
-                mensaje_bot = guardar_respuesta_bot(mensaje_usuario, "Hemos tenido un error")
+                mensaje_bot = None
+
+            # Red de seguridad: el usuario nunca se queda sin respuesta.
+            if mensaje_bot is None:
+                mensaje_bot = guardar_respuesta_bot(
+                    mensaje_usuario, "Hemos tenido un error. ¿Podría intentarlo de nuevo?"
+                )
 
             #Si el NLP ha detectado la intencion "cerrar", responder() ya ha cerrado la
             #conversacion (en otra instancia del objeto), asi que recargamos el estado

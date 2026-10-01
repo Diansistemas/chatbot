@@ -331,6 +331,19 @@ def crear_pedido_si_completo(conversacion):
     
     return None
 
+
+# Verifica si el pedido tiene todos los datos mínimos requeridos
+def _pedido_tiene_datos_minimos(conversacion):
+    """Verifica si el pedido tiene los campos mínimos requeridos (presupuesto y contacto)"""
+    if not conversacion.conversacion_pedido.exists():
+        return False
+    pedido = conversacion.conversacion_pedido.first()
+    # Verificar que tiene presupuesto (>0) y forma de contacto
+    tiene_presupuesto = pedido.presupuesto and pedido.presupuesto > 0
+    tiene_contacto = pedido.forma_contacto and pedido.forma_contacto != "Por facilitar"
+    return tiene_presupuesto and tiene_contacto
+
+
 # Funcion a llamar para generar una respuesta
 def responder(mensaje, analisis=None):
     if analisis is None:
@@ -338,9 +351,14 @@ def responder(mensaje, analisis=None):
     nombre = analisis.intencion.nombre if (analisis.intencion and analisis.intencion.nombre) else "otro"
     logger.info("RESPONDER mensaje_id=%s intencion=%s", mensaje.pk, nombre)
 
-    # Intentar crear pedido automáticamente SIEMPRE que tengamos intención de compra
-    # y no exista pedido aún (no solo en mensajes de intención "compra")
-    if mensaje.conversacion.tenemosCompra and not mensaje.conversacion.conversacion_pedido.exists():
+    # Intentar crear pedido automáticamente si no existe aún.
+    # Lo hacemos si ya hay intención de compra marcada o si la intención
+    # del mensaje es de las que pueden generar un pedido.
+    intenciones_con_pedido = {"compra", "contactar_humano", "confirmacion"}
+    hay_intencion_compra = (
+        mensaje.conversacion.tenemosCompra or nombre in intenciones_con_pedido
+    )
+    if hay_intencion_compra and not mensaje.conversacion.conversacion_pedido.exists():
         crear_pedido_si_completo(mensaje.conversacion)
 
     if nombre == "compra":
@@ -357,29 +375,41 @@ def responder(mensaje, analisis=None):
         return respuesta
 
     elif nombre == "contactar_humano":
-        # ANTES de derivar a humano, verificar si tenemos datos de contacto
+        # ANTES de derivar a humano, verificar si tenemos TODOS los datos requeridos
         conversacion = mensaje.conversacion
-        tiene_pedido = conversacion.conversacion_pedido.exists()
-        
-        if not tiene_pedido:
-            # Último intento: intentar crear pedido con datos disponibles
-            crear_pedido_si_completo(conversacion)
-            tiene_pedido = conversacion.conversacion_pedido.exists()
-        
-        if not tiene_pedido:
-            # Pedir datos de contacto antes de derivar
+
+        # Intentar crear/actualizar pedido con datos disponibles
+        crear_pedido_si_completo(conversacion)
+
+        # Verificar si el pedido tiene TODOS los datos mínimos
+        if not _pedido_tiene_datos_minimos(conversacion):
+            # Faltan datos, pedirlos antes de derivar
+            pedido = conversacion.conversacion_pedido.first() if conversacion.conversacion_pedido.exists() else None
+            faltantes = []
+            if not pedido or not (pedido.presupuesto and pedido.presupuesto > 0):
+                faltantes.append("presupuesto")
+            if not pedido or not pedido.forma_contacto or pedido.forma_contacto == "Por facilitar":
+                faltantes.append("email o teléfono de contacto")
+            if not pedido or not pedido.direccion or pedido.direccion == "Por confirmar":
+                faltantes.append("dirección")
+
+            mensaje_faltantes = ", ".join(faltantes)
             respuesta = guardar_respuesta_bot(
                 mensaje,
-                "Para ponerle en contacto con un agente humano, necesito sus datos de contacto. "
-                "Por favor, proporcióneme:\n"
-                "- Nombre de la empresa o su nombre\n"
-                "- Email o teléfono de contacto\n"
-                "- Dirección (opcional)\n\n"
-                "Una vez tenga estos datos, le conectaré con un agente humano."
+                (
+                    "Para ponerle en contacto con un agente humano, necesito sus datos de contacto.\n"
+                    f"Faltan los siguientes datos: {mensaje_faltantes}.\n\n"
+                    "Por favor, proporcióneme:\n"
+                    "- Nombre de la empresa o su nombre\n"
+                    "- Email o teléfono de contacto\n"
+                    "- Dirección (opcional)\n"
+                    "- Presupuesto estimado\n\n"
+                    "Una vez tenga estos datos, le conectaré con un agente humano."
+                ),
             )
             return respuesta
         else:
-            # Ya tenemos pedido, derivar directamente
+            # Ya tenemos todos los datos, derivar directamente
             respuesta = guardar_respuesta_bot(
                 mensaje,
                 "Le conecto con un agente humano. Un momento por favor."
@@ -389,7 +419,7 @@ def responder(mensaje, analisis=None):
 
     # Cualquier otra intencion (incluida "compra") se responde con el llm
     servicio = analisis.detectar_servicio()
-    
+
     # Timeout más largo para LLM y mejor manejo de error
     try:
         texto_respuesta = generar_respuesta_llm(mensaje, analisis, servicio)
@@ -405,8 +435,9 @@ def responder(mensaje, analisis=None):
             "otro": "Gracias por su mensaje. ¿En qué más puedo ayudarle?",
         }
         texto_respuesta = fallbacks.get(nombre, "Ha habido un error procesando su mensaje. ¿Podría intentarlo de nuevo?")
-    
+
     return guardar_respuesta_bot(mensaje, texto_respuesta)
+
 
 # Promovemos nuestros mensajes a ejemplos
 def promover_analisis_a_ejemplo(analisis, origen="chatbot"):

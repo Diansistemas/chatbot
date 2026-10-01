@@ -1055,3 +1055,125 @@ hasta la vista baby;cerrar;manual;
 adios amigo;cerrar;manual;
 hasta luego maricarmen;cerrar;manual;
 bye bye;cerrar;manual;
+buenos dias;otro;manual;
+buenos dias a todos;otro;manual;
+buenos dias, ¿que tal?;otro;manual;
+buenos dias, ¿como estás?;otro;manual;
+buenos dias, ¿como lo estais?;otro;manual;
+buenos dias por aqui;otro;manual;
+buenos dias, solo pasaba a saludar;otro;manual;
+buenos dias, ¿todo bien?;otro;manual;
+buenos dias, ¿que hay?;otro;manual;
+buenos dias, espero que vaya bien;otro;manual;
+buenos dias, ¿como amaneciste?;otro;manual;
+buenos dias, ¿ya habéis comido?;otro;manual;
+buenos dias cordiales;otro;manual;
+buenos dias saludos;otro;manual;
+muy buenos dias;otro;manual;
+muy buenos dias a todos;otro;manual;
+excelentes dias;otro;manual;
+que tenga buenos dias;otro;manual;
+buenas tardes;otro;manual;
+buenas tardes, ¿que tal?;otro;manual;
+buenas tardes por aqui;otro;manual;
+buenas noches;otro;manual;
+buenas noches, ¿que tal?;otro;manual;
+hola, ¿que tal?;otro;manual;
+hola, ¿como estás?;otro;manual;
+hola, ¿como lo tienes?;otro;manual;
+hola por aqui;otro;manual;
+hola, ¿todo bien?;otro;manual;
+hola, ¿que hay de nuevo?;otro;manual;
+hola, ¿como va todo?;otro;manual;
+hola de nuevo;otro;manual;
+hola, solo queria saludar;otro;manual;
+holaaa;otro;manual;
+holi;otro;manual;
+hey, ¿que tal?;otro;manual;
+hey, ¿por aqui?;otro;manual;
+buenas, ¿que tal?;otro;manual;
+saludos;otro;manual;
+saludos cordiales;otro;manual;
+un saludo;otro;manual;
+un saludo para el equipo;otro;manual;
+saludos a todo el equipo;otro;manual;
+espero que tengas un buen dia;otro;manual;
+espero que tengas una buena tarde;otro;manual;
+que tal va el dia;otro;manual;
+que tal todo;otro;manual;
+¿que tal?;otro;manual;
+¿como estas?;otro;manual;
+¿como lo llevas?;otro;manual;
+¿que hay?;otro;manual;
+por aqui de nuevo;otro;manual;
+paso a saludar;otro;manual;
+solo pasaba a saludar;otro;manual;
+venia a saludar;otro;manual;
+nada, solo saludar;otro;manual;
+nada, solo queria decir hola;otro;manual;
+decia hola;otro;manual;
+diciendo hola;otro;manual;
+hola buenas;otro;manual;
+hola buenos dias a todos;otro;manual;
+problema instalando;consulta_tecnica;manual;
+problemas instalando;consulta_tecnica;manual;
+problema al instalar;consulta_tecnica;manual;
+problemas al instalar;consulta_tecnica;manual;
+problema con la instalacion;consulta_tecnica;manual;
+problemas con la instalacion;consulta_tecnica;manual;
+problema instalando el programa;consulta_tecnica;manual;
+problema instalando la aplicacion;consulta_tecnica;manual;
+problema instalando el software;consulta_tecnica;manual;
+tengo problema instalando;consulta_tecnica;manual;
+tengo problemas instalando;consulta_tecnica;manual;
+hay un problema instalando;consulta_tecnica;manual;
+surge un problema al instalar;consulta_tecnica;manual;
+me da problema al instalar;consulta_tecnica;manual;
+aparece un problema al instalar;consulta_tecnica;manual;
+problema durante la instalacion;consulta_tecnica;manual;
+problemas durante la instalacion;consulta_tecnica;manual;
+problema instalando en windows;consulta_tecnica;manual;
+problema instalando en linux;consulta_tecnica;manual;
+instalacion con problema;consulta_tecnica;manual;
+no puedo instalar;consulta_tecnica;manual;
+no me instala;consulta_tecnica;manual;
+falla la instalacion;consulta_tecnica;manual;
+se rompe al instalar;consulta_tecnica;manual;
+error instalando;consulta_tecnica;manual;
+fallo instalando;consulta_tecnica;manual;
+falla al instalar;consulta_tecnica;manual;
+Mi empresa se llama Test SL;otro;manual;SERVICIO:Test SL
+La empresa se llama Test SL;otro;manual;SERVICIO:Test SL
+Somos Test SL;otro;manual;SERVICIO:Test SL
+Trabajo en Test SL;otro;manual;SERVICIO:Test SL
+Nuestra empresa es Test SL;otro;manual;SERVICIO:Test SL
+la empresa se llama Test SL, email test@test.com;otro;manual;SERVICIO:Test SL
+La empresa se llama Dinamic SL;otro;manual;SERVICIO:Dinamic SL
+Somos Dinamic SL;otro;manual;SERVICIO:Dinamic SL
+Nuestra empresa es Dinamic SL;otro;manual;SERVICIO:Dinamic SL
+La empresa se llama Globex Corp;otro;manual;SERVICIO:Globex Corp
+Somos Globex Corp;otro;manual;SERVICIO:Globex Corp
+Trabajamos en Globex Corp;otro;manual;SERVICIO:Globex Corp
+La empresa se llama Initech SA;otro;manual;SERVICIO:Initech SA
+Somos Initech SA;otro;manual;SERVICIO:Initech SA
+La empresa se llama Umbrella SL;otro;manual;SERVICIO:Umbrella SL
+Somos Umbrella SL;otro;manual;SERVICIO:Umbrella SL
+Mi empresa se llama Acme Corp;otro;manual;SERVICIO:Acme Corp
+Somos Acme Corp;otro;manual;SERVICIO:Acme Corp
+La empresa se llama Stark Industries;otro;manual;SERVICIO:Stark Industries
+Somos Stark Industries;otro;manual;SERVICIO:Stark Industries
+Nuestra empresa se llama Nordata SL;otro;manual;SERVICIO:Nordata SL
+Somos Nordata SL;otro;manual;SERVICIO:Nordata SL
+La empresa se llama Servitec SL;otro;manual;SERVICIO:Servitec SL
+Somos Servitec SL;otro;manual;SERVICIO:Servitec SL
+Quiero contratar con Test SL;compra;manual;SERVICIO:Test SL
+Necesito presupuesto de Dinamic SL;compra;manual;SERVICIO:Dinamic SL
+Quiero el servicio de Globex Corp;compra;manual;SERVICIO:Globex Corp
+Contratais con Initech SA;consulta_tecnica;manual;SERVICIO:Initech SA
+Trabajais con Umbrella SL;consulta_tecnica;manual;SERVICIO:Umbrella SL
+Hablando con Acme Corp;otro;manual;SERVICIO:Acme Corp
+De parte de Stark Industries;otro;manual;SERVICIO:Stark Industries
+Empresa Nordata SL solicita soporte;consulta_tecnica;manual;SERVICIO:Nordata SL
+Somos una empresa que se llama Servitec SL;otro;manual;SERVICIO:Servitec SL
+Mi jefe dice que somos Test SL;otro;manual;SERVICIO:Test SL
+La razon social es Dinamic SL;otro;manual;SERVICIO:Dinamic SL

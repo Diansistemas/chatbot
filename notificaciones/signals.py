@@ -23,10 +23,6 @@ def al_cerrar_conversacion(sender, instance, created, update_fields, **kwargs):
     if instance.estado != "cerrada":
         return
 
-    # Guardados que no tocan el estado (por ejemplo tenemosCompra) no cuentan
-    if update_fields is not None and "estado" not in update_fields:
-        return
-
     try:
         # Evitamos duplicados: si ya tiene resumen, no repetimos el envio
         if instance.resumenes.exists():
