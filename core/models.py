@@ -1,6 +1,6 @@
 from django.db import models, transaction
 
-from chat.models import Mensaje, Conversacion, Servicio
+from chat.models import Mensaje, Conversacion, Servicio, Pedido
 from entrenamiento.models import Intencion, EtiquetaEntidad, EjemploNLP, SpanEntidad, Par_Mensaje_Respuesta
 from .acceso import get_nlp, llamar_llm
 
@@ -214,12 +214,134 @@ def guardar_respuesta_bot(mensaje_usuario, texto):
             texto=texto,
             remitente="chatbot"
         )
+
+# Extraer y crear Pedido automáticamente si hay datos suficientes
+def crear_pedido_si_completo(conversacion):
+    """
+    Intenta crear Pedido si la conversación tiene intención de compra
+    y hay información suficiente en los mensajes.
+    """
+    from chat.models import Pedido, Servicio
     
+    # Si ya existe pedido, no hacer nada
+    if conversacion.conversacion_pedido.exists():
+        return None
+    
+    # Solo para conversaciones con intención de compra
+    if not conversacion.tenemosCompra:
+        return None
+    
+    # Analizar mensajes del cliente para extraer datos
+    mensajes_cliente = conversacion.conversacion_mensajes.filter(remitente="usuario")
+    if not mensajes_cliente.exists():
+        return None
+    
+    # Usar NLP para extraer entidades de los mensajes
+    from core.acceso import get_nlp
+    nlp = get_nlp()
+    
+    datos_extraidos = {
+        "nombre": None,
+        "direccion": None,
+        "servicio": None,
+        "presupuesto": None,
+        "forma_contacto": None,
+    }
+    
+    # Buscar servicio detectado en análisis
+    servicio_detectado = None
+    for mensaje in conversacion.conversacion_mensajes.all():
+        analisis = getattr(mensaje, "mensaje_analisis", None)
+        if analisis and analisis.intencion and analisis.intencion.nombre == "compra":
+            servicio_detectado = analisis.detectar_servicio()
+            if servicio_detectado:
+                datos_extraidos["servicio"] = servicio_detectado
+                break
+    
+    # Si no hay servicio detectado, usar el primero disponible
+    if not datos_extraidos["servicio"]:
+        datos_extraidos["servicio"] = Servicio.objects.first()
+    
+    # Extraer presupuesto de los mensajes
+    import re
+    for mensaje in mensajes_cliente:
+        texto = mensaje.texto
+        # Buscar montos en euros (con o sin espacio antes de €)
+        montos = re.findall(r'(\d[\d.,]*)\s*€', texto)
+        # También buscar formato "5000 euros" o "5000 eur"
+        if not montos:
+            montos = re.findall(r'(\d[\d.,]*)\s*(?:euros?|eur\b)', texto, re.IGNORECASE)
+        if montos:
+            try:
+                # Tomar el último monto mencionado
+                monto_str = montos[-1].replace('.', '').replace(',', '.')
+                datos_extraidos["presupuesto"] = float(monto_str)
+            except:
+                pass
+        
+        # Buscar email
+        emails = re.findall(r'[\w\.-]+@[\w\.-]+\.\w+', texto)
+        if emails:
+            datos_extraidos["forma_contacto"] = emails[-1]
+        
+        # Buscar teléfono
+        telefonos = re.findall(r'(\+?\d[\d\s\-]{8,})', texto)
+        if telefonos and not datos_extraidos["forma_contacto"]:
+            datos_extraidos["forma_contacto"] = telefonos[-1].strip()
+        
+        # Buscar nombre de empresa (patrones comunes)
+        if not datos_extraidos["nombre"]:
+            # Buscar "empresa X", "mi empresa X", "nombre X"
+            for pattern in [r'empresa\s+([A-Za-zÁÉÍÓÚáéíóúñÑ0-9\s]+)', r'mi empresa\s+([A-Za-zÁÉÍÓÚáéíóúñÑ0-9\s]+)', r'nombre\s+([A-Za-zÁÉÍÓÚáéíóúñÑ0-9\s]+)']:
+                match = re.search(pattern, texto, re.IGNORECASE)
+                if match:
+                    datos_extraidos["nombre"] = match.group(1).strip()[:100]
+                    break
+        
+        # Buscar dirección
+        if not datos_extraidos["direccion"]:
+            for pattern in [r'direcci[oó]n\s+([^,]+)', r'ubicad[ao]\s+([^,]+)', r'calle\s+([^,]+)']:
+                match = re.search(pattern, texto, re.IGNORECASE)
+                if match:
+                    datos_extraidos["direccion"] = match.group(1).strip()[:100]
+                    break
+    
+    # Si tenemos lo mínimo (servicio + presupuesto), crear pedido
+    # Contacto es opcional (usamos placeholder si no hay)
+    # Nombre y dirección usan placeholders si no están
+    if datos_extraidos["servicio"]:
+        nombre = datos_extraidos["nombre"] or "Cliente potencial"
+        direccion = datos_extraidos["direccion"] or "Por confirmar"
+        forma_contacto = datos_extraidos["forma_contacto"] or "Por facilitar"
+        presupuesto = datos_extraidos["presupuesto"] or 0
+        
+        try:
+            pedido = Pedido.objects.create(
+                conversacion=conversacion,
+                nombre=nombre,
+                direccion=direccion,
+                servicio=datos_extraidos["servicio"],
+                presupuesto=presupuesto,
+                forma_contacto=forma_contacto,
+            )
+            logger.info(f"Pedido auto-creado #{pedido.pk} para conversación {conversacion.pk}")
+            return pedido
+        except Exception as e:
+            logger.warning(f"Error auto-creando pedido: {e}")
+    
+    return None
+
 # Funcion a llamar para generar una respuesta
-def responder(mensaje):
-    analisis = procesar_mensaje(mensaje)
+def responder(mensaje, analisis=None):
+    if analisis is None:
+        analisis = procesar_mensaje(mensaje)
     nombre = analisis.intencion.nombre if (analisis.intencion and analisis.intencion.nombre) else "otro"
     logger.info("RESPONDER mensaje_id=%s intencion=%s", mensaje.pk, nombre)
+
+    # Intentar crear pedido automáticamente SIEMPRE que tengamos intención de compra
+    # y no exista pedido aún (no solo en mensajes de intención "compra")
+    if mensaje.conversacion.tenemosCompra and not mensaje.conversacion.conversacion_pedido.exists():
+        crear_pedido_si_completo(mensaje.conversacion)
 
     if nombre == "compra":
         mensaje.conversacion.tenemosCompra = True
@@ -234,9 +356,56 @@ def responder(mensaje):
         # El resumen y su correo los gestiona el signal al_cerrar_conversacion (notificaciones)
         return respuesta
 
+    elif nombre == "contactar_humano":
+        # ANTES de derivar a humano, verificar si tenemos datos de contacto
+        conversacion = mensaje.conversacion
+        tiene_pedido = conversacion.conversacion_pedido.exists()
+        
+        if not tiene_pedido:
+            # Último intento: intentar crear pedido con datos disponibles
+            crear_pedido_si_completo(conversacion)
+            tiene_pedido = conversacion.conversacion_pedido.exists()
+        
+        if not tiene_pedido:
+            # Pedir datos de contacto antes de derivar
+            respuesta = guardar_respuesta_bot(
+                mensaje,
+                "Para ponerle en contacto con un agente humano, necesito sus datos de contacto. "
+                "Por favor, proporcióneme:\n"
+                "- Nombre de la empresa o su nombre\n"
+                "- Email o teléfono de contacto\n"
+                "- Dirección (opcional)\n\n"
+                "Una vez tenga estos datos, le conectaré con un agente humano."
+            )
+            return respuesta
+        else:
+            # Ya tenemos pedido, derivar directamente
+            respuesta = guardar_respuesta_bot(
+                mensaje,
+                "Le conecto con un agente humano. Un momento por favor."
+            )
+            # Marcar para transferencia (la view manejará el estado)
+            return respuesta
+
     # Cualquier otra intencion (incluida "compra") se responde con el llm
     servicio = analisis.detectar_servicio()
-    texto_respuesta = generar_respuesta_llm(mensaje, analisis, servicio) or "Ha habido un error"
+    
+    # Timeout más largo para LLM y mejor manejo de error
+    try:
+        texto_respuesta = generar_respuesta_llm(mensaje, analisis, servicio)
+        if not texto_respuesta:
+            raise ValueError("LLM devolvió respuesta vacía")
+    except Exception as e:
+        logger.error(f"Error generando respuesta LLM: {e}")
+        # Respuesta de fallback según intención
+        fallbacks = {
+            "compra": "Entendido. Para darle un presupuesto preciso, necesito algunos datos más. ¿Podría indicarme el nombre de su empresa, dirección y un email o teléfono de contacto?",
+            "consulta_tecnica": "Le agradezco su consulta. Para ayudarle mejor, ¿podría indicarme su email o teléfono para que nuestro equipo técnico le contacte?",
+            "contactar_humano": "Para conectarle con un agente, necesito su email o teléfono de contacto.",
+            "otro": "Gracias por su mensaje. ¿En qué más puedo ayudarle?",
+        }
+        texto_respuesta = fallbacks.get(nombre, "Ha habido un error procesando su mensaje. ¿Podría intentarlo de nuevo?")
+    
     return guardar_respuesta_bot(mensaje, texto_respuesta)
 
 # Promovemos nuestros mensajes a ejemplos
