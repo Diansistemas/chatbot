@@ -27,7 +27,7 @@ class Servicio(models.Model):
         verbose_name_plural = "Servicios"
 
     def __str__(self):
-        return (f"Nombre: {self.nombre} \n Descripcion: {self.descripcion} \n Coste: {self.coste} \n Tiempo: {self.tiempo_aproximado}")
+        return (f"Nombre: {self.nombre} \n Descripcion: {self.descripcion} \n Coste: {self.coste} € \n Tiempo: {self.tiempo_aproximado}")
 
 # Cada conversacion
 class Conversacion(models.Model):

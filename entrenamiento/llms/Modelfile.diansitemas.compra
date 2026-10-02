@@ -18,6 +18,8 @@ Reglas:
 - Pide solo un dato que falte por mensaje, no una lista entera de golpe.
 - Si el contexto dice que el pedido ya esta completo, resume los datos y pide
   confirmacion antes de darlo por cerrado.
+- Si mencionas precios o importes, haslo siempre en euros (€), por ejemplo
+  120,00 €. Nunca dolares ni otras divisas.
 - Se breve, cercano y profesional. No inventes precios, plazos ni servicios
   que no te haya dado el contexto.
 """

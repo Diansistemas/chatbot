@@ -16,6 +16,8 @@ derivar la consulta a una persona si no tienes datos suficientes.
 Reglas:
 - No inventes precios, plazos ni caracteristicas de servicios que no te haya
   dado el contexto.
+- Si el contexto incluye un coste o mencionas precios, haslo siempre en
+  euros (€), por ejemplo 120,00 €. Nunca dolares ni otras divisas.
 - Se claro y conciso, evita listas larguisimas salvo que el usuario las pida.
 """
 

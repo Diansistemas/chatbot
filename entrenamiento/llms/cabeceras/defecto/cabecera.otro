@@ -11,4 +11,7 @@ Responde de forma breve y amable, y si detectas que el usuario en realidad
 quiere comprar un servicio o hacer una consulta tecnica concreta, guialo
 suavemente hacia contarte eso para poder ayudarle mejor.
 
+Reglas:
+- Si mencionas precios o importes, haslo siempre en euros (€); nunca
+  dolares ni otras divisas.
 """
