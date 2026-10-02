@@ -10,7 +10,28 @@ class DominioPermitidoMixin:
         referer = request.META.get("HTTP_REFERER", "")
         if not self._referer_permitido(referer):
             return HttpResponseForbidden("NO >:(")
+        if request.method not in ("GET", "HEAD", "OPTIONS"):
+            if not self._origen_permitido(request):
+                return HttpResponseForbidden("NO >:(")
         return super().dispatch(request, *args, **kwargs)
+
+    def _origen_permitido(self, request):
+        # El header Origin acompana SIEMPRE a un POST (aunque el Referrer-Policy
+        # oculte el Referer), asi que sirve de red de seguridad anti-CSRF cuando
+        # la cookie CSRF no sobrevive en un iframe de terceros (widget embebido).
+        origin = request.META.get("HTTP_ORIGIN", "")
+        if not origin:
+            # Sin Origin (clientes antiguos): seguimos protegidos por el Referer.
+            return True
+        origen = urlparse(origin)
+        # El propio iframe del chat publica contra su mismo origen
+        if origen.netloc == request.get_host():
+            return True
+        for dominio in settings.DOMINIOS_PERMITIDOS:
+            permitido = urlparse(dominio)
+            if origen.scheme == permitido.scheme and origen.netloc == permitido.netloc:
+                return True
+        return False
 
     def _referer_permitido(self, referer):
         #Sin Referer: es una visita directa (escribir la URL a mano no envia Referer).

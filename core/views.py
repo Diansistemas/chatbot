@@ -3,6 +3,7 @@ from datetime import timedelta
 
 from django.views.generic import ListView,TemplateView
 from django.views.decorators.clickjacking import xframe_options_exempt
+from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.db import transaction
 from chat.models import Mensaje, Conversacion
@@ -25,6 +26,10 @@ class PruebaView(TemplateView):
 
 #View del chat (Listview de mensajes con el decorador de que tiene permitido enbeberse en un iframe)
 #Además dispone de un Mixin para comprobar si esta dentro de los dominios permitidos antes de mostrar
+#csrf_exempt: el widget embebido vive en un iframe de OTRO dominio y los navegadores
+#bloquean ahi la cookie csrftoken (cookies de terceros), lo que deja todo POST en 403.
+#La proteccion equivalente la da DominioPermitidoMixin (Referer exacto + Origin en POST).
+@method_decorator(csrf_exempt, name='dispatch')
 @method_decorator(xframe_options_exempt, name='dispatch')
 class ChatWidgetView(DominioPermitidoMixin, ListView):
     model = Mensaje
