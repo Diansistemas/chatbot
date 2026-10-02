@@ -189,7 +189,8 @@ PROMPT_RESUMEN_COMPRA = (
     "- Requisitos, presupuesto o plazos mencionados:\n"
     "- Siguiente paso recomendado:\n"
     "Reglas: \n"
-    "   -Usa SOLO información que aparezca en la conversación. Si un dato no aparece, escribe 'No indicado'. No inventes nada."
+    "   -Usa SOLO información que aparezca en la conversación. Si un dato no aparece, escribe 'No indicado'. No inventes nada.\n"
+    "   -Los importes o precios, siempre en euros (€)."
 )
 
 def _llamar_ollama_resumen(mensajes):
