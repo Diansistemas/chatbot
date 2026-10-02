@@ -1,0 +1,6 @@
+# Ficheros que se ejecutan en Linux/Docker tienen que ser LF siempre.
+# Sin esto, con autocrlf en Windows los .sh y el Dockerfile se clonan con CRLF
+# y el contenedor falla con "^M: bad interpreter" / instrucciones corruptas.
+*.sh               text eol=lf
+Dockerfile         text eol=lf
+docker-compose.yml text eol=lf

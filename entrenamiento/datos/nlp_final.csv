@@ -1,0 +1,1179 @@
+texto;intencion;origen;entidades
+Adios, gracias por todo;cerrar;manual;
+Hasta luego, chao;cerrar;manual;
+Me despido por hoy;cerrar;manual;
+Fin de la conversaciÃ³n, gracias;cerrar;manual;
+No necesito mÃ¡s ayuda por ahora;cerrar;manual;
+Val bien, gracias;cerrar;manual;
+Voy a cerrar esta ventana;cerrar;manual;
+Que tenga buen dÃ­a;cerrar;manual;
+Muchas gracias, hasta otra;cerrar;manual;
+Eso es todo por hoy;cerrar;manual;
+Me despido de la atenciÃ³n;cerrar;manual;
+Hasta la prÃ³xima, gracias;cerrar;manual;
+Quiero comprar el servicio de internet;compra;manual;SERVICIO:internet
+Necesito contratar el paquete premium;compra;manual;SERVICIO:premium
+Quiero el servicio de telefonÃ­a mÃ³vil;compra;manual;SERVICIO:telefonÃ­a mÃ³vil
+Quiero contratar seguro de hogar;compra;manual;SERVICIO:seguro de hogar
+Necesito el plan de fibra Ã³ptica;compra;manual;SERVICIO:fibra Ã³ptica
+Quiero agregar el servicio de TV;compra;manual;SERVICIO:TV
+Quiero comprar el servicio de nube;compra;manual;SERVICIO:nube
+Necesito contratar la conexiÃ³n empresarial;compra;manual;SERVICIO:conexiÃ³n empresarial
+Quiero el servicio de hosting;compra;manual;SERVICIO:hosting
+Necesito el paquete de seguridad informÃ¡tica;compra;manual;SERVICIO:seguridad informÃ¡tica
+Quiero contratar el antivirus;compra;manual;SERVICIO:antivirus
+Necesito backup en la nube;compra;manual;SERVICIO:backup
+SÃ­, confirmo la operaciÃ³n;confirmacion;manual;CONFIRMACION:confirmo
+Estoy de acuerdo con los tÃ©rminos;confirmacion;manual;CONFIRMACION:de acuerdo
+Confirmo que leerlo todo;confirmacion;manual;CONFIRMACION:leerlo todo
+SÃ­, soy el responsable;confirmacion;manual;CONFIRMACION:responsable
+Confirmo mi direcciÃ³n y datos;confirmacion;manual;CONFIRMACION:direcciÃ³n y datos
+Acepto las condiciones generales;confirmacion;manual;CONFIRMACION:condiciones generales
+Confirmo el presupuesto de 200 euros;confirmacion;manual;CONFIRMACION:presupuesto de 200 euros
+SÃ­, confirmo el servicio tÃ©cnico;confirmacion;manual;CONFIRMACION:servicio tÃ©cnico
+Estoy conforme con lo expuesto;confirmacion;manual;CONFIRMACION:conforme
+Confirmo la hora de la cita;confirmacion;manual;CONFIRMACION:hora de la cita
+Confirmo el domicilio de entrega;confirmacion;manual;CONFIRMACION:domicilio de entrega
+Estoy de acuerdo con el precio;confirmacion;manual;CONFIRMACION:precio
+Â¿CÃ³mo restablezco mi contraseÃ±a?;consulta_tecnica;manual;
+Â¿CuÃ¡l es mi direcciÃ³n IP pÃºblica?;consulta_tecnica;manual;
+No me funciona el wifi;consulta_tecnica;manual;SERVICIO:wifi
+Â¿CÃ³mo puedo mejorar la velocidad de internet?;consulta_tecnica;manual;SERVICIO:internet
+Mi equipo no enciende;consulta_tecnica;manual;SERVICIO:equipo
+Â¿CÃ³mo configuro el router?;consulta_tecnica;manual;SERVICIO:router
+Â¿Por quÃ© se reinicia solo el PC?;consulta_tecnica;manual;SERVICIO:PC
+Â¿CuÃ¡l es mi versiÃ³n de Windows?;consulta_tecnica;manual;
+No puedo acceder a la web;consulta_tecnica;manual;SERVICIO:web
+Â¿CÃ³mo actualizo los drivers?;consulta_tecnica;manual;SERVICIO:drivers
+Â¿Por quÃ© va lento mi equipo?;consulta_tecnica;manual;SERVICIO:equipo
+Â¿CÃ³mo limpio el virus?;consulta_tecnica;manual;SERVICIO:virus
+Quiero hablar con un asesor;contactar_humano;manual;ACCION_TRANSFERENCIA:hablar|AGENTE_HUMANO:asesor
+Necesito contactar con soporte tÃ©cnico;contactar_humano;manual;ACCION_TRANSFERENCIA:soporte tÃ©cnico
+PÃ¡same con un supervisor;contactar_humano;manual;ACCION_TRANSFERENCIA:PÃ¡same|AGENTE_HUMANO:supervisor
+Quiero una reuniÃ³n con el equipo;contactar_humano;manual;ACCION_TRANSFERENCIA:reuniÃ³n
+Necesito hablar con ventas;contactar_humano;manual;ACCION_TRANSFERENCIA:ventas
+Quiero un gestor de cuenta personal;contactar_humano;manual;ACCION_TRANSFERENCIA:gestor
+PÃ³ngame con el departamento de atenciÃ³n al cliente;contactar_humano;manual;ACCION_TRANSFERENCIA:departamento
+Necesito un tÃ©cnico en casa;contactar_humano;manual;ACCION_TRANSFERENCIA:tÃ©cnico en casa
+Quiero resolver esto con un experto;contactar_humano;manual;ACCION_TRANSFERENCIA:experto
+Necesito hablar con alguien de autoridad;contactar_humano;manual;ACCION_TRANSFERENCIA:autoridad
+Quiero hablar con un gerente;contactar_humano;manual;ACCION_TRANSFERENCIA:gerente
+Necesito una reuniÃ³n de seguimiento;contactar_humano;manual;ACCION_TRANSFERENCIA:seguimiento
+Hola, buenos dÃ­as;otro;manual;
+Â¿QuÃ© tiempo hace afuera?;otro;manual;
+Necesito ayuda con algo mÃ¡s;otro;manual;
+Consulta general sin clasificaciÃ³n;otro;manual;
+Otra cosa que preguntar;otro;manual;
+Â¿DÃ³nde estÃ¡ la tienda?;otro;manual;
+QuÃ© horas son?;otro;manual;
+Necesito imprimir un documento;otro;manual;
+Chao, gracias por todo;cerrar;manual;
+VolverÃ© mÃ¡s tarde;cerrar;manual;
+No quiero mÃ¡s asistencia;cerrar;manual;
+Eso es todo, gracias;cerrar;manual;
+Fin de la atenciÃ³n;cerrar;manual;
+Que tenga un buen dia;cerrar;manual;
+Hasta pronto;cerrar;manual;
+No necesito mÃ¡s ayuda;cerrar;manual;
+Me despido ahora;cerrar;manual;
+Thank you, goodbye;cerrar;manual;
+Hasta la prÃ³xima;cerrar;manual;
+Es todo por hoy;cerrar;manual;
+Quiero contratar internet rÃ¡pido;compra;manual;SERVICIO:internet
+Necesito el paquete empresarial;compra;manual;SERVICIO:empresarial
+Quiero servicio de TV premium;compra;manual;SERVICIO:TV premium
+Contratar telefonÃ­a fija;compra;manual;SERVICIO:telefonÃ­a fija
+Necesito IP fija;compra;manual;SERVICIO:IP fija
+Quiero servicio de correo empresarial;compra;manual;SERVICIO:correo
+Necesito almacenamiento en nube;compra;manual;SERVICIO:nube
+Quiero backup automÃ¡tico;compra;manual;SERVICIO:backup
+Contratar seguridad informÃ¡tica;compra;manual;SERVICIO:seguridad
+Necesito antivirus para empresa;compra;manual;SERVICIO:antivirus
+Quiero monitoreo de red;compra;manual;SERVICIO:monitoreo
+Necesito soluciÃ³n de disaster recovery;compra;manual;SERVICIO:recovery
+Confirmo todo lo dicho;confirmacion;manual;CONFIRMACION:Confirmo
+Estoy totalmente de acuerdo;confirmacion;manual;CONFIRMACION:de acuerdo
+Confirmo mi identidad;confirmacion;manual;CONFIRMACION:identidad
+Acepto los tÃ©rminos completos;confirmacion;manual;CONFIRMACION:tÃ©rminos
+Confirmo la direcciÃ³n de envÃ­o;confirmacion;manual;CONFIRMACION:direcciÃ³n de envÃ­o
+Estoy conforme con el presupuesto;confirmacion;manual;CONFIRMACION:presupuesto
+Confirmo la fecha de instalaciÃ³n;confirmacion;manual;CONFIRMACION:fecha de instalaciÃ³n
+Acepto las condiciones legales;confirmacion;manual;CONFIRMACION:condiciones legales
+Confirmo los datos de facturaciÃ³n;confirmacion;manual;CONFIRMACION:facturaciÃ³n
+SÃ­, confirmo la suscripciÃ³n;confirmacion;manual;CONFIRMACION:suscripciÃ³n
+Estoy de acuerdo con la polÃ­tica;confirmacion;manual;CONFIRMACION:polÃ­tica
+Â¿CÃ³mo cambio mi plano?;consulta_tecnica;manual;
+Â¿CuÃ¡l es mi velocidad real?;consulta_tecnica;manual;SERVICIO:velocidad
+No me funciona el printer;consulta_tecnica;manual;SERVICIO:printer
+Â¿Por quÃ© se corta la conexiÃ³n?;consulta_tecnica;manual;SERVICIO:conexiÃ³n
+Â¿CÃ³mo resetear el equipo?;consulta_tecnica;manual;SERVICIO:equipo
+Â¿CuÃ¡l es mi plan actual?;consulta_tecnica;manual;
+Necesito ayuda con el email;consulta_tecnica;manual;SERVICIO:email
+Â¿Por quÃ© va lento el mÃ³vil?;consulta_tecnica;manual;SERVICIO:mÃ³vil
+Â¿CÃ³mo activo el servicio?;consulta_tecnica;manual;SERVICIO:servicio
+Â¿CuÃ¡ndo es el mantenimiento?;consulta_tecnica;manual;
+Necesito desbloquear el router;consulta_tecnica;manual;SERVICIO:router
+Quiero hablar con el director;contactar_humano;manual;ACCION_TRANSFERENCIA:hablar|AGENTE_HUMANO:director
+Necesito al equipo de ventas;contactar_humano;manual;ACCION_TRANSFERENCIA:ventas
+PÃ¡same al Ã¡rea comercial;contactar_humano;manual;ACCION_TRANSFERENCIA:comercial
+Quiero reunirme con soporte;contactar_humano;manual;ACCION_TRANSFERENCIA:soporte
+Necesito al tÃ©cnico senior;contactar_humano;manual;ACCION_TRANSFERENCIA:tÃ©cnico senior
+Quiero al responsable de cuenta;contactar_humano;manual;ACCION_TRANSFERENCIA:responsable
+PÃ³ngame con el jefe de Ã¡rea;contactar_humano;manual;ACCION_TRANSFERENCIA:jefe
+Necesito escalar el incidente;contactar_humano;manual;ACCION_TRANSFERENCIA:escalar
+Quiero al equipo de post-venta;contactar_humano;manual;ACCION_TRANSFERENCIA:post-venta
+Hablar con el comitÃ© tÃ©cnico;contactar_humano;manual;ACCION_TRANSFERENCIA:comitÃ©
+Hola, buen dÃ­a;otro;manual;
+Â¿CuÃ¡l es el horario?;otro;manual;
+Necesito imprimir algo;otro;manual;
+Consulta general;otro;manual;
+Otra duda que tengo;otro;manual;
+Â¿DÃ³nde estÃ¡ la oficina?;otro;manual;
+QuÃ© servicios ofrecen?;otro;manual;
+Necesito factura;otro;manual;
+Â¿CuÃ¡nto cuesta?;otro;manual;
+Otra consulta random;otro;manual;
+Desplegado en producciÃ³n, todo en verde;cerrar;manual;
+Â¡Listo, ticket resuelto por aquÃ­!;cerrar;manual;
+Â¡Mergeado y probado, mil gracias!;cerrar;manual;
+Revisado y funcionando, cualquier cosa me dices;cerrar;manual;
+Queda cerrado el hilo por mi parte, un saludo;cerrar;manual;
+Perfecto, quedo al tanto de los logs;cerrar;manual;
+Vale, lo reviso y te comento luego;cerrar;manual;
+Te aviso en cuanto estÃ© la PR lista, un abrazo;cerrar;manual;
+Nos vemos en la daily de maÃ±ana, Â¡buen trabajo!;cerrar;manual;
+Me meto a una reuniÃ³n, luego seguimos;cerrar;manual;
+Desconecto por hoy, maÃ±ana le echamos un ojo;cerrar;manual;
+Â¡Venga, un saludo y gracias por la ayuda!;cerrar;manual;
+Pase el pipeline a staging, me aviso si falla;cerrar;manual;
+Aparcao, ya quedÃ³ arreglado ese bug;cerrar;manual;
+Todo OK de mi lado, que vaya bien la tarde;cerrar;manual;
+Ya publiquÃ© la nueva imagen en Docker Hub;cerrar;manual;
+Â¡Anotado! Seguimos hablando por la canal general;cerrar;manual;
+Cualquier otra duda sobre la API me escrites;cerrar;manual;
+Excelente, gracias por el review;cerrar;manual;
+Â¡Chao, nos leemos al rato!;cerrar;manual;
+PÃ³ngame con el departamento de calidad;contactar_humano;manual;DEPARTAMENTO:departamento de calidad
+Necesito hablar con el area de ventas;contactar_humano;manual;DEPARTAMENTO:area de ventas
+Quiero consultar con el departamento de marketing;contactar_humano;manual;DEPARTAMENTO:departamento de marketing
+Derivame al equipo de soporte tecnico;contactar_humano;manual;DEPARTAMENTO:equipo de soporte tecnico
+Quiero comunicarme con el departamento de compras;contactar_humano;manual;DEPARTAMENTO:departamento de compras
+Transferir con el area de recursos humanos;contactar_humano;manual;DEPARTAMENTO:area de recursos humanos
+Ponme con el departamento de logistica;contactar_humano;manual;DEPARTAMENTO:departamento de logistica
+Necesito hablar con el departamento de administracion;contactar_humano;manual;DEPARTAMENTO:departamento de administracion
+Derivame con el equipo de atencion al cliente;contactar_humano;manual;DEPARTAMENTO:equipo de atencion al cliente
+Transferirme al departamento de sistemas;contactar_humano;manual;DEPARTAMENTO:departamento de sistemas
+Ponme en contacto con el area de produccion;contactar_humano;manual;DEPARTAMENTO:area de produccion
+Quiero hablar con el departamento de finanzas;contactar_humano;manual;DEPARTAMENTO:departamento de finanzas
+Necesito comunicarme con el departamento de ventas;contactar_humano;manual;DEPARTAMENTO:departamento de ventas
+Derivame al area de calidad;contactar_humano;manual;DEPARTAMENTO:area de calidad
+Transferir con el departamento de ingenieria;contactar_humano;manual;DEPARTAMENTO:departamento de ingenieria
+Ponme con el equipo de desarrollo;contactar_humano;manual;DEPARTAMENTO:equipo de desarrollo
+Necesito hablar con el departamento de seguridad;contactar_humano;manual;DEPARTAMENTO:departamento de seguridad
+Quiero un tecnico en informatica;contactar_humano;manual;AGENTE_HUMANO:tecnico
+Necesito un asesor comercial;contactar_humano;manual;AGENTE_HUMANO:asesor comercial
+Puedes pasarme con un ingeniero;contactar_humano;manual;ACCION_TRANSFERENCIA:pasarme|AGENTE_HUMANO:ingeniero
+Quiero consultar con un abogado;contactar_humano;manual;AGENTE_HUMANO:abogado
+Necesito hablar con un contable;contactar_humano;manual;AGENTE_HUMANO:contable
+Pongame con un consultor financiero;contactar_humano;manual;ACCION_TRANSFERENCIA:Pongame|AGENTE_HUMANO:consultor financiero
+Quiero un agente de seguros;contactar_humano;manual;AGENTE_HUMANO:agente de seguros
+Necesito un especialista en sistemas;contactar_humano;manual;AGENTE_HUMANO:especialista en sistemas
+Pasame con un tecnico de redes;contactar_humano;manual;ACCION_TRANSFERENCIA:Pasame|AGENTE_HUMANO:tecnico de redes
+Quiero hablar con un asesor tecnico;contactar_humano;manual;AGENTE_HUMANO:asesor tecnico
+Necesito un ejecutivo de cuentas;contactar_humano;manual;AGENTE_HUMANO:ejecutivo de cuentas
+Ponme con un soporte especializado;contactar_humano;manual;ACCION_TRANSFERENCIA:Ponme|AGENTE_HUMANO:soporte especializado
+Derivar con un consultor de negocios;contactar_humano;manual;ACCION_TRANSFERENCIA:Derivar|AGENTE_HUMANO:consultor de negocios
+Cualquier otra duda sobre la API me escribes;cerrar;manual;
+Quedo a disposiciÃ³n para cualquier duda;cerrar;manual;
+Estoy a su disposiciÃ³n para mÃ¡s asuntos;cerrar;manual;
+Quedo a la espera de sus comentarios;cerrar;manual;
+Quedo a la espera de sus indicaciones;cerrar;manual;
+Gracias por su tiempo, hasta pronto;cerrar;manual;
+Fue un placer asistirle, hasta la prÃ³xima;cerrar;manual;
+Que tenga un excelente dÃ­a;cerrar;manual;
+Hasta la prÃ³xima reuniÃ³n;cerrar;manual;
+Que le vaya bien en sus gestiones;cerrar;manual;
+Quiero hablar con un agente;contactar_humano;manual;ACCION_TRANSFERENCIA:hablar|AGENTE_HUMANO:agente
+Pasame con un operador por favor;contactar_humano;manual;ACCION_TRANSFERENCIA:Pasame|AGENTE_HUMANO:operador
+Por favor ponme con una persona;contactar_humano;manual;ACCION_TRANSFERENCIA:ponme|AGENTE_HUMANO:persona
+Prefiero que me atienda un humano;contactar_humano;manual;AGENTE_HUMANO:humano
+Me puedes transferir con atencion al cliente;contactar_humano;manual;ACCION_TRANSFERENCIA:transferir|DEPARTAMENTO:atencion al cliente
+Necesito asistencia humana ahora mismo;contactar_humano;manual;AGENTE_HUMANO:asistencia humana
+Hay algun soporte humano disponible;contactar_humano;manual;AGENTE_HUMANO:soporte humano
+Transferirme con un representante por favor;contactar_humano;manual;ACCION_TRANSFERENCIA:Transferirme|AGENTE_HUMANO:representante
+No quiero hablar con un bot pasame con alguien;contactar_humano;manual;ACCION_TRANSFERENCIA:pasame|AGENTE_HUMANO:alguien
+Atiendeme con una persona del equipo;contactar_humano;manual;AGENTE_HUMANO:persona
+Eso es todo por hoy muchas gracias;cerrar;manual;FINAL:todo por hoy
+Hasta luego que tengas buen dia;cerrar;manual;FINAL:Hasta luego
+Ya no necesito nada mas me despido;cerrar;manual;FINAL:nada mas
+Terminamos la consulta gracias por la ayuda;cerrar;manual;FINAL:Terminamos
+Podemos dar por finalizada la conversacion;cerrar;manual;FINAL:finalizada
+Perfecto chau nos vemos;cerrar;manual;CONFIRMACION:Perfecto|FINAL:chau
+Listo todo aclarado cierro el chat;cerrar;manual;CONFIRMACION:Listo|FINAL:cierro el chat
+Gracias ya me puedo retirar;cerrar;manual;FINAL:retirar
+Adios que pases buena tarde;cerrar;manual;FINAL:Adios
+Con esto concluyo mi consulta hasta otra;cerrar;manual;FINAL:concluyo
+Quiero contratar la revision general por 120 euros;compra;manual;PRECIO:120 euros|SERVICIO:revision general
+Deseo adquirir el mantenimiento anual;compra;manual;SERVICIO:mantenimiento anual
+Quiero comprar el paquete basico por 50 euros;compra;manual;PRECIO:50 euros|SERVICIO:paquete basico
+Me interesa contratar el servicio tecnico urgente;compra;manual;SERVICIO:servicio tecnico urgente
+Quiero pagar la auditoria por 300 euros;compra;manual;PRECIO:300 euros|SERVICIO:auditoria
+Cual es la duracion de la revision general;consulta_tecnica;manual;SERVICIO:revision general
+El mantenimiento anual incluye piezas de repuesto;consulta_tecnica;manual;SERVICIO:mantenimiento anual
+Que garantia tiene la auditoria de 300 euros;consulta_tecnica;manual;PRECIO:300 euros|SERVICIO:auditoria
+Como se realiza la configuracion inicial;consulta_tecnica;manual;SERVICIO:configuracion inicial
+El diagnostico por 80 euros incluye informe escrito;consulta_tecnica;manual;PRECIO:80 euros|SERVICIO:diagnostico
+Si estoy de acuerdo con el servicio;confirmacion;manual;CONFIRMACION:Si|SERVICIO:servicio
+Perfecto acepto el presupuesto de 150 euros;confirmacion;manual;CONFIRMACION:Perfecto|PRECIO:150 euros
+De acuerdo procedan con el pedido;confirmacion;manual;CONFIRMACION:De acuerdo
+Correcto confirmo la contratacion;confirmacion;manual;CONFIRMACION:Correcto
+Vale acepto las condiciones descritas;confirmacion;manual;CONFIRMACION:Vale
+Donde estan ubicadas sus oficinas centrales;otro;manual;
+Cual es el horario de atencion;otro;manual;
+Aceptan pagos con tarjeta de credito;otro;manual;
+Tienen estacionamiento para clientes;otro;manual;
+A que correo puedo enviar una sugerencia;otro;manual;
+Deseo contratar el servicio de mantenimiento web por 200 euros;compra;manual;PRECIO:200 euros|SERVICIO:mantenimiento web
+Quiero comprar el plan profesional;compra;manual;SERVICIO:plan profesional
+Me interesa adquirir la auditoria de seguridad por 450 euros;compra;manual;PRECIO:450 euros|SERVICIO:auditoria de seguridad
+Quiero solicitar la instalacion del sistema;compra;manual;SERVICIO:instalacion del sistema
+Deseo contratar la revision preventiva por 90 euros;compra;manual;PRECIO:90 euros|SERVICIO:revision preventiva
+Quiero la suscripcion anual por 1200 euros;compra;manual;PRECIO:1200 euros|SERVICIO:suscripcion anual
+Me gustarÃ­a adquirir el paquete de horas de soporte;compra;manual;SERVICIO:paquete de horas de soporte
+Quiero contratar la optimizaciÃ³n SEO por 350 euros;compra;manual;PRECIO:350 euros|SERVICIO:optimizaciÃ³n SEO
+Deseo comprar la licencia corporativa;compra;manual;SERVICIO:licencia corporativa
+Quiero adquirir el soporte 24 horas por 500 euros;compra;manual;PRECIO:500 euros|SERVICIO:soporte 24 horas
+Quiero pedir el diagnostico de red por 75 euros;compra;manual;PRECIO:75 euros|SERVICIO:diagnostico de red
+Me interesa contratar la migracion de servidor;compra;manual;SERVICIO:migracion de servidor
+Deseo adquirir el servicio de limpieza de virus por 60 euros;compra;manual;PRECIO:60 euros|SERVICIO:limpieza de virus
+Quiero la membresia VIP por 100 euros al mes;compra;manual;PRECIO:100 euros|SERVICIO:membresia VIP
+Quiero comprar el modulo de facturacion;compra;manual;SERVICIO:modulo de facturacion
+Deseo contratar el respaldo en la nube por 150 euros;compra;manual;PRECIO:150 euros|SERVICIO:respaldo en la nube
+Quiero adquirir el servicio de consultoria;compra;manual;SERVICIO:consultoria
+Me interesa comprar la garantia extendida por 80 euros;compra;manual;PRECIO:80 euros|SERVICIO:garantia extendida
+Quiero contratar la configuracion de firewall;compra;manual;SERVICIO:configuracion de firewall
+Deseo comprar el paquete de diseÃ±o por 600 euros;compra;manual;PRECIO:600 euros|SERVICIO:paquete de diseÃ±o
+Quiero la renovacion del dominio por 25 euros;compra;manual;PRECIO:25 euros|SERVICIO:renovacion del dominio
+Deseo adquirir la capacitacion de personal por 400 euros;compra;manual;PRECIO:400 euros|SERVICIO:capacitacion de personal
+Quiero contratar el analisis de datos;compra;manual;SERVICIO:analisis de datos
+Me interesa comprar el certificado SSL por 40 euros;compra;manual;PRECIO:40 euros|SERVICIO:certificado SSL
+Quiero adquirir la integracion de API por 800 euros;compra;manual;PRECIO:800 euros|SERVICIO:integracion de API
+Deseo contratar la gestion de redes sociales;compra;manual;SERVICIO:gestion de redes sociales
+Quiero comprar la reparacion de equipo por 110 euros;compra;manual;PRECIO:110 euros|SERVICIO:reparacion de equipo
+Me interesa el plan bÃ¡sico por 30 euros;compra;manual;PRECIO:30 euros|SERVICIO:plan bÃ¡sico
+Quiero contratar el desarrollo a medida;compra;manual;SERVICIO:desarrollo a medida
+Deseo adquirir la plantilla premium por 95 euros;compra;manual;PRECIO:95 euros|SERVICIO:plantilla premium
+Quiero el pack de mantenimiento por 180 euros;compra;manual;PRECIO:180 euros|SERVICIO:pack de mantenimiento
+Quiero contratar el monitoreo constante;compra;manual;SERVICIO:monitoreo constante
+Deseo comprar la prueba de penetracion por 900 euros;compra;manual;PRECIO:900 euros|SERVICIO:prueba de penetracion
+Me interesa contratar el servicio de backup diario por 50 euros;compra;manual;PRECIO:50 euros|SERVICIO:backup diario
+Quiero adquirir el modulo de inventario;compra;manual;SERVICIO:modulo de inventario
+Cual es la duracion del servicio de mantenimiento web;consulta_tecnica;manual;SERVICIO:mantenimiento web
+El plan profesional incluye certificado SSL;consulta_tecnica;manual;SERVICIO:certificado SSL|SERVICIO:plan profesional
+Que abarca la auditoria de seguridad de 450 euros;consulta_tecnica;manual;PRECIO:450 euros|SERVICIO:auditoria de seguridad
+Cuanto tiempo tarda la instalacion del sistema;consulta_tecnica;manual;SERVICIO:instalacion del sistema
+Que herramientas usan en la revision preventiva por 90 euros;consulta_tecnica;manual;PRECIO:90 euros|SERVICIO:revision preventiva
+La suscripcion anual de 1200 euros permite pagos mensuales;consulta_tecnica;manual;PRECIO:1200 euros|SERVICIO:suscripcion anual
+Cuantas horas incluye el paquete de horas de soporte;consulta_tecnica;manual;SERVICIO:paquete de horas de soporte
+Que estrategias incluye la optimizacion SEO;consulta_tecnica;manual;SERVICIO:optimizacion SEO
+Cual es el limite de usuarios en la licencia corporativa;consulta_tecnica;manual;SERVICIO:licencia corporativa
+El soporte 24 horas responde por telefono;consulta_tecnica;manual;SERVICIO:soporte 24 horas
+En que consiste el diagnostico de red de 75 euros;consulta_tecnica;manual;PRECIO:75 euros|SERVICIO:diagnostico de red
+La migracion de servidor causa interrupciones en la pagina;consulta_tecnica;manual;SERVICIO:migracion de servidor
+La limpieza de virus por 60 euros recupera mis archivos;consulta_tecnica;manual;PRECIO:60 euros|SERVICIO:limpieza de virus
+Que beneficios adicionales tiene la membresia VIP;consulta_tecnica;manual;SERVICIO:membresia VIP
+El modulo de facturacion se integra con bancos;consulta_tecnica;manual;SERVICIO:modulo de facturacion
+Cuanta capacidad tiene el respaldo en la nube de 150 euros;consulta_tecnica;manual;PRECIO:150 euros|SERVICIO:respaldo en la nube
+La consultoria puede ser en modalidad presencial;consulta_tecnica;manual;SERVICIO:consultoria
+Que cubre la garantia extendida por 80 euros;consulta_tecnica;manual;PRECIO:80 euros|SERVICIO:garantia extendida
+El firewall incluye proteccion contra ataques DDoS;consulta_tecnica;manual;SERVICIO:firewall
+Cuantas revisiones incluye el paquete de diseÃ±o;consulta_tecnica;manual;SERVICIO:paquete de diseÃ±o
+El dominio por 25 euros incluye cuentas de correo;consulta_tecnica;manual;PRECIO:25 euros|SERVICIO:dominio
+Cuantas personas pueden estar en la capacitacion de personal;consulta_tecnica;manual;SERVICIO:capacitacion de personal
+Que tecnologias usan para el analisis de datos;consulta_tecnica;manual;SERVICIO:analisis de datos
+El certificado SSL de 40 euros es valido por un aÃ±o;consulta_tecnica;manual;PRECIO:40 euros|SERVICIO:certificado SSL
+Cuanto demora la integracion de API de 800 euros;consulta_tecnica;manual;PRECIO:800 euros|SERVICIO:integracion de API
+Incluye publicaciones diarias la gestion de redes sociales;consulta_tecnica;manual;SERVICIO:gestion de redes sociales
+Que garantia tiene la reparacion de equipo;consulta_tecnica;manual;SERVICIO:reparacion de equipo
+El plan basico de 30 euros soporta multiples usuarios;consulta_tecnica;manual;PRECIO:30 euros|SERVICIO:plan basico
+Que lenguaje utilizan para el desarrollo a medida;consulta_tecnica;manual;SERVICIO:desarrollo a medida
+La plantilla premium incluye soporte tecnico;consulta_tecnica;manual;SERVICIO:plantilla premium
+Que tareas cubre el pack de mantenimiento de 180 euros;consulta_tecnica;manual;PRECIO:180 euros|SERVICIO:pack de mantenimiento
+Como envian las alertas en el monitoreo constante;consulta_tecnica;manual;SERVICIO:monitoreo constante
+Cual es el informe final de la prueba de penetracion;consulta_tecnica;manual;SERVICIO:prueba de penetracion
+El backup diario guarda copias por cuanto tiempo;consulta_tecnica;manual;SERVICIO:backup diario
+Es compatible el modulo de inventario con mi software actual;consulta_tecnica;manual;SERVICIO:modulo de inventario
+Terminamos la consulta gracias por todo;cerrar;manual;FINAL:Terminamos
+Podemos dar por finalizada la sesion;cerrar;manual;FINAL:finalizada
+Listo todo claro cierro el chat;cerrar;manual;CONFIRMACION:Listo|FINAL:cierro el chat
+Muchas gracias nos vemos pronto;cerrar;manual;FINAL:nos vemos pronto
+Ya respondiste mi duda me desconecto;cerrar;manual;FINAL:me desconecto
+Es todo por mi parte feliz dia;cerrar;manual;FINAL:todo por mi parte
+Doy por cerrada la conversacion;cerrar;manual;FINAL:cerrada
+Bye nos hablamos luego;cerrar;manual;FINAL:Bye
+Mil gracias por tu ayuda hasta luego;cerrar;manual;FINAL:hasta luego
+Me voy hasta la proxima;cerrar;manual;FINAL:hasta la proxima
+Excelente atencion me despido;cerrar;manual;FINAL:me despido
+Terminamos por hoy buen fin de semana;cerrar;manual;FINAL:Terminamos
+Chau que todo vaya bien;cerrar;manual;FINAL:Chau
+Ok me retiro del chat;cerrar;manual;CONFIRMACION:Ok|FINAL:me retiro
+No tengo mas preguntas adios;cerrar;manual;FINAL:adios
+Quedo satisfecho cierro la ventana;cerrar;manual;FINAL:cierro
+Hasta maÃ±ana gracias por el soporte;cerrar;manual;FINAL:Hasta maÃ±ana
+Finalizo el contacto por ahora;cerrar;manual;FINAL:Finalizo
+Muchas gracias por tu tiempo nos vemos;cerrar;manual;FINAL:nos vemos
+Todo resuelto chau;cerrar;manual;FINAL:chau
+Cerramos aqui la sesion;cerrar;manual;FINAL:Cerramos
+Buen dia me salgo de la consulta;cerrar;manual;FINAL:me salgo
+Si estoy de acuerdo con las condiciones;confirmacion;manual;CONFIRMACION:Si
+Perfecto acepto la propuesta de 200 euros;confirmacion;manual;CONFIRMACION:Perfecto|PRECIO:200 euros
+De acuerdo procedan con la instalacion del sistema;confirmacion;manual;CONFIRMACION:De acuerdo|SERVICIO:instalacion del sistema
+Correcto confirmo la orden de compra;confirmacion;manual;CONFIRMACION:Correcto
+Vale acepto el presupuesto del plan basico;confirmacion;manual;CONFIRMACION:Vale|SERVICIO:plan basico
+Si exactamente eso es lo que necesito;confirmacion;manual;CONFIRMACION:Si
+Por supuesto confirmo el servicio;confirmacion;manual;CONFIRMACION:Por supuesto|SERVICIO:servicio
+Totalmente de acuerdo adelante;confirmacion;manual;CONFIRMACION:Totalmente de acuerdo
+Claro que si confirmo el importe de 120 euros;confirmacion;manual;CONFIRMACION:Claro que si|PRECIO:120 euros
+Excelente me parece muy bien;confirmacion;manual;CONFIRMACION:Excelente
+Si confirmo la contratacion de la auditoria;confirmacion;manual;CONFIRMACION:Si|SERVICIO:auditoria
+Listo acepto la oferta indicada;confirmacion;manual;CONFIRMACION:Listo
+De acuerdo confirmo la fecha indicada;confirmacion;manual;CONFIRMACION:De acuerdo
+Si procedan con la migracion de servidor;confirmacion;manual;CONFIRMACION:Si|SERVICIO:migracion de servidor
+Afirmativo autorizo el pago de 50 euros;confirmacion;manual;CONFIRMACION:Afirmativo|PRECIO:50 euros
+Sin problema acepto los tÃ©rminos;confirmacion;manual;CONFIRMACION:Sin problema
+Vale me parece una buena solucion;confirmacion;manual;CONFIRMACION:Vale
+Si adelante con la configuracion del firewall;confirmacion;manual;CONFIRMACION:Si|SERVICIO:configuracion del firewall
+Perfecto denle luz verde al proyecto;confirmacion;manual;CONFIRMACION:Perfecto
+Correcto acepto la tarifa propuesta;confirmacion;manual;CONFIRMACION:Correcto
+Si apruebo la renovacion del dominio;confirmacion;manual;CONFIRMACION:Si|SERVICIO:renovacion del dominio
+De acuerdo confirmo la compra por 80 euros;confirmacion;manual;CONFIRMACION:De acuerdo|PRECIO:80 euros
+Si estoy satisfecho con el precio pactado;confirmacion;manual;CONFIRMACION:Si
+Entendido confirmo el inicio del trabajo;confirmacion;manual;CONFIRMACION:Entendido
+Vale acepto la sugerencia que me dan;confirmacion;manual;CONFIRMACION:Vale
+Claro procedan a enviar la factura;confirmacion;manual;CONFIRMACION:Claro
+Si autorizo el cobro en mi tarjeta;confirmacion;manual;CONFIRMACION:Si
+Perfecto confirmo la capacitacion de personal;confirmacion;manual;CONFIRMACION:Perfecto|SERVICIO:capacitacion de personal
+De acuerdo den por confirmado el tramite;confirmacion;manual;CONFIRMACION:De acuerdo
+Si me parece correcto el informe presentado;confirmacion;manual;CONFIRMACION:Si
+Quiero hablar con un agente de inmediato;contactar_humano;manual;ACCION_TRANSFERENCIA:hablar|AGENTE_HUMANO:agente
+Pasame con un operador del centro de soporte;contactar_humano;manual;ACCION_TRANSFERENCIA:Pasame|AGENTE_HUMANO:operador|DEPARTAMENTO:soporte
+Por favor ponme con una persona real;contactar_humano;manual;ACCION_TRANSFERENCIA:ponme|AGENTE_HUMANO:persona
+Prefiero que me atienda un humano por favor;contactar_humano;manual;AGENTE_HUMANO:humano
+Necesito asistencia humana para resolver esto;contactar_humano;manual;AGENTE_HUMANO:asistencia humana
+Hay algun soporte humano que me pueda orientar;contactar_humano;manual;AGENTE_HUMANO:soporte humano
+Transferirme con un representante del departamento tecnico;contactar_humano;manual;ACCION_TRANSFERENCIA:Transferirme|AGENTE_HUMANO:representante|DEPARTAMENTO:departamento tecnico
+Atiendeme con una persona de soporte;contactar_humano;manual;AGENTE_HUMANO:persona|DEPARTAMENTO:soporte
+Solicito ser atendido por un ejecutivo de ventas;contactar_humano;manual;AGENTE_HUMANO:ejecutivo|DEPARTAMENTO:ventas
+Comunicate con un operador humano inmediatamente;contactar_humano;manual;AGENTE_HUMANO:operador humano
+Puedes comunicarme con un asesor especialista;contactar_humano;manual;ACCION_TRANSFERENCIA:comunicarme|AGENTE_HUMANO:asesor
+Quiero cambiar a atencion con una persona;contactar_humano;manual;AGENTE_HUMANO:persona
+Pasame el contacto de un agente de soporte;contactar_humano;manual;ACCION_TRANSFERENCIA:Pasame|AGENTE_HUMANO:agente|DEPARTAMENTO:soporte
+Necesito un humano que revise mi caso particular;contactar_humano;manual;AGENTE_HUMANO:humano
+Por favor desviame con un operador disponible;contactar_humano;manual;ACCION_TRANSFERENCIA:desviame|AGENTE_HUMANO:operador
+Prefiero resolver esto con un agente en vivo;contactar_humano;manual;AGENTE_HUMANO:agente
+Derivame con el equipo de soporte tecnico;contactar_humano;manual;ACCION_TRANSFERENCIA:Derivame|DEPARTAMENTO:soporte tecnico
+Quiero hablar con el responsable del departamento;contactar_humano;manual;ACCION_TRANSFERENCIA:hablar|AGENTE_HUMANO:responsable|DEPARTAMENTO:departamento
+Ponme en linea con un especialista humano;contactar_humano;manual;ACCION_TRANSFERENCIA:Ponme|AGENTE_HUMANO:especialista humano
+Conectame con un operador del area de pagos;contactar_humano;manual;ACCION_TRANSFERENCIA:Conectame|AGENTE_HUMANO:operador|DEPARTAMENTO:area de pagos
+Exijo hablar con un representante de la empresa;contactar_humano;manual;ACCION_TRANSFERENCIA:hablar|AGENTE_HUMANO:representante
+Pasame con alguien del equipo de atencion;contactar_humano;manual;ACCION_TRANSFERENCIA:Pasame|AGENTE_HUMANO:alguien|DEPARTAMENTO:atencion
+Hay alguna persona libre para atender mi llamada;contactar_humano;manual;AGENTE_HUMANO:persona
+PÃ¡same con una persona no entiendo las opciones;contactar_humano;manual;ACCION_TRANSFERENCIA:PÃ¡same|AGENTE_HUMANO:persona
+Deseo contactar con un agente del servicio oficial;contactar_humano;manual;ACCION_TRANSFERENCIA:contactar|AGENTE_HUMANO:agente
+Transferir a un operador por favor;contactar_humano;manual;ACCION_TRANSFERENCIA:Transferir|AGENTE_HUMANO:operador
+Necesto la intervencion de un asistente humano;contactar_humano;manual;AGENTE_HUMANO:asistente humano
+Quiero atencion personalizada con un representante;contactar_humano;manual;AGENTE_HUMANO:representante
+Donde estan ubicadas sus oficinas principales;otro;manual;
+Cual es el horario de atencion al publico;otro;manual;
+Aceptan pagos con tarjeta de credito visa;otro;manual;
+Tienen estacionamiento gratuito para los clientes;otro;manual;
+A que correo electronico puedo enviar mi curriculum;otro;manual;
+Cuales son los requisitos para trabajar en la empresa;otro;manual;
+Tienen sucursales abiertas en la ciudad de Madrid;otro;manual;
+Cual es el numero del departamento de recursos humanos;otro;manual;
+Que metodos de pago aceptan en la tienda virtual;otro;manual;
+Cual es la politica de privacidad de la empresa;otro;manual;
+Ofrecen facturaciÃ³n electronica para empresas;otro;manual;
+Donde puedo consultar los terminos y condiciones;otro;manual;
+Tienen redes sociales oficiales para seguir sus novedades;otro;manual;
+En que aÃ±o se fundo la compaÃ±ia;otro;manual;
+Como puedo hacer una reclamacion formal;otro;manual;
+Hacen envios de productos a otros paises;otro;manual;
+Cual es la direccion del almacen central;otro;manual;
+Ofrecen descuentos especiales por compras al mayor;otro;manual;
+Tienen alguna app movil disponible para Android;otro;manual;
+A que hora abren el establecimiento los sabados;otro;manual;
+Es necesario pedir cita previa para ir a la oficina;otro;manual;
+Donde encuentro el catalogo general en PDF;otro;manual;
+Tienen convenios con institutos o universidades;otro;manual;
+Cual es el plazo promedio de respuesta de las solicitudes;otro;manual;
+Tienen un canal de denuncias anonimo en la web;otro;manual;
+El acceso al edificio es accesible para sillas de ruedas;otro;manual;
+Emiten facturas con IVA desglosado;otro;manual;
+Puedo cambiar los datos de mi cuenta de usuario;otro;manual;
+Tienen codigo de conducta empresarial publicado;otro;manual;
+Cual es la diferencia entre su empresa y la competencia;otro;manual;
+Que dias festivos del aÃ±o permanece cerrado el local;otro;manual;
+Donde puedo dejar una reseÃ±a sobre sus servicios;otro;manual;
+Tienen programa de afiliados o recomendaciones;otro;manual;
+Puedo solicitar una visita a sus instalaciones;otro;manual;
+Tienen bolsa de trabajo activa en este momento;otro;manual;
+buenos dias quiero un presupuesto;compra;manual;
+hola buenos dias necesito un presupuesto para una web;compra;manual;
+presupuesto para el servicio de mantenimiento;compra;manual;
+me gustaria pedir un presupuesto;compra;manual;
+hola me podrian pasar un presupuesto;compra;manual;
+buenos dias queria pedir presupuesto para comprar sus servicios;compra;manual;
+necesito un presupuesto;compra;manual;
+buenos dias que tal;otro;manual;
+hola buenos dias;otro;manual;
+buenos dias solo pasaba a saludar;otro;manual;
+tengo un error al instalar el programa;consulta_tecnica;manual;
+no puedo instalar la aplicacion;consulta_tecnica;manual;
+fallo al instalar el software;consulta_tecnica;manual;
+problemas instalando el programa;consulta_tecnica;manual;
+error al instalar la actualizacion;consulta_tecnica;manual;
+el programa da error al instalar;consulta_tecnica;manual;
+tengo un problema instalando la app;consulta_tecnica;manual;
+error de instalacion en el sistema;consulta_tecnica;manual;
+fallo al ejecutar la instalacion;consulta_tecnica;manual;
+no se instala el programa correctamente;consulta_tecnica;manual;
+tengo un fallo tecnico en la instalacion;consulta_tecnica;manual;
+el software no instala da error;consulta_tecnica;manual;
+la instalacion falla con error;consulta_tecnica;manual;
+error durante la instalacion del software;consulta_tecnica;manual;
+problemas con la instalacion del programa;consulta_tecnica;manual;
+el instalador da error y no continua;consulta_tecnica;manual;
+no logro instalar la aplicacion;consulta_tecnica;manual;
+error critico en la instalacion;consulta_tecnica;manual;
+la instalacion se detiene con error;consulta_tecnica;manual;
+fallo al configurar la instalacion;consulta_tecnica;manual;
+error de dependencias al instalar;consulta_tecnica;manual;
+el programa no se deja instalar;consulta_tecnica;manual;
+instalacion fallida error desconocido;consulta_tecnica;manual;
+quiero hablar con un agente;contactar_humano;manual;
+necesito un operador humano;contactar_humano;manual;
+pasame con un agente por favor;contactar_humano;manual;
+quiero que me atienda una persona;contactar_humano;manual;
+necesito soporte humano;contactar_humano;manual;
+transfiereme con un operador;contactar_humano;manual;
+quiero hablar con soporte tecnico humano;contactar_humano;manual;
+necesito un agente de atencion al cliente;contactar_humano;manual;
+pasame con alguien del equipo de soporte;contactar_humano;manual;
+quiero ser atendido por un humano;contactar_humano;manual;
+comunicame con un operador disponible;contactar_humano;manual;
+prefiero hablar con una persona real;contactar_humano;manual;
+necesito asistencia de un agente humano;contactar_humano;manual;
+derivame con un operador por favor;contactar_humano;manual;
+quiero contactar con atencion al cliente;contactar_humano;manual;
+acepto el presupuesto;confirmacion;manual;
+confirmo la compra;confirmacion;manual;
+de acuerdo con el precio;confirmacion;manual;
+perfecto acepto;confirmacion;manual;
+confirmo el pedido;confirmacion;manual;
+me parece bien el presupuesto;confirmacion;manual;
+adelante con la contratacion;confirmacion;manual;
+autorizo el pago;confirmacion;manual;
+confirmo la orden de compra;confirmacion;manual;
+estoy de acuerdo con los terminos;confirmacion;manual;
+confirmo que quiero contratar;confirmacion;manual;
+valido el presupuesto;confirmacion;manual;
+confirmo la contratacion del servicio;confirmacion;manual;
+Que tiempo hace hoy;otro;manual;
+Llueve mucho hoy en Madrid;otro;manual;
+Hace mucho calor esta semana;otro;manual;
+Me duele la cabeza desde ayer;otro;manual;
+Tengo gripe y no puedo trabajar;otro;manual;
+Tengo una cita medica manana;otro;manual;
+Que dia es hoy;otro;manual;
+Ponme musica de fondo;otro;manual;
+Cual es tu cancion favorita;otro;manual;
+Cuentame un chiste;otro;manual;
+Quien gano el partido de ayer;otro;manual;
+Estoy aburrido ahora mismo;otro;manual;
+Estoy triste hoy;otro;manual;
+Estoy muy cansado del trabajo;otro;manual;
+No se que hacer este fin de semana;otro;manual;
+Jajaja muy bueno;otro;manual;
+Ok perfecto gracias;otro;manual;
+Mmm no se que decirte;otro;manual;
+Nada, solo estaba probando el chat;otro;manual;
+Que tal estas tu;otro;manual;
+Eres un robot verdad;otro;manual;
+Sabes hacer calculos matematicos;otro;manual;
+Escribes en ingles tambien;otro;manual;
+Como te llamas;otro;manual;
+De donde eres;otro;manual;
+Esto es una prueba del sistema;otro;manual;
+Hola hola hay alguien ahi;otro;manual;
+Me han cobrado dos veces la factura;otro;manual;
+Me han cobrado 150 euros de mas;otro;manual;PRECIO:150 euros
+He pagado 90 euros por error;otro;manual;PRECIO:90 euros
+Quiero una devolucion del dinero;otro;manual;
+El recibo no coincide con lo que contrate;otro;manual;
+Han aplicado un cargo que no reconozco;otro;manual;
+Necesito reclamar por un cobro indebido;otro;manual;
+Tu servicio es una porqueria;otro;manual;
+Estoy harto de los fallos de siempre;otro;manual;
+El servicio cada vez va peor;otro;manual;
+Me trataron muy mal en el soporte;otro;manual;
+La factura del mes pasado no me llega;otro;manual;
+Me han subido el precio sin avisar;otro;manual;
+Estoy pensando en cancelar la suscripcion;otro;manual;
+No entiendo nada de lo que dices;otro;manual;
+Repitemelo otra vez por favor;otro;manual;
+Hablas espanol;otro;manual;
+Que hora es por aqui;otro;manual;
+Prueba de conexion;otro;manual;
+No quiero nada ahora gracias;otro;manual;
+Tengo que entregar el informe hoy;otro;manual;
+Mi jefe no me deja salir temprano;otro;manual;
+Estoy preparando una oposicion;otro;manual;
+Me mudare a otra ciudad el mes que viene;otro;manual;
+Cualquier cosa me escribes por aqui sin problema;cerrar;manual;
+Cualquier otra duda me la planteas sin miedo;cerrar;manual;
+Que le vaya bien, quedo a su disposicion;cerrar;manual;
+Nada mas por mi parte, un saludo cordial;cerrar;manual;
+Doy por finalizada la conversacion, gracias;cerrar;manual;
+Me voy por aqui, cualquier cosa me avisas;cerrar;manual;
+Por mi parte nada mas, que vaya bien;cerrar;manual;
+Cierro por aqui, gracias por la atencion;cerrar;manual;
+Todo listo de mi lado, hasta la proxima;cerrar;manual;
+tengo un error al instalar el programa y no se que hacer;consulta_tecnica;manual;
+fallo al instalar el software me da error 404;consulta_tecnica;manual;
+problemas instalando la aplicacion en windows 10;consulta_tecnica;manual;
+error al instalar la actualizacion del driver;consulta_tecnica;manual;
+no se instala el programa correctamente me da fallo;consulta_tecnica;manual;
+fallo al ejecutar la instalacion del driver de video;consulta_tecnica;manual;
+no se instala el programa correctamente da error 1603;consulta_tecnica;manual;
+tengo un fallo tecnico en la instalacion del servidor;consulta_tecnica;manual;
+el software no instala da error de dependencias;consulta_tecnica;manual;
+la instalacion falla con error de permisos;consulta_tecnica;manual;
+fallo al configurar la instalacion de docker;consulta_tecnica;manual;
+error de dependencias al instalar python packages;consulta_tecnica;manual;
+el programa no se deja instalar en ubuntu;consulta_tecnica;manual;
+instalacion fallida error desconocido en windows;consulta_tecnica;manual;
+fallo al configurar la instalacion de nginx;consulta_tecnica;manual;
+error de dependencias al instalar npm packages;consulta_tecnica;manual;
+el programa no se deja instalar en macos;consulta_tecnica;manual;
+instalacion fallida error desconocido en linux;consulta_tecnica;manual;
+fallo al configurar la instalacion de nginx;consulta_tecnica;manual;
+error de dependencias al instalar composer packages;consulta_tecnica;manual;
+el programa no se deja instalar en debian;consulta_tecnica;manual;
+instalacion fallida error desconocido en centos;consulta_tecnica;manual;
+fallo al configurar la instalacion de mysql;consulta_tecnica;manual;
+error de dependencias al instalar maven packages;consulta_tecnica;manual;
+el programa no se deja instalar en fedora;consulta_tecnica;manual;
+instalacion fallida error desconocido en arch;consulta_tecnica;manual;
+fallo al configurar la instalacion de postgresql;consulta_tecnica;manual;
+error de dependencias al instalar gradle packages;consulta_tecnica;manual;
+el programa no se deja instalar en alpine;consulta_tecnica;manual;
+la aplicacion se cierra sola al abrirla;consulta_tecnica;manual;
+la app se cierra inesperadamente sin mensaje;consulta_tecnica;manual;
+error critico la app se cierra al iniciar;consulta_tecnica;manual;
+la aplicacion falla al iniciar sesion;consulta_tecnica;manual;
+tengo un bug al guardar los datos;consulta_tecnica;manual;
+fallo al conectar con la base de datos;consulta_tecnica;manual;
+error 500 al acceder al panel de admin;consulta_tecnica;manual;
+la api devuelve error 404 en el endpoint;consulta_tecnica;manual;
+timeout al conectar con el servidor;consulta_tecnica;manual;
+error de memoria insuficiente en el servidor;consulta_tecnica;manual;
+la pagina web no carga correctamente;consulta_tecnica;manual;
+error javascript en la consola del navegador;consulta_tecnica;manual;
+falla al enviar el formulario de contacto;consulta_tecnica;manual;
+problema con el certificado ssl expirado;consulta_tecnica;manual;
+error de cors al llamar a la api;consulta_tecnica;manual;
+la base de datos esta corrupta;consulta_tecnica;manual;
+falla la replicacion de la base de datos;consulta_tecnica;manual;
+error de sincronizacion de datos;consulta_tecnica;manual;
+problema con el cache de redis;consulta_tecnica;manual;
+falla el backup automatico nocturno;consulta_tecnica;manual;
+necesito hablar con un humano ahora mismo;contactar_humano;manual;
+quiero que me atienda una persona real ya;contactar_humano;manual;
+pasame con un operador humano por favor;contactar_humano;manual;
+necesito un agente humano urgentemente;contactar_humano;manual;
+quiero hablar con alguien de soporte ya;contactar_humano;manual;
+ponme con un operador ahora mismo;contactar_humano;manual;
+no quiero bot necesito humano;contactar_humano;manual;
+pasame con un humano de verdad;contactar_humano;manual;
+quiero hablar con una persona de verdad;contactar_humano;manual;
+exijo hablar con un humano;contactar_humano;manual;
+necesito asistencia humana inmediata;contactar_humano;manual;
+pasame con el departamento de soporte;contactar_humano;manual;
+quiero hablar con atencion al cliente;contactar_humano;manual;
+necesito un operador humano ya;contactar_humano;manual;
+quiero que me atienda una persona;contactar_humano;manual;
+derivame a un agente humano;contactar_humano;manual;
+quiero que me atienda un ejecutivo;contactar_humano;manual;
+pasame con ventas por favor;contactar_humano;manual;
+necesito hablar con facturacion;contactar_humano;manual;
+quiero hablar con retenciones;contactar_humano;manual;
+comunicame con un supervisor;contactar_humano;manual;
+acepto la oferta;confirmacion;manual;
+confirmo la reserva;confirmacion;manual;
+valido la compra;confirmacion;manual;
+apruebo el presupuesto;confirmacion;manual;
+doy mi conformidad;confirmacion;manual;
+confirmo mi pedido;confirmacion;manual;
+acepto los terminos y condiciones;confirmacion;manual;
+doy el visto bueno;confirmacion;manual;
+autorizo la compra;confirmacion;manual;
+confirmo que quiero comprar;confirmacion;manual;
+acepto el contrato;confirmacion;manual;
+doy mi aprobacion;confirmacion;manual;
+confirmo la contratacion;confirmacion;manual;
+valido la oferta;confirmacion;manual;
+si adelante con la compra;confirmacion;manual;
+procedan con el pedido;confirmacion;manual;
+autorizo el cobro;confirmacion;manual;
+confirmo mi compra;confirmacion;manual;
+doy mi consentimiento;confirmacion;manual;
+acepto las condiciones;confirmacion;manual;
+confirmo mi reserva;confirmacion;manual;
+quiero adquirir el servicio;compra;manual;
+necesito comprar el servicio;compra;manual;
+me gustaria comprar el paquete;compra;manual;
+estoy interesado en comprar;compra;manual;
+quisiera contratar el servicio;compra;manual;
+me gustaria pedir un presupuesto;compra;manual;
+necesito un presupuesto para;compra;manual;
+quiero contratar;compra;manual;
+estoy buscando comprar;compra;manual;
+me interesa adquirir;compra;manual;
+quiero hacer un pedido;compra;manual;
+necesito hacer un pedido;compra;manual;
+quiero solicitar un presupuesto;compra;manual;
+me gustaria pedir presupuesto;compra;manual;
+necesito presupuesto para;compra;manual;
+quiero saber precios de;compra;manual;
+me interesa el precio de;compra;manual;
+cuanto cuesta el servicio;compra;manual;
+cual es el precio de;compra;manual;
+que precio tiene;compra;manual;
+no funciona el login;consulta_tecnica;manual;
+no puedo acceder a mi cuenta;consulta_tecnica;manual;
+he olvidado mi contraseÃ±a;consulta_tecnica;manual;
+no me llega el email de recuperacion;consulta_tecnica;manual;
+error al resetear la contraseÃ±a;consulta_tecnica;manual;
+la verificacion en dos pasos falla;consulta_tecnica;manual;
+no me deja cambiar la contraseÃ±a;consulta_tecnica;manual;
+problema con el 2fa;consulta_tecnica;manual;
+error al verificar mi email;consulta_tecnica;manual;
+no recibo el codigo de verificacion;consulta_tecnica;manual;
+problemas con el sso;consulta_tecnica;manual;
+error de autenticacion saml;consulta_tecnica;manual;
+falla el login con google;consulta_tecnica;manual;
+no puedo iniciar sesion con sso;consulta_tecnica;manual;
+entendido;otro;manual;
+vale;otro;manual;
+ok;otro;manual;
+de acuerdo;otro;manual;
+entendido gracias;otro;manual;
+perfecto gracias;otro;manual;
+de nada;otro;manual;
+gracias;otro;manual;
+muchas gracias;otro;manual;
+perfecto;otro;manual;
+entendido perfecto;otro;manual;
+vale gracias;otro;manual;
+ok gracias;otro;manual;
+entendido perfecto gracias;otro;manual;
+todo claro;otro;manual;
+todo claro gracias;otro;manual;
+me queda claro;otro;manual;
+ya lo entiendo;otro;manual;
+ahora lo entiendo;otro;manual;
+gracias por la info;otro;manual;
+gracias por la ayuda;otro;manual;
+muy util gracias;otro;manual;
+muy amable gracias;otro;manual;
+excelente trabajo;otro;manual;
+buen trabajo;otro;manual;
+genial gracias;otro;manual;
+me voy;cerrar;manual;
+me piro;cerrar;manual;
+me largo;cerrar;manual;
+hasta la vista;cerrar;manual;
+nos vemos;cerrar;manual;
+hasta pronto;cerrar;manual;
+adios y gracias;cerrar;manual;
+chao;cerrar;manual;
+bye;cerrar;manual;
+ciao;cerrar;manual;
+nos vemos luego;cerrar;manual;
+hasta la proxima;cerrar;manual;
+hasta luego lucas;cerrar;manual;
+me retiro;cerrar;manual;
+me retiro ya;cerrar;manual;
+ya me voy;cerrar;manual;
+me despido;cerrar;manual;
+hasta la vista baby;cerrar;manual;
+adios amigo;cerrar;manual;
+hasta luego maricarmen;cerrar;manual;
+bye bye;cerrar;manual;
+tengo un error al instalar el programa y no se que hacer;consulta_tecnica;manual;
+fallo al instalar el software me da error 404;consulta_tecnica;manual;
+problemas instalando la aplicacion en windows 10;consulta_tecnica;manual;
+error al instalar la actualizacion del driver;consulta_tecnica;manual;
+no se instala el programa correctamente me da fallo;consulta_tecnica;manual;
+fallo al ejecutar la instalacion del driver de video;consulta_tecnica;manual;
+no se instala el programa correctamente da error 1603;consulta_tecnica;manual;
+tengo un fallo tecnico en la instalacion del servidor;consulta_tecnica;manual;
+el software no instala da error de dependencias;consulta_tecnica;manual;
+la instalacion falla con error de permisos;consulta_tecnica;manual;
+fallo al configurar la instalacion de docker;consulta_tecnica;manual;
+error de dependencias al instalar python packages;consulta_tecnica;manual;
+el programa no se deja instalar en ubuntu;consulta_tecnica;manual;
+instalacion fallida error desconocido en windows;consulta_tecnica;manual;
+fallo al configurar la instalacion de nginx;consulta_tecnica;manual;
+error de dependencias al instalar npm packages;consulta_tecnica;manual;
+el programa no se deja instalar en macos;consulta_tecnica;manual;
+instalacion fallida error desconocido en linux;consulta_tecnica;manual;
+fallo al configurar la instalacion de nginx;consulta_tecnica;manual;
+error de dependencias al instalar composer packages;consulta_tecnica;manual;
+el programa no se deja instalar en debian;consulta_tecnica;manual;
+instalacion fallida error desconocido en centos;consulta_tecnica;manual;
+fallo al configurar la instalacion de mysql;consulta_tecnica;manual;
+error de dependencias al instalar maven packages;consulta_tecnica;manual;
+el programa no se deja instalar en fedora;consulta_tecnica;manual;
+instalacion fallida error desconocido en arch;consulta_tecnica;manual;
+fallo al configurar la instalacion de postgresql;consulta_tecnica;manual;
+error de dependencias al instalar gradle packages;consulta_tecnica;manual;
+el programa no se deja instalar en alpine;consulta_tecnica;manual;
+la aplicacion se cierra sola al abrirla;consulta_tecnica;manual;
+la app se cierra inesperadamente sin mensaje;consulta_tecnica;manual;
+error critico la app se cierra al iniciar;consulta_tecnica;manual;
+la aplicacion falla al iniciar sesion;consulta_tecnica;manual;
+tengo un bug al guardar los datos;consulta_tecnica;manual;
+fallo al conectar con la base de datos;consulta_tecnica;manual;
+error 500 al acceder al panel de admin;consulta_tecnica;manual;
+la api devuelve error 404 en el endpoint;consulta_tecnica;manual;
+timeout al conectar con el servidor;consulta_tecnica;manual;
+error de memoria insuficiente en el servidor;consulta_tecnica;manual;
+la pagina web no carga correctamente;consulta_tecnica;manual;
+error javascript en la consola del navegador;consulta_tecnica;manual;
+falla al enviar el formulario de contacto;consulta_tecnica;manual;
+problema con el certificado ssl expirado;consulta_tecnica;manual;
+error de cors al llamar a la api;consulta_tecnica;manual;
+la base de datos esta corrupta;consulta_tecnica;manual;
+falla la replicacion de la base de datos;consulta_tecnica;manual;
+error de sincronizacion de datos;consulta_tecnica;manual;
+problema con el cache de redis;consulta_tecnica;manual;
+falla el backup automatico nocturno;consulta_tecnica;manual;
+necesito hablar con un humano ahora mismo;contactar_humano;manual;
+quiero que me atienda una persona real ya;contactar_humano;manual;
+pasame con un operador humano por favor;contactar_humano;manual;
+necesito un agente humano urgentemente;contactar_humano;manual;
+quiero hablar con alguien de soporte ya;contactar_humano;manual;
+ponme con un operador ahora mismo;contactar_humano;manual;
+no quiero bot necesito humano;contactar_humano;manual;
+pasame con un humano de verdad;contactar_humano;manual;
+quiero hablar con una persona de verdad;contactar_humano;manual;
+exijo hablar con un humano;contactar_humano;manual;
+necesito asistencia humana inmediata;contactar_humano;manual;
+pasame con el departamento de soporte;contactar_humano;manual;
+quiero hablar con atencion al cliente;contactar_humano;manual;
+necesito un operador humano ya;contactar_humano;manual;
+quiero que me atienda una persona;contactar_humano;manual;
+derivame a un agente humano;contactar_humano;manual;
+quiero que me atienda un ejecutivo;contactar_humano;manual;
+pasame con ventas por favor;contactar_humano;manual;
+necesito hablar con facturacion;contactar_humano;manual;
+quiero hablar con retenciones;contactar_humano;manual;
+comunicame con un supervisor;contactar_humano;manual;
+acepto la oferta;confirmacion;manual;
+confirmo la reserva;confirmacion;manual;
+valido la compra;confirmacion;manual;
+apruebo el presupuesto;confirmacion;manual;
+doy mi conformidad;confirmacion;manual;
+confirmo mi pedido;confirmacion;manual;
+acepto los terminos y condiciones;confirmacion;manual;
+doy el visto bueno;confirmacion;manual;
+autorizo la compra;confirmacion;manual;
+confirmo que quiero comprar;confirmacion;manual;
+acepto el contrato;confirmacion;manual;
+doy mi aprobacion;confirmacion;manual;
+confirmo la contratacion;confirmacion;manual;
+valido la oferta;confirmacion;manual;
+si adelante con la compra;confirmacion;manual;
+procedan con el pedido;confirmacion;manual;
+autorizo el cobro;confirmacion;manual;
+confirmo mi compra;confirmacion;manual;
+doy mi consentimiento;confirmacion;manual;
+acepto las condiciones;confirmacion;manual;
+confirmo mi reserva;confirmacion;manual;
+quiero adquirir el servicio;compra;manual;
+necesito comprar el servicio;compra;manual;
+me gustaria comprar el paquete;compra;manual;
+estoy interesado en comprar;compra;manual;
+quisiera contratar el servicio;compra;manual;
+me gustaria pedir un presupuesto;compra;manual;
+necesito un presupuesto para;compra;manual;
+quiero contratar;compra;manual;
+estoy buscando comprar;compra;manual;
+me interesa adquirir;compra;manual;
+quiero hacer un pedido;compra;manual;
+necesito hacer un pedido;compra;manual;
+quiero solicitar un presupuesto;compra;manual;
+me gustaria pedir presupuesto;compra;manual;
+necesito presupuesto para;compra;manual;
+quiero saber precios de;compra;manual;
+me interesa el precio de;compra;manual;
+cuanto cuesta el servicio;compra;manual;
+cual es el precio de;compra;manual;
+que precio tiene;compra;manual;
+no funciona el login;consulta_tecnica;manual;
+no puedo acceder a mi cuenta;consulta_tecnica;manual;
+he olvidado mi contraseÃ±a;consulta_tecnica;manual;
+no me llega el email de recuperacion;consulta_tecnica;manual;
+error al resetear la contraseÃ±a;consulta_tecnica;manual;
+la verificacion en dos pasos falla;consulta_tecnica;manual;
+no me deja cambiar la contraseÃ±a;consulta_tecnica;manual;
+problema con el 2fa;consulta_tecnica;manual;
+error al verificar mi email;consulta_tecnica;manual;
+no recibo el codigo de verificacion;consulta_tecnica;manual;
+problemas con el sso;consulta_tecnica;manual;
+error de autenticacion saml;consulta_tecnica;manual;
+falla el login con google;consulta_tecnica;manual;
+no puedo iniciar sesion con sso;consulta_tecnica;manual;
+entendido;otro;manual;
+vale;otro;manual;
+ok;otro;manual;
+de acuerdo;otro;manual;
+entendido gracias;otro;manual;
+perfecto gracias;otro;manual;
+de nada;otro;manual;
+gracias;otro;manual;
+muchas gracias;otro;manual;
+perfecto;otro;manual;
+entendido perfecto;otro;manual;
+vale gracias;otro;manual;
+ok gracias;otro;manual;
+entendido perfecto gracias;otro;manual;
+todo claro;otro;manual;
+todo claro gracias;otro;manual;
+me queda claro;otro;manual;
+ya lo entiendo;otro;manual;
+ahora lo entiendo;otro;manual;
+gracias por la info;otro;manual;
+gracias por la ayuda;otro;manual;
+muy util gracias;otro;manual;
+muy amable gracias;otro;manual;
+excelente trabajo;otro;manual;
+buen trabajo;otro;manual;
+genial gracias;otro;manual;
+me voy;cerrar;manual;
+me piro;cerrar;manual;
+me largo;cerrar;manual;
+hasta la vista;cerrar;manual;
+nos vemos;cerrar;manual;
+hasta pronto;cerrar;manual;
+adios y gracias;cerrar;manual;
+chao;cerrar;manual;
+bye;cerrar;manual;
+ciao;cerrar;manual;
+nos vemos luego;cerrar;manual;
+hasta la proxima;cerrar;manual;
+hasta luego lucas;cerrar;manual;
+me retiro;cerrar;manual;
+me retiro ya;cerrar;manual;
+ya me voy;cerrar;manual;
+me despido;cerrar;manual;
+hasta la vista baby;cerrar;manual;
+adios amigo;cerrar;manual;
+hasta luego maricarmen;cerrar;manual;
+bye bye;cerrar;manual;
+tengo un error al instalar el programa y no se que hacer;consulta_tecnica;manual;
+fallo al instalar el software me da error 404;consulta_tecnica;manual;
+problemas instalando la aplicacion en windows 10;consulta_tecnica;manual;
+error al instalar la actualizacion del driver;consulta_tecnica;manual;
+no se instala el programa correctamente me da fallo;consulta_tecnica;manual;
+fallo al ejecutar la instalacion del driver de video;consulta_tecnica;manual;
+no se instala el programa correctamente da error 1603;consulta_tecnica;manual;
+tengo un fallo tecnico en la instalacion del servidor;consulta_tecnica;manual;
+el software no instala da error de dependencias;consulta_tecnica;manual;
+la instalacion falla con error de permisos;consulta_tecnica;manual;
+fallo al configurar la instalacion de docker;consulta_tecnica;manual;
+error de dependencias al instalar python packages;consulta_tecnica;manual;
+el programa no se deja instalar en ubuntu;consulta_tecnica;manual;
+instalacion fallida error desconocido en windows;consulta_tecnica;manual;
+fallo al configurar la instalacion de nginx;consulta_tecnica;manual;
+error de dependencias al instalar npm packages;consulta_tecnica;manual;
+el programa no se deja instalar en macos;consulta_tecnica;manual;
+instalacion fallida error desconocido en linux;consulta_tecnica;manual;
+fallo al configurar la instalacion de nginx;consulta_tecnica;manual;
+error de dependencias al instalar composer packages;consulta_tecnica;manual;
+el programa no se deja instalar en debian;consulta_tecnica;manual;
+instalacion fallida error desconocido en centos;consulta_tecnica;manual;
+fallo al configurar la instalacion de mysql;consulta_tecnica;manual;
+error de dependencias al instalar maven packages;consulta_tecnica;manual;
+el programa no se deja instalar en fedora;consulta_tecnica;manual;
+instalacion fallida error desconocido en arch;consulta_tecnica;manual;
+fallo al configurar la instalacion de postgresql;consulta_tecnica;manual;
+error de dependencias al instalar gradle packages;consulta_tecnica;manual;
+el programa no se deja instalar en alpine;consulta_tecnica;manual;
+la aplicacion se cierra sola al abrirla;consulta_tecnica;manual;
+la app se cierra inesperadamente sin mensaje;consulta_tecnica;manual;
+error critico la app se cierra al iniciar;consulta_tecnica;manual;
+la aplicacion falla al iniciar sesion;consulta_tecnica;manual;
+tengo un bug al guardar los datos;consulta_tecnica;manual;
+fallo al conectar con la base de datos;consulta_tecnica;manual;
+error 500 al acceder al panel de admin;consulta_tecnica;manual;
+la api devuelve error 404 en el endpoint;consulta_tecnica;manual;
+timeout al conectar con el servidor;consulta_tecnica;manual;
+error de memoria insuficiente en el servidor;consulta_tecnica;manual;
+la pagina web no carga correctamente;consulta_tecnica;manual;
+error javascript en la consola del navegador;consulta_tecnica;manual;
+falla al enviar el formulario de contacto;consulta_tecnica;manual;
+problema con el certificado ssl expirado;consulta_tecnica;manual;
+error de cors al llamar a la api;consulta_tecnica;manual;
+la base de datos esta corrupta;consulta_tecnica;manual;
+falla la replicacion de la base de datos;consulta_tecnica;manual;
+error de sincronizacion de datos;consulta_tecnica;manual;
+problema con el cache de redis;consulta_tecnica;manual;
+falla el backup automatico nocturno;consulta_tecnica;manual;
+necesito hablar con un humano ahora mismo;contactar_humano;manual;
+quiero que me atienda una persona real ya;contactar_humano;manual;
+pasame con un operador humano por favor;contactar_humano;manual;
+necesito un agente humano urgentemente;contactar_humano;manual;
+quiero hablar con alguien de soporte ya;contactar_humano;manual;
+ponme con un operador ahora mismo;contactar_humano;manual;
+no quiero bot necesito humano;contactar_humano;manual;
+pasame con un humano de verdad;contactar_humano;manual;
+quiero hablar con una persona de verdad;contactar_humano;manual;
+exijo hablar con un humano;contactar_humano;manual;
+necesito asistencia humana inmediata;contactar_humano;manual;
+pasame con el departamento de soporte;contactar_humano;manual;
+quiero hablar con atencion al cliente;contactar_humano;manual;
+necesito un operador humano ya;contactar_humano;manual;
+quiero que me atienda una persona;contactar_humano;manual;
+derivame a un agente humano;contactar_humano;manual;
+quiero que me atienda un ejecutivo;contactar_humano;manual;
+pasame con ventas por favor;contactar_humano;manual;
+necesito hablar con facturacion;contactar_humano;manual;
+quiero hablar con retenciones;contactar_humano;manual;
+comunicame con un supervisor;contactar_humano;manual;
+acepto la oferta;confirmacion;manual;
+confirmo la reserva;confirmacion;manual;
+valido la compra;confirmacion;manual;
+apruebo el presupuesto;confirmacion;manual;
+doy mi conformidad;confirmacion;manual;
+confirmo mi pedido;confirmacion;manual;
+acepto los terminos y condiciones;confirmacion;manual;
+doy el visto bueno;confirmacion;manual;
+autorizo la compra;confirmacion;manual;
+confirmo que quiero comprar;confirmacion;manual;
+acepto el contrato;confirmacion;manual;
+doy mi aprobacion;confirmacion;manual;
+confirmo la contratacion;confirmacion;manual;
+valido la oferta;confirmacion;manual;
+si adelante con la compra;confirmacion;manual;
+procedan con el pedido;confirmacion;manual;
+autorizo el cobro;confirmacion;manual;
+confirmo mi compra;confirmacion;manual;
+doy mi consentimiento;confirmacion;manual;
+acepto las condiciones;confirmacion;manual;
+confirmo mi reserva;confirmacion;manual;
+quiero adquirir el servicio;compra;manual;
+necesito comprar el servicio;compra;manual;
+me gustaria comprar el paquete;compra;manual;
+estoy interesado en comprar;compra;manual;
+quisiera contratar el servicio;compra;manual;
+me gustaria pedir un presupuesto;compra;manual;
+necesito un presupuesto para;compra;manual;
+quiero contratar;compra;manual;
+estoy buscando comprar;compra;manual;
+me interesa adquirir;compra;manual;
+quiero hacer un pedido;compra;manual;
+necesito hacer un pedido;compra;manual;
+quiero solicitar un presupuesto;compra;manual;
+me gustaria pedir presupuesto;compra;manual;
+necesito presupuesto para;compra;manual;
+quiero saber precios de;compra;manual;
+me interesa el precio de;compra;manual;
+cuanto cuesta el servicio;compra;manual;
+cual es el precio de;compra;manual;
+que precio tiene;compra;manual;
+no funciona el login;consulta_tecnica;manual;
+no puedo acceder a mi cuenta;consulta_tecnica;manual;
+he olvidado mi contraseÃ±a;consulta_tecnica;manual;
+no me llega el email de recuperacion;consulta_tecnica;manual;
+error al resetear la contraseÃ±a;consulta_tecnica;manual;
+la verificacion en dos pasos falla;consulta_tecnica;manual;
+no me deja cambiar la contraseÃ±a;consulta_tecnica;manual;
+problema con el 2fa;consulta_tecnica;manual;
+error al verificar mi email;consulta_tecnica;manual;
+no recibo el codigo de verificacion;consulta_tecnica;manual;
+problemas con el sso;consulta_tecnica;manual;
+error de autenticacion saml;consulta_tecnica;manual;
+falla el login con google;consulta_tecnica;manual;
+no puedo iniciar sesion con sso;consulta_tecnica;manual;
+entendido;otro;manual;
+vale;otro;manual;
+ok;otro;manual;
+de acuerdo;otro;manual;
+entendido gracias;otro;manual;
+perfecto gracias;otro;manual;
+de nada;otro;manual;
+gracias;otro;manual;
+muchas gracias;otro;manual;
+perfecto;otro;manual;
+entendido perfecto;otro;manual;
+vale gracias;otro;manual;
+ok gracias;otro;manual;
+entendido perfecto gracias;otro;manual;
+todo claro;otro;manual;
+todo claro gracias;otro;manual;
+me queda claro;otro;manual;
+ya lo entiendo;otro;manual;
+ahora lo entiendo;otro;manual;
+gracias por la info;otro;manual;
+gracias por la ayuda;otro;manual;
+muy util gracias;otro;manual;
+muy amable gracias;otro;manual;
+excelente trabajo;otro;manual;
+buen trabajo;otro;manual;
+genial gracias;otro;manual;
+me voy;cerrar;manual;
+me piro;cerrar;manual;
+me largo;cerrar;manual;
+hasta la vista;cerrar;manual;
+nos vemos;cerrar;manual;
+hasta pronto;cerrar;manual;
+adios y gracias;cerrar;manual;
+chao;cerrar;manual;
+bye;cerrar;manual;
+ciao;cerrar;manual;
+nos vemos luego;cerrar;manual;
+hasta la proxima;cerrar;manual;
+hasta luego lucas;cerrar;manual;
+me retiro;cerrar;manual;
+me retiro ya;cerrar;manual;
+ya me voy;cerrar;manual;
+me despido;cerrar;manual;
+hasta la vista baby;cerrar;manual;
+adios amigo;cerrar;manual;
+hasta luego maricarmen;cerrar;manual;
+bye bye;cerrar;manual;
+buenos dias;otro;manual;
+buenos dias a todos;otro;manual;
+buenos dias, ¿que tal?;otro;manual;
+buenos dias, ¿como estás?;otro;manual;
+buenos dias, ¿como lo estais?;otro;manual;
+buenos dias por aqui;otro;manual;
+buenos dias, solo pasaba a saludar;otro;manual;
+buenos dias, ¿todo bien?;otro;manual;
+buenos dias, ¿que hay?;otro;manual;
+buenos dias, espero que vaya bien;otro;manual;
+buenos dias, ¿como amaneciste?;otro;manual;
+buenos dias, ¿ya habéis comido?;otro;manual;
+buenos dias cordiales;otro;manual;
+buenos dias saludos;otro;manual;
+muy buenos dias;otro;manual;
+muy buenos dias a todos;otro;manual;
+excelentes dias;otro;manual;
+que tenga buenos dias;otro;manual;
+buenas tardes;otro;manual;
+buenas tardes, ¿que tal?;otro;manual;
+buenas tardes por aqui;otro;manual;
+buenas noches;otro;manual;
+buenas noches, ¿que tal?;otro;manual;
+hola, ¿que tal?;otro;manual;
+hola, ¿como estás?;otro;manual;
+hola, ¿como lo tienes?;otro;manual;
+hola por aqui;otro;manual;
+hola, ¿todo bien?;otro;manual;
+hola, ¿que hay de nuevo?;otro;manual;
+hola, ¿como va todo?;otro;manual;
+hola de nuevo;otro;manual;
+hola, solo queria saludar;otro;manual;
+holaaa;otro;manual;
+holi;otro;manual;
+hey, ¿que tal?;otro;manual;
+hey, ¿por aqui?;otro;manual;
+buenas, ¿que tal?;otro;manual;
+saludos;otro;manual;
+saludos cordiales;otro;manual;
+un saludo;otro;manual;
+un saludo para el equipo;otro;manual;
+saludos a todo el equipo;otro;manual;
+espero que tengas un buen dia;otro;manual;
+espero que tengas una buena tarde;otro;manual;
+que tal va el dia;otro;manual;
+que tal todo;otro;manual;
+¿que tal?;otro;manual;
+¿como estas?;otro;manual;
+¿como lo llevas?;otro;manual;
+¿que hay?;otro;manual;
+por aqui de nuevo;otro;manual;
+paso a saludar;otro;manual;
+solo pasaba a saludar;otro;manual;
+venia a saludar;otro;manual;
+nada, solo saludar;otro;manual;
+nada, solo queria decir hola;otro;manual;
+decia hola;otro;manual;
+diciendo hola;otro;manual;
+hola buenas;otro;manual;
+hola buenos dias a todos;otro;manual;
+problema instalando;consulta_tecnica;manual;
+problemas instalando;consulta_tecnica;manual;
+problema al instalar;consulta_tecnica;manual;
+problemas al instalar;consulta_tecnica;manual;
+problema con la instalacion;consulta_tecnica;manual;
+problemas con la instalacion;consulta_tecnica;manual;
+problema instalando el programa;consulta_tecnica;manual;
+problema instalando la aplicacion;consulta_tecnica;manual;
+problema instalando el software;consulta_tecnica;manual;
+tengo problema instalando;consulta_tecnica;manual;
+tengo problemas instalando;consulta_tecnica;manual;
+hay un problema instalando;consulta_tecnica;manual;
+surge un problema al instalar;consulta_tecnica;manual;
+me da problema al instalar;consulta_tecnica;manual;
+aparece un problema al instalar;consulta_tecnica;manual;
+problema durante la instalacion;consulta_tecnica;manual;
+problemas durante la instalacion;consulta_tecnica;manual;
+problema instalando en windows;consulta_tecnica;manual;
+problema instalando en linux;consulta_tecnica;manual;
+instalacion con problema;consulta_tecnica;manual;
+no puedo instalar;consulta_tecnica;manual;
+no me instala;consulta_tecnica;manual;
+falla la instalacion;consulta_tecnica;manual;
+se rompe al instalar;consulta_tecnica;manual;
+error instalando;consulta_tecnica;manual;
+fallo instalando;consulta_tecnica;manual;
+falla al instalar;consulta_tecnica;manual;
+Mi empresa se llama Test SL;otro;manual;SERVICIO:Test SL
+La empresa se llama Test SL;otro;manual;SERVICIO:Test SL
+Somos Test SL;otro;manual;SERVICIO:Test SL
+Trabajo en Test SL;otro;manual;SERVICIO:Test SL
+Nuestra empresa es Test SL;otro;manual;SERVICIO:Test SL
+la empresa se llama Test SL, email test@test.com;otro;manual;SERVICIO:Test SL
+La empresa se llama Dinamic SL;otro;manual;SERVICIO:Dinamic SL
+Somos Dinamic SL;otro;manual;SERVICIO:Dinamic SL
+Nuestra empresa es Dinamic SL;otro;manual;SERVICIO:Dinamic SL
+La empresa se llama Globex Corp;otro;manual;SERVICIO:Globex Corp
+Somos Globex Corp;otro;manual;SERVICIO:Globex Corp
+Trabajamos en Globex Corp;otro;manual;SERVICIO:Globex Corp
+La empresa se llama Initech SA;otro;manual;SERVICIO:Initech SA
+Somos Initech SA;otro;manual;SERVICIO:Initech SA
+La empresa se llama Umbrella SL;otro;manual;SERVICIO:Umbrella SL
+Somos Umbrella SL;otro;manual;SERVICIO:Umbrella SL
+Mi empresa se llama Acme Corp;otro;manual;SERVICIO:Acme Corp
+Somos Acme Corp;otro;manual;SERVICIO:Acme Corp
+La empresa se llama Stark Industries;otro;manual;SERVICIO:Stark Industries
+Somos Stark Industries;otro;manual;SERVICIO:Stark Industries
+Nuestra empresa se llama Nordata SL;otro;manual;SERVICIO:Nordata SL
+Somos Nordata SL;otro;manual;SERVICIO:Nordata SL
+La empresa se llama Servitec SL;otro;manual;SERVICIO:Servitec SL
+Somos Servitec SL;otro;manual;SERVICIO:Servitec SL
+Quiero contratar con Test SL;compra;manual;SERVICIO:Test SL
+Necesito presupuesto de Dinamic SL;compra;manual;SERVICIO:Dinamic SL
+Quiero el servicio de Globex Corp;compra;manual;SERVICIO:Globex Corp
+Contratais con Initech SA;consulta_tecnica;manual;SERVICIO:Initech SA
+Trabajais con Umbrella SL;consulta_tecnica;manual;SERVICIO:Umbrella SL
+Hablando con Acme Corp;otro;manual;SERVICIO:Acme Corp
+De parte de Stark Industries;otro;manual;SERVICIO:Stark Industries
+Empresa Nordata SL solicita soporte;consulta_tecnica;manual;SERVICIO:Nordata SL
+Somos una empresa que se llama Servitec SL;otro;manual;SERVICIO:Servitec SL
+Mi jefe dice que somos Test SL;otro;manual;SERVICIO:Test SL
+La razon social es Dinamic SL;otro;manual;SERVICIO:Dinamic SL

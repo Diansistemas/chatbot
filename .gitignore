@@ -1,0 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+
+# Virtual Environment
+venv/
+.venv/
+
+# IDEs y Editores
+.vscode/
+.idea/
+
+# Configuracion y Variables de Entorno
+.env
+
+# Archivos de Medios y Logs
+media/
+logs/
+*.log
+# La BD y sus copias de seguridad manuales (db.sqlite3.bak_*)
+db.sqlite3*
+
+# Modelos y Entrenamientos de spaCy
+modelo/
+entrenamiento/spacy/
+
+# Informes generados por los tests (se regeneran en cada ejecucion)
+pruebas/informes/*.txt
+
+Chatbot/

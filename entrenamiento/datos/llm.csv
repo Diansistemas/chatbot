@@ -1,0 +1,21 @@
+intencion;texto_usuario;texto_chatbot;origen
+compra;Quiero revisar mi infraestructura;Claro, este servicio cuesta 120.00 euros y tarda 3 dias;manual
+consulta_tecnica;Cuanto tarda una revision general;La revision general tarda unos 3 dias;manual
+compra;Me interesa el plan de hosting;Nuestro plan de hosting cuesta 45 euros al mes e incluye soporte 24/7;manual
+compra;Cuantos usuarios incluye la licencia;La licencia basica incluye hasta 10 usuarios y cuesta 80 euros al mes;manual
+consulta_tecnica;Como configuro el firewall;Para configurar el firewall accede al panel de administracion y ve a la seccion Reglas de red;manual
+consulta_tecnica;Tengo un error al iniciar sesion;Comprueba que tu usuario y contrasena son correctos. Si el problema persiste, puedes restablecer la contrasena desde la pantalla de login;manual
+consulta_tecnica;Como hago una copia de seguridad;Puedes crear una copia de seguridad desde el panel en la seccion Mantenimiento, luego Copias de seguridad;manual
+confirmacion;Si quiero el plan basico;Perfecto, he anotado tu interes en el plan basico. Un asesor te contactara en breve;manual
+confirmacion;Confirmo la compra del servicio;Gracias por confirmar. Hemos registrado tu pedido y te enviaremos los detalles por correo;manual
+confirmacion;De acuerdo continuemos;Genial, sigamos entonces. Que mas necesitas saber;manual
+cerrar;Gracias por la ayuda, hasta luego;De nada, hasta pronto. Que tengas un buen dia;manual
+cerrar;Ya esta todo resuelto, adios;Nos alegra haber resuelto tu duda. Hasta la proxima;manual
+cerrar;Por mi parte nada mas, un saludo;Un placer ayudarte. Un saludo y no dudes en escribirnos cuando lo necesites;manual
+contactar_humano;Quiero hablar con una persona;Por supuesto, voy a transferirte con un agente humano. Un momento por favor;manual
+contactar_humano;Pasame con soporte tecnico;Entendido, te conecto con el equipo de soporte tecnico enseguida;manual
+solicitar_agente;Necesito que me atienda un operador;Claro, busco un operador disponible para atenderte. Gracias por tu paciencia;manual
+solicitar_agente;Habla conmigo un agente por favor;Perfecto, te derivo con un agente humano ahora mismo;manual
+otro;Que servicios ofrecen;Ofrecemos hosting, dominios, desarrollo web, soporte tecnico y consultoria informatica;manual
+otro;Cuales son vuestros horarios;Nuestro horario de atencion es de lunes a viernes de 9:00 a 18:00 horas;manual
+otro;Teneis oficinas fisicas;Si, tenemos oficina en Madrid. Tambien atendemos online a clientes de toda Espana;manual

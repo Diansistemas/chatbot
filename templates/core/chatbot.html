@@ -1,0 +1,97 @@
+{% load django_bootstrap5 %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Enlaces a recursos que necesita la página -->
+    {% bootstrap_css %}
+    <!-- Enlace para introducir los iconos de bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">   
+    <!-- Enlaces para las fuentes tipográficas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
+    <!-- Enlace al css de chatbot -->
+    <link href="{% static 'css/chatbot.css' %}" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Boton inicial para el widget -->
+    <button id="chat-btn" class="btn btn-primary rounded-circle bi bi-chat-fill" onclick="abrir()"></button>
+
+    <!-- Panel completo del chat -->
+    <div id="chat-panel">
+      <!-- Header del chat (Título del chat y boton de cerrar) -->
+      <div id="chat-header" class="p-2 border-bottom d-flex justify-content-between">
+        <strong>Asistente Virtual</strong>
+        <button onclick="cerrar()" class="btn btn-sm">✕</button>
+      </div>
+
+      <!-- Historico de mensajes -->
+      <div id="mensajes" class="flex-grow-1 p-2 overflow-auto">
+        <!-- Mensaje de carga -->
+        <!-- Si el bot todavía está respondiendo (p.ej. el usuario recargó la página) nace visible -->
+        <div id="escribiendo" class="msg-bot" style="display:{% if esperando_bot %}flex{% else %}none{% endif %};">
+          <span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>
+        </div>
+        {% if conversacion %}
+          {% for mensaje in mensajes reversed %}
+            <!-- Lógica para saber si es mensaje el cliente o del bot -->
+            {% if mensaje.remitente == "chatbot" %}
+              <div class="mensaje-grupo mensaje-grupo--bot">
+                <p class="msg-bot">{{ mensaje.texto }}</p>
+                <small class="msg-hora">{{ mensaje.fecha_mensaje|date:"H:i" }}</small>
+              </div>
+            {% else %}
+              <div class="mensaje-grupo mensaje-grupo--user">
+                <p class="msg-user">{{ mensaje.texto }}</p>
+                <small class="msg-hora">{{ mensaje.fecha_mensaje|date:"H:i" }}</small>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% else %}
+        <!-- Mensaje de bienvenida inicial -->
+          <div id="bienvenida-inicial" class="mensaje-grupo mensaje-grupo--bot">
+            <p class="msg-bot">Hola, soy el asistente virtual de Dian Sistemas ¿que necesitas?</p>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Aviso de inactividad (aparece a los 4 minutos) -->
+      <div id="aviso-inactividad" class="aviso-inactividad" style="display: none;">
+        <i class="bi bi-exclamation-triangle-fill"></i>
+        ¿Sigues ahí? La conversación se cerrará en 1 minuto por inactividad.
+      </div>
+
+      <!-- Formulario del chat (Caja para insertar texto y botón de envío) -->
+      <!-- Pasamos por data-* los datos que necesita el JS: -->
+      <!--   data-conversacion:   token de la conversación -->
+      <!--   data-esperando:      "true" si el bot todavía está generando la respuesta al último mensaje -->
+      <!--   data-ultimo-mensaje: id del último mensaje pintado (para pedir solo los nuevos en el polling) -->
+      <form id="form-chat" class="d-flex p-2 border-top"
+            data-conversacion="{{ conversacion.token }}"
+            data-esperando="{{ esperando_bot|yesno:'true,false' }}"
+            data-ultimo-mensaje="{{ ultimo_mensaje_id }}">
+        {% csrf_token %}
+        <!-- Si el bot está respondiendo, el formulario nace bloqueado -->
+        <input id="input-msg" class="form-control me-2" placeholder="Escribe un mensaje" autocomplete="off" required {% if esperando_bot %}disabled{% endif %}>
+        <button id="btn-enviar" class="btn btn-primary bi bi-send-fill" {% if esperando_bot %}disabled{% endif %}></button>
+      </form>
+
+      <!-- Botón para iniciar nueva conversación (aparece tras el cierre por inactividad) -->
+      <div id="contenedor-reiniciar" style="display: none; padding: 8px;">
+        <button id="btn-reiniciar" class="btn btn-primary w-100">
+          Iniciar nueva conversación
+        </button>
+      </div>
+    </div>
+
+    <!-- Scripts JS para la lógica del chat sin refrescar y la funcion del boton del widget -->
+    <script src="{% static 'js/inactividad.js' %}"></script>
+    <script src="{% static 'js/ajax_chat.js' %}"></script>
+    <script src="{% static 'js/func_boton.js' %}"></script>
+
+    {% bootstrap_javascript %}
+
+  </body>
+</html>

@@ -1,0 +1,16 @@
+.chatbot-iframe {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border: none;
+  border-radius: 50px;
+  transition: width .3s ease, height .3s ease, border-radius .3s ease;
+}
+
+.chatbot-iframe--abierto {
+  width: 360px;
+  height: 560px;
+  border-radius: 16px;
+}
