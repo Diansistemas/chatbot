@@ -14,7 +14,7 @@ Chatbot con IA para uso comercial de Dian Sistemas
 - **Timer de inactividad frontend** — `static/js/inactividad.js`: reinicio en actividad, aviso a 4 min, cierre a 5 min, sincronizado con backend (410 Gone)
 - **Checklist en email** — El cuerpo del correo empieza con ✅ datos completos / ❌ faltan datos / ⏳ sin pedido
 - **Acceso directo al chat** — Permite abrir `/chat/` en navegador sin Referer (CSP `frame-ancestors` protege iframes)
-- **Entrenamiento NLP (ronda 9)** — 597 ejemplos en `nlp.csv`; macro F1 0,782 / micro 0,852 (informes en `pruebas/informes/`)
+- **Entrenamiento NLP (ronda 10)** — 1333 ejemplos en `nlp.csv` (fusión de `nlp_final.csv` con los casos exclusivos de la ronda 9); macro F1 0,788 / micro 0,910 y NER F1 0,784 sobre un dev de 255 (informes en `pruebas/informes/`); saludos verificados 19/19
 - **Fallback LLM robusto** — Cadena de intentos: dominio específico → genérico → "otro" → llama3.2 (evita 404)
 - **Bug fixes** — Arreglado "list index out of range" en `generar_pares_desde_conversacion`; tests remotos arreglados (creación de `Servicio` y aislamiento de `SPACY_DIR`)
 - **Dockerización asistida** — `docker_setup.sh` (7 pasos) con `configurar_entorno.py`, un asistente que va pidiendo los datos (puerto, hosts, widget, email, modelo...) y escribe el `.env`

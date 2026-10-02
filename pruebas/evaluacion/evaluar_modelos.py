@@ -63,12 +63,15 @@ CASOS_NER = [
 def frases_del_csv():
     """Carga los textos de entrenamiento para poder descartar los casos memorizados."""
     import csv
-    try:
-        with open(RAIZ / "entrenamiento/datos/nlp_final.csv", encoding="utf-8-sig") as f:
-            return {(" ".join((r["texto"] or "").lower().split()))
-                    for r in csv.DictReader(f, delimiter=";")}
-    except OSError:
-        return set()
+    # nlp.csv es el dataset canónico (fusionado); nlp_final.csv queda como respaldo
+    for nombre in ("nlp.csv", "nlp_final.csv"):
+        try:
+            with open(RAIZ / "entrenamiento/datos" / nombre, encoding="utf-8-sig") as f:
+                return {(" ".join((r["texto"] or "").lower().split()))
+                        for r in csv.DictReader(f, delimiter=";")}
+        except OSError:
+            continue
+    return set()
 
 
 def evaluar(nlp):
