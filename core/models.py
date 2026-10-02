@@ -2,7 +2,7 @@ from django.db import models, transaction
 
 from chat.models import Mensaje, Conversacion, Servicio, Pedido
 from entrenamiento.models import Intencion, EtiquetaEntidad, EjemploNLP, SpanEntidad, Par_Mensaje_Respuesta
-from .acceso import get_nlp, llamar_llm
+from .acceso import get_nlp, clasificar_texto, llamar_llm
 
 from decimal import Decimal, InvalidOperation
 
@@ -116,21 +116,29 @@ def procesar_mensaje(mensaje_recibido):
 
     # Pillamos los modelos y el mensaje recibido
     nlp = get_nlp()
-    doc = nlp(mensaje_recibido.texto)
+
+    # Clasifica el texto en minusculas y deja el NER sobre el texto original.
+    # Ver core.acceso.clasificar_texto: sin esa normalizacion "Paso a
+    # saludar" salia 'cerrar' -- y 'cerrar' cierra la conversacion sin
+    # confirmar, mientras que "paso a saludar" salia 'otro'.
+    cats, doc = clasificar_texto(
+        nlp, mensaje_recibido.texto, con_entidades=True
+    )
 
     # Intencion y confianza 
     intencion = None
     confianza = None
 
-    if doc.cats:
-        nombre_intencion = max(doc.cats, key=doc.cats.get)
-        confianza = doc.cats[nombre_intencion]
+    if cats:
+        nombre_intencion = max(cats, key=cats.get)
+        confianza = cats[nombre_intencion]
         intencion = Intencion.objects.filter(nombre=nombre_intencion, activa=True).first()
         if intencion is None:
             logger.warning("Intención '%s' no existe o no está activa. Pipeline: %s",
                            nombre_intencion, nlp.pipe_names)
     else:
-        logger.warning("doc.cats vacío. Pipeline cargado: %s", nlp.pipe_names)
+        logger.warning("cats vacío (el modelo no devolvió intenciones). Pipeline cargado: %s",
+                       nlp.pipe_names)
 
     # Si no hemos podido detectar nada, usamos "otro"
     if intencion is None:

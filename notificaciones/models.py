@@ -5,7 +5,7 @@ from chat.models import Conversacion, Pedido
 from django.conf import settings
 from django.core.mail import EmailMessage
 
-from core.acceso import generar_resumen_llm
+from core.acceso import clasificar_texto, generar_resumen_llm
 
 
 logger = logging.getLogger(__name__)
@@ -78,11 +78,16 @@ def clasificar_conversacion(conversacion):
         max_confirm = 0.0
         for mensaje in mensajes_cliente:
             texto_lower = mensaje.texto.lower()
-            doc = clasificar_conversacion._nlp(mensaje.texto)
-            
+            # Mismo criterio que core.models.procesar_mensaje: el textcat
+            # corre sobre el texto en minusculas. Aqui no hacen falta las
+            # entidades, asi que es UNA sola pasada por mensaje.
+            cats, _ = clasificar_texto(
+                clasificar_conversacion._nlp, mensaje.texto
+            )
+
             # Obtener confianza para compra y confirmacion
-            conf_compra = doc.cats.get("compra", 0.0)
-            conf_confirmacion = doc.cats.get("confirmacion", 0.0)
+            conf_compra = cats.get("compra", 0.0)
+            conf_confirmacion = cats.get("confirmacion", 0.0)
             max_compra = max(max_compra, conf_compra)
             max_confirm = max(max_confirm, conf_confirmacion)
             

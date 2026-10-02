@@ -87,6 +87,30 @@ class TestProcesarMensaje(BaseConIntenciones):
         ents = [e.etiqueta.nombre for e in analisis.analisis_entidad.all()]
         self.assertIn("FINAL", ents)
 
+    def test_la_intencion_no_depende_de_la_mayuscula_inicial(self):
+        """Regresion: sin normalizar, "Paso a saludar" salia 'cerrar' y
+        'cerrar' cierra la conversacion sin confirmar, mientras que
+        "paso a saludar" salia 'otro'. Ver core.acceso.clasificar_texto."""
+        casos = [
+            ("paso a saludar", "otro"),
+            ("Tengo un error al instalar el programa", "consulta_tecnica"),
+            ("buenos dias, quiero un presupuesto", "compra"),
+        ]
+        for texto, esperada in casos:
+            variantes = {
+                texto,
+                texto[0].upper() + texto[1:],
+                texto[0].lower() + texto[1:],
+            }
+            for variante in variantes:
+                analisis = self._analizar(variante)
+                self.assertEqual(
+                    analisis.intencion.nombre,
+                    esperada,
+                    f"{variante!r}: salio {analisis.intencion.nombre!r}, "
+                    f"esperado {esperada!r}",
+                )
+
     def test_contactar_humano_detecta_agente(self):
         analisis = self._analizar("Pasame con un supervisor por favor")
         self.assertEqual(analisis.intencion.nombre, "contactar_humano")

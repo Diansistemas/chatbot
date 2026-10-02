@@ -76,6 +76,35 @@ def get_nlp():
     return spacy.load(base_model)
 
 
+# Clasificacion de un texto con el modelo de intenciones
+# Devuelve (cats, doc):
+#   - cats: intenciones del textcat, SIEMPRE calculadas sobre texto en
+#           minusculas.
+#   - doc:  Doc sobre el que se ha corrido el NER, sobre el texto ORIGINAL
+#           (hace falta con_entidades=True), para que texto_detectado y los
+#           desplazamientos inicio/fin correspondan al mensaje guardado.
+#
+# El motivo de normalizar: el textcat se entreno con frases casi todas en
+# minusculas y es sensible a las mayusculas. Medido con el modelo actual,
+# "paso a saludar" sale 'otro' pero "Paso a saludar" sale 'cerrar' -- y
+# 'cerrar' cierra la conversacion sin confirmar (ver responder()).
+# Sin esta normalizacion el resultado dependia de si el usuario escribia la
+# frase con la inicial en mayuscula.
+#
+# Es la UNICA fuente de verdad de la regla: la usan procesar_mensaje (core),
+# clasificar_conversacion (notificaciones) y verificar_nlp.py (pruebas).
+def clasificar_texto(nlp, texto, con_entidades=False):
+    texto = texto or ""
+    doc_clas = nlp(texto.lower())
+
+    if not con_entidades or texto == texto.lower():
+        # Una sola pasada: el texto ya estaba en minusculas (o no hace
+        # falta leer las entidades), asi que este Doc sirve para todo.
+        return doc_clas.cats, doc_clas
+
+    return doc_clas.cats, nlp(texto)
+
+
 # Como nombramos al modelo
 # Recibe la ETIQUETA (compra/consulta/otro), no la intencion de BD
 def nombre_modelo(etiqueta="otro", dominio=None):
