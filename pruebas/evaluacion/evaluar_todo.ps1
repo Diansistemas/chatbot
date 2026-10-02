@@ -9,7 +9,7 @@ $ErrorActionPreference = "Continue"
 $raiz = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Push-Location $raiz
 try {
-    . .\.venv\Scripts\Activate.ps1
+    . .\venv\Scripts\Activate.ps1
 
     Write-Host "`n=== 1/4 COMPARATIVA DE RONDAS (mismo dev) ===" -ForegroundColor Cyan
     python pruebas\evaluacion\eval_rondas.py

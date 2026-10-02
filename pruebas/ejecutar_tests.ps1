@@ -10,7 +10,7 @@ $ErrorActionPreference = "Continue"
 $raiz = Split-Path $PSScriptRoot -Parent
 Push-Location $raiz
 try {
-    . .\.venv\Scripts\Activate.ps1
+    . .\venv\Scripts\Activate.ps1
 
     if (-not $SoloFunc) {
         Write-Host "`n=== SUITE DJANGO (manage.py test) ===" -ForegroundColor Cyan
