@@ -1,5 +1,16 @@
 ﻿# Resumen Final - Tests Chatbot DianSistemas
 
+> **⚠ ARCHIVO HISTÓRICO** — Informe de septiembre de 2026. No refleja el estado
+> actual del repositorio.
+>
+> - Los tests se han reubicado: `pruebas/funcional/`, `pruebas/aplicacion/`,
+>   `pruebas/evaluacion/`. Los nombres citados más abajo (`test_todos_casos.py`,
+>   `test_todos_tipos.py`) **ya no existen**.
+> - Estado verificado a **2026-10-02**: **233 comprobaciones, 0 fallos**
+>   (`verificar_saludos` 19/19 · `manage.py test` 112 OK · `test_comprehensive`
+>   OK · `test_views` 22/22 · `test_suite` 20/20 · `test_2_fallidos` 3/3 ·
+>   `test_funcional` 34 · `test_flujo` 23/23).
+
 ## Estado Final: ✅ COMPLETADO
 
 ### Tests Ejecutados y Guardados
