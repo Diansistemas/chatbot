@@ -54,12 +54,14 @@ def clasificar_conversacion(conversacion):
     }
     
     try:
-        import spacy
-        from django.conf import settings
-        
-        # Cargar modelo spaCy (cacheado a nivel de módulo para rendimiento)
+        # Cargar modelo spaCy (cacheado a nivel de módulo para rendimiento).
+        # Antes: spacy.load(settings.SPACY_MODEL_PATH) -> cargaba una SEGUNDA
+        # copia del modelo (get_nlp() ya lo tiene cacheado) y petaba si
+        # entrenamiento/spacy/ no existia, cayendo al fallback de palabras
+        # clave sin que se notara.
         if not hasattr(clasificar_conversacion, "_nlp"):
-            clasificar_conversacion._nlp = spacy.load(settings.SPACY_MODEL_PATH)
+            from core.acceso import get_nlp
+            clasificar_conversacion._nlp = get_nlp()
         
         # Analizar CADA mensaje del cliente individualmente
         mensajes_cliente = conversacion.conversacion_mensajes.filter(remitente="usuario")
@@ -68,6 +70,12 @@ def clasificar_conversacion(conversacion):
         
         # Verificar si ALGÚN mensaje tiene intención compra/confirmacion con confianza >= 0.6
         # Y contiene al menos una palabra clave de compra
+        # Los máximos se recogen AQUI dentro: el log de abajo antes volvía a
+        # pasar todos los mensajes por la NLP (2 llamadas extra por mensaje)
+        # y logger.debug evalúa sus argumentos aunque el nivel esté apagado.
+        # Resultado: 3x la NLP en cada cierre que no era compra.
+        max_compra = 0.0
+        max_confirm = 0.0
         for mensaje in mensajes_cliente:
             texto_lower = mensaje.texto.lower()
             doc = clasificar_conversacion._nlp(mensaje.texto)
@@ -75,6 +83,8 @@ def clasificar_conversacion(conversacion):
             # Obtener confianza para compra y confirmacion
             conf_compra = doc.cats.get("compra", 0.0)
             conf_confirmacion = doc.cats.get("confirmacion", 0.0)
+            max_compra = max(max_compra, conf_compra)
+            max_confirm = max(max_confirm, conf_confirmacion)
             
             # Verificar si el mensaje contiene palabras clave de compra
             tiene_palabras_compra = any(p in texto_lower for p in PALABRAS_COMPRA)
@@ -97,11 +107,8 @@ def clasificar_conversacion(conversacion):
                 )
                 return True
         
-        # Log para debug
-        max_compra = max((clasificar_conversacion._nlp(m.texto).cats.get("compra", 0.0) 
-                         for m in mensajes_cliente), default=0.0)
-        max_confirm = max((clasificar_conversacion._nlp(m.texto).cats.get("confirmacion", 0.0) 
-                          for m in mensajes_cliente), default=0.0)
+        # Log para debug: los maximos ya vienen calculados del bucle de arriba.
+        # Antes se volvian a calcular aqui con 2 llamadas NLP MAS por mensaje.
         logger.debug(
             "Clasificación NLP conv %s: max compra=%.3f, max confirmacion=%.3f -> NO COMPRA",
             conversacion.pk, max_compra, max_confirm

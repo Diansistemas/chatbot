@@ -5,6 +5,8 @@ import spacy
 import requests
 import re
 
+from pathlib import Path
+
 from django.conf import settings
 from functools import lru_cache
 
@@ -40,21 +42,38 @@ def etiqueta_modelo(intencion):
 @lru_cache(maxsize=1)
 def get_nlp():
 
-    # Miramos si tenemos modelo propio
     ruta_modelo = getattr(settings, "SPACY_MODEL_PATH", None)
+    base_model = getattr(settings, "SPACY_MODEL_BASE", "es_core_news_sm")
 
-    # Si lo tenemos, lo añadimos
+    # entrenamiento/spacy/ esta en .gitignore: en un clon limpio el modelo NO
+    # existe. Hay que comprobarlo ANTES de spacy.load(), porque ese OSError no
+    # se cachea en lru_cache (se re-lanzaria y re-tracearia en CADA mensaje) y
+    # ademas dejaba inalcanzable la rama del modelo base de abajo.
     if ruta_modelo:
-        logger.info("Cargando modelo spaCy propio: %s", ruta_modelo)
-        nlp = spacy.load(ruta_modelo)
-        logger.info("Modelo spaCy cargado (pipeline: %s)", nlp.pipe_names)
-        return nlp
+        if Path(ruta_modelo).exists():
+            logger.info("Cargando modelo spaCy propio: %s", ruta_modelo)
+            try:
+                nlp = spacy.load(ruta_modelo)
+            except Exception:
+                # Un modelo corrupto no debe tumbar el chat entero
+                logger.exception(
+                    "Modelo propio ilegible en %s; usando el base %s",
+                    ruta_modelo, base_model,
+                )
+            else:
+                logger.info("Modelo spaCy cargado (pipeline: %s)", nlp.pipe_names)
+                return nlp
+        else:
+            logger.error(
+                "SPACY_MODEL_PATH no existe: %s. entrenamiento/spacy/ esta en .gitignore, "
+                "asi que hay que generar el modelo (manage.py generar_nlp + spacy train) "
+                "o copiar la carpeta. Mientras tanto se usa el base %s, que NO conoce las "
+                "intenciones propias del chatbot.",
+                ruta_modelo, base_model,
+            )
 
-    # Si no, cargamos el base
-    else:
-        base_model = getattr(settings, "SPACY_MODEL_BASE", "es_core_news_sm")
-        logger.warning("No hay modelo propio; usando el base: %s", base_model)
-        return spacy.load(base_model)
+    logger.warning("Usando el modelo spaCy base: %s", base_model)
+    return spacy.load(base_model)
 
 
 # Como nombramos al modelo

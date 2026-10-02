@@ -17,7 +17,8 @@ venv/
 media/
 logs/
 *.log
-db.sqlite3
+# La BD y sus copias de seguridad manuales (db.sqlite3.bak_*)
+db.sqlite3*
 
 # Modelos y Entrenamientos de spaCy
 modelo/

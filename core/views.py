@@ -108,7 +108,14 @@ class ChatWidgetView(DominioPermitidoMixin, ListView):
             bienvenida = None
             if self.conversacion is None:
                 self.conversacion = Conversacion.objects.create()
-                logger.info("Nueva conversacion creada token=%s", self.conversacion.token)
+                # El token es la UNICA credencial de acceso a la conversacion:
+                # en el log solo va su prefijo (mismo corte que usa el test
+                # funcional). Con el completo, cualquiera con acceso a los
+                # logs podria suplantar a cualquier usuario.
+                logger.info(
+                    "Nueva conversacion creada conv=%s",
+                    str(self.conversacion.token)[:8],
+                )
                 mensaje_bienvenida = Mensaje.objects.create(
                     conversacion=self.conversacion,
                     texto="Hola, soy el asistente virtual de Dian Sistemas ¿que necesitas?",
@@ -175,7 +182,7 @@ class ChatWidgetView(DominioPermitidoMixin, ListView):
                 mensaje_bot = responder(mensaje_usuario)
                 logger.info(
                     "Respuesta generada conv=%s mensaje_id=%s",
-                    self.conversacion.token, mensaje_usuario.pk,
+                    str(self.conversacion.token)[:8], mensaje_usuario.pk,
                 )
             except Exception:
                 logger.exception("Error generando la respuesta del bot")

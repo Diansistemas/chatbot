@@ -4,6 +4,8 @@ from chat.models import Mensaje, Conversacion, Servicio, Pedido
 from entrenamiento.models import Intencion, EtiquetaEntidad, EjemploNLP, SpanEntidad, Par_Mensaje_Respuesta
 from .acceso import get_nlp, llamar_llm
 
+from decimal import Decimal, InvalidOperation
+
 import logging
 logger = logging.getLogger(__name__)
 
@@ -215,6 +217,61 @@ def guardar_respuesta_bot(mensaje_usuario, texto):
             remitente="chatbot"
         )
 
+# Convierte un texto de importe en Decimal, o None si no se puede interpretar.
+# El campo Pedido.presupuesto es DecimalField, asi que devuelve Decimal y no
+# float (metiamos un float en un DecimalField).
+#
+# Formatos admitidos; el proyecto trabaja en euros, asi que la convencion
+# principal es la europea, pero se cubre tambien la inglesa:
+#   "1.234,56" -> 1234.56   (punto millares, coma decimal)
+#   "1000.50"  -> 1000.50   (2 decimales -> el punto ES decimal)
+#   "1.500"    -> 1500.00   (3 decimales ambiguos -> millares)
+#   "1,500"    -> 1500.00   (3 decimales ambiguos -> millares)
+#   "200"      -> 200.00
+# ANTES: bruto.replace('.', '').replace(',', '.') interpretaba "1000.50"
+# como 100050.00 (x100) y lo envolvia en un float.
+def _parsear_importe(bruto):
+    t = str(bruto).replace("\u00a0", "").replace(" ", "")
+    if not t:
+        return None
+
+    hay_punto, hay_coma = "." in t, "," in t
+
+    if hay_punto and hay_coma:
+        # El ULTIMO separador separa los decimales; el otro es de millares
+        if t.rfind(",") > t.rfind("."):
+            entero, decimal = t.rsplit(",", 1)
+            entero = entero.replace(".", "")
+        else:
+            entero, decimal = t.rsplit(".", 1)
+            entero = entero.replace(",", "")
+        t = f"{entero}.{decimal}"
+    else:
+        sep = "," if hay_coma else ("." if hay_punto else "")
+        if sep:
+            partes = t.split(sep)
+            if len(partes) > 2 or not partes[1]:
+                # "1.234.567" / "1,234,567" / "200." -> sin decimales utiles
+                t = "".join(p for p in partes if p)
+            elif len(partes[1]) == 3:
+                # 3 decimales ambiguos: en euros "1.500" es mil, no 1,5
+                t = "".join(partes)
+            else:
+                t = f"{partes[0]}.{partes[1]}"
+
+    try:
+        valor = Decimal(t)
+    except (InvalidOperation, ValueError, ArithmeticError):
+        logger.warning("No se pudo interpretar el importe %r", bruto)
+        return None
+
+    if not valor.is_finite() or valor < 0:
+        logger.warning("Importe descartado (negativo o no finito): %r -> %s", bruto, valor)
+        return None
+
+    return valor
+
+
 # Extraer y crear Pedido automáticamente si hay datos suficientes
 def crear_pedido_si_completo(conversacion):
     """
@@ -272,12 +329,13 @@ def crear_pedido_si_completo(conversacion):
         if not montos:
             montos = re.findall(r'(\d[\d.,]*)\s*(?:euros?|eur\b)', texto, re.IGNORECASE)
         if montos:
-            try:
-                # Tomar el último monto mencionado
-                monto_str = montos[-1].replace('.', '').replace(',', '.')
-                datos_extraidos["presupuesto"] = float(monto_str)
-            except:
-                pass
+            # Ultimo monto mencionado. _parsear_importe devuelve Decimal o
+            # None y deja constancia en el log si no lo sabe interpretar:
+            # antes lo tragaba un `except: pass` y el pedido se creaba con
+            # presupuesto 0 sin rastro de ningun tipo.
+            valor = _parsear_importe(montos[-1])
+            if valor is not None:
+                datos_extraidos["presupuesto"] = valor
         
         # Buscar email
         emails = re.findall(r'[\w\.-]+@[\w\.-]+\.\w+', texto)

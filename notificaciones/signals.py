@@ -13,7 +13,13 @@ logger = logging.getLogger(__name__)
 # Nos fijamos en los cierres: si hay intencion de compra,
 # clasificamos, generamos el resumen y lo mandamos por correo
 @receiver(post_save, sender=Conversacion)
-def al_cerrar_conversacion(sender, instance, created, update_fields, **kwargs):
+def al_cerrar_conversacion(sender, instance, created, update_fields, raw=False, **kwargs):
+
+    # Carga de fixtures (loaddata): raw=True. Nunca generar resumenes ni
+    # tocar el SMTP durante una importacion. Hoy no hay loaddata en el
+    # proyecto, pero es un coste cero y evita una sorpresa futura.
+    if raw:
+        return
 
     # Una conversacion recien creada aun no esta cerrada
     if created:

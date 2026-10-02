@@ -108,8 +108,13 @@ SPACY_MODEL_BASE = "es_core_news_sm"
 SPACY_MODEL_PATH = BASE_DIR / "entrenamiento" / "spacy" / "modelo" / "model-best"
 
 # Configuracion de la LLM
-# Modelo base que vamos a usar
-OLLAMA_HOST = os.getenv("OLLAMA_HOST")
+# Host de Ollama.
+# SIN default, si faltaba en .env la URL resultante era literalmente
+# "None/api/chat" y TODAS las llamadas fallaban, cayendo al ultimo
+# candidato de la cadena de fallback sin que nadie lo notara.
+# Se normaliza quitando la barra final: _llamar_ollama_llm monta
+# f"{OLLAMA_HOST}/api/chat".
+OLLAMA_HOST = (os.getenv("OLLAMA_HOST") or "http://localhost:11434").strip().rstrip("/")
 
 # Variables del LLM
 LLM_CONTEXT_SIZE = 2048
@@ -171,6 +176,12 @@ EMAIL_PORT = int(os.getenv('EMAIL_PORT', 587))
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'False').lower() in ('true', '1', 'yes')
+
+# Sin esto Django deja el socket SMTP sin timeout (socket.getdefaulttimeout()
+# suele ser None = bloquea indefinidamente). Como el envio corre dentro de una
+# senal post_save que se dispara incluso desde un GET, un SMTP colgado dejaria
+# la peticion parada para siempre. 10 s es comodo para un envio normal.
+EMAIL_TIMEOUT = int(os.getenv('EMAIL_TIMEOUT', 10))
 
 # Lista segura de destinatarios (admite varios, no crashea si está vacío)
 RESUMEN_EMAIL_DESTINATARIOS = [
