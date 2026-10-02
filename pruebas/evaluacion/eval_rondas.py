@@ -13,6 +13,8 @@ MODELOS = [
     ("RONDA 8 (585 ej, seed=0)",
      r"C:\Users\CEFYE\AppData\Local\Temp\opencode\backup_premerge\spacy_modelo_ronda8_585\model-best"),
     ("RONDA 9 (597 ej, seed=0)",
+     r"C:\Users\CEFYE\chat\entrenamiento\spacy\backup_modelo_ronda9_597\model-best"),
+    ("RONDA 10 (1333 ej, seed=0)",
      r"C:\Users\CEFYE\chat\entrenamiento\spacy\modelo\model-best"),
 ]
 DEV = r"C:\Users\CEFYE\chat\entrenamiento\spacy\dev.spacy"
