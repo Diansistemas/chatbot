@@ -114,12 +114,55 @@ dejar procesos huérfanos tras cancelar un shell.
 
 ---
 
+## Continuación — 7 de octubre (pasos 9-14)
+
+### Paso 9 — Verificación E2E con la URL `bright-windsor…` (aprobado)
+
+- Batería completa: **4 OK / 0 FALLOS** (Referer WP 200, hostil 403, loader.js/css 200)
+  y CSP `frame-ancestors` correcta.
+
+### Paso 10 — Commit + push del log (aprobado)
+
+- `b0f8ad2` "Docs: log de sesiones 6-7 octubre…" → `0a32fe4..b0f8ad2` en
+  `https://github.com/Diansistemas/chatbot`; `ramapruebas` sincronizada.
+
+### Paso 11 — 3ª comprobación de *Setup Python App* (pedido: "comprueba cpanel")
+
+- La sesión había caducado de nuevo → re-login del usuario (`cpsess4064864084`).
+- Resultado: dashboard 289.228 chars / 102 herramientas → **0 coincidencias** "python";
+  URL directa con token nuevo → **HTTP 404**. Dashboard restaurado.
+- **Sigue sin estar** habilitada la herramienta.
+
+### Paso 12 — 2ª caída de servicios del día (detectada por "comprueba")
+
+- Django `:8000` caído, `cloudflared` detenido y DNS `bright-windsor…` ya no resolvía
+  (túnel muerto). Causa: **reinicio del entorno entre mensajes** (los shells de fondo
+  desaparecen — patrón repetido).
+- Además: **3ª caducidad** de la sesión de cPanel en el mismo día.
+
+### Paso 13 — Restauración (aprobada)
+
+1. Túnel nuevo: `https://favor-telecharger-complicated-excitement.trycloudflare.com`
+   (conexión QUIC registrada).
+2. `.env` actualizado: `bright-windsor…` → `favor-telecharger…` (3 líneas).
+3. Puerto 8000 verificado **libre** antes de arrancar (lección aplicada) → Django limpio,
+   **1 solo listener** (PID 11804, sin huérfanos).
+4. Verificación: `localhost/health` → **200** y `<túnel>/health` → **200**.
+
+### Paso 14 — E2E con la URL `favor-telecharger…` (aprobado)
+
+- Batería: **4 OK / 0 FALLOS** + CSP correcta con la URL nueva.
+- ⚠️ El snippet de WordPress **sigue** apuntando a `favorites-window-parts-allied`
+  (paso 5 pendiente: requiere login en WP — el usuario lo pospuso).
+
+---
+
 ## Estado al cierre de este log
 
 | Elemento | Estado |
 |---|---|
 | Django `:8000` | ✅ Activo (PID limpio, `.env` nuevo) |
-| Túnel | ✅ `https://bright-windsor-targeted-linda.trycloudflare.com` |
+| Túnel | ✅ `https://favor-telecharger-complicated-excitement.trycloudflare.com` (reincorporado tras la 2ª caída) |
 | `.env` | ✅ 3 líneas con la URL actual |
 | Snippet en WP | ❌ **Obsoleto** — sigue con `favorites-window-parts-allied` → widget roto; requiere login en WP (paso 5 pendiente) |
 | cPanel *Setup Python App* | ❌ No habilitado (7/oct) — mensaje a Raiola pendiente |
@@ -127,8 +170,8 @@ dejar procesos huérfanos tras cancelar un shell.
 
 ### Pendientes
 
-- [ ] Paso 5: iniciar sesión en WordPress y actualizar el snippet a `bright-windsor…`
-- [ ] Verificación E2E completa con la URL nueva (batería del paso 4)
+- [ ] Paso 5: iniciar sesión en WordPress y actualizar el snippet a `favor-telecharger…`
+- [x] Verificación E2E con URL nueva — **hecha 2 veces** (7/oct: pasos 9 y 14, 4/4 ambas)
 - [ ] Enviar el mensaje a Raiola (Apéndice C de `docs/despliegue_wordpress.md`)
-- [ ] Commit + push de este log (con aprobación)
+- [x] Commit + push de este log (`b0f8ad2` + actualización de continuidad)
 - [ ] Cambios históricos: `docs/despliegue_wordpress.md` (ya pushado en `0a32fe4`)
