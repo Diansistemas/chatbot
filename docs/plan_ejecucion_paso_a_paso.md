@@ -22,16 +22,17 @@ Documentación complementaria (ya en el repo):
 | 2 | Tests: **113 suite + 34 funcionales** (0 fallos) | ✅ |
 | 3 | Widget E2E en local + túnel (Referer/Origin/CSP, token persistente) | ✅ |
 | 4 | Fix CSRF para iframes (`csrf_exempt` + check `Origin`) | ✅ |
-| 5 | Django + Ollama + túnel | ❌ **Django y túnel caídos** (reinicio 9/oct) → restaurar con el **Bloque D**; Ollama se verifica al restaurar |
+| 5 | Django + Ollama + túnel | ✅ **Restaurado 9/oct** (4ª restauración: huérfano 3900 eliminado, PID 20772, E2E 4/4) |
 | 6 | Página WP `metododian.com/index.php/prueba-chatbot/` | ⏸️ Snippet **ROTO** (URL vieja) → **Bloque B** |
 | 7 | *Setup Python App* en cPanel `ha1011` | ❌ No activado (4 jornadas: 6, 7×3, 8 oct) → **Bloque C** |
 | 8 | Hosting definitivo | ⏸️ Sin decidir (3 vías) → **Bloque C/D/E** |
 | 9 | Docker end-to-end | ⏸️ Docker no instalado → **Bloque F** |
 | 10 | Página de prueba WP: dejar o borrar | ⏸️ Decisión del usuario → **Bloque G** |
 
-**URL del túnel**: ❌ la última (`coalition-taxes-sellers-change…`) **murió con el
-reinicio del9/oct** — crear la nueva con el **Bloque D** y anotarla aquí y en el
-Apéndice A (luego al Bloque B para el snippet de WP).
+**URL del túnel**: `https://clocks-gather-jenny-governing.trycloudflare.com`
+(9/oct — la anterior murió con el reinicio). ⚠️ *Cambia en cada reinicio:
+actualizar aquí, en el Apéndice A, en `.env` (3 líneas) y en el snippet de WP
+(**Bloque B**).*
 
 ---
 
@@ -275,7 +276,7 @@ hosting definitivo (Bloque C).
 
 | Dato | Valor (8/oct/2026) |
 |---|---|
-| URL del túnel | ❌ `coalition-taxes-sellers-change…` **muerta** (reinicio 9/oct) → crear nueva con el Bloque D y anotar aquí |
+| URL del túnel | `https://clocks-gather-jenny-governing.trycloudflare.com` (9/oct; **cambia siempre** en cada reinicio) |
 | Página WP | `https://metododian.com/index.php/prueba-chatbot/` |
 | Snippet en WP | `…/static/js/loader.js` de la URL del túnel **actual** |
 | cPanel | `ha1011.raiolanetworks.es:2083` · usuario `diansis1` · cPanel 136.0.45 · disco 93 % |

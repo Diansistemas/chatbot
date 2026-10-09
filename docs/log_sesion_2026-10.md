@@ -207,15 +207,30 @@ dejar procesos huérfanos tras cancelar un shell.
 - Plan maestro actualizado al estado real del9/oct (servicios caídos → Bloque D listo).
 - Ambos ficheros: pendientes de commit/push (con aprobación).
 
+### Paso 21 — Commit + push de la documentación (aprobada)
+
+- `ramapruebas`: `93d53b6` → **`45ff93a`** → `Diansistemas/chatbot`
+  (`plan_ejecucion_paso_a_paso.md` nuevo + este log actualizado).
+
+### Paso 22 — Restauración de servicios (4ª del ciclo) (aprobada, Bloque D)
+
+1. Túnel nuevo: `https://clocks-gather-jenny-governing.trycloudflare.com` (registrado).
+2. `.env`: `coalition-taxes…` → `clocks-gather…` (3 líneas).
+3. ⚠️ Puerto 8000 **ocupado por huérfano PID 3900** (Django de las 08:41 con el
+   `.env` anterior → habría devuelto 400 *DisallowedHost* en el túnel nuevo):
+   **matado** y arrancado limpio (PID 20772).
+4. Salud: `localhost/health` → **200** y `<túnel>/health` → **200**.
+5. E2E: **4 OK / 0 FALLOS** + CSP con la URL nueva.
+
 ---
 
 ## Estado al cierre de este log
 
 | Elemento | Estado |
 |---|---|
-| Django `:8000` | ❌ Caído (reinicio 9/oct) — restauración: **Bloque D** del plan |
-| Túnel | ❌ Detenido — URL `coalition-taxes…` muerta; nueva URL al restaurar |
-| `.env` | ✅ 3 líneas con la última URL usada (se re-edita en cada restauración) |
+| Django `:8000` | ✅ Activo (PID 20772, huérfano 3900 eliminado, `.env` nuevo) |
+| Túnel | ✅ `https://clocks-gather-jenny-governing.trycloudflare.com` (4ª restauración, 9/oct) |
+| `.env` | ✅ 3 líneas con la URL actual |
 | Snippet en WP | ❌ **Obsoleto** — sigue con `favorites-window-parts-allied` → widget roto; requiere login en WP (paso 5 pendiente) |
 | cPanel *Setup Python App* | ❌ No habilitado (8/oct,4ª comprobación) — mensaje a Raiola pendiente |
 | Página de prueba WP | Decidir: mantener como demo o eliminar |
@@ -223,9 +238,10 @@ dejar procesos huérfanos tras cancelar un shell.
 ### Pendientes
 
 - [ ] Paso 5: iniciar sesión en WordPress y sustituir el snippet por la **URL actual del túnel** (Apéndice A del plan → Bloque B)
-- [x] Verificación E2E con URL nueva — **hecha 3 veces** (7/oct ×2 y 8/oct, 4/4 en todas)
+- [x] Verificación E2E con URL nueva — **hecha 4 veces** (7/oct ×2, 8/oct y 9/oct, 4/4 en todas)
 - [ ] Enviar el mensaje a Raiola (texto en el **Bloque C** del plan) — sin cambios tras la 4ª comprobación (8/oct)
-- [x] Commit + push de este log (`b0f8ad2` + `93d53b6`)
-- [ ] Commit + push del plan maestro `plan_ejecucion_paso_a_paso.md` + esta actualización (con aprobación)
-- [ ] Restaurar servicios caídos (protocolo del **Bloque D**) cuando el usuario lo pida
+- [x] Commit + push de este log (`b0f8ad2` + `93d53b6` + **`45ff93a`**)
+- [x] Commit + push del plan maestro `plan_ejecucion_paso_a_paso.md` + actualización (**`45ff93a`**)
+- [x] Restaurar servicios caídos (Bloque D) — 4ª restauración hecha 9/oct (pasos 21-22)
+- [ ] Addendum de este cierre (pasos 21-22) — pendiente de commit/push (con aprobación)
 - [ ] Cambios históricos: `docs/despliegue_wordpress.md` (ya pushado en `0a32fe4`)
