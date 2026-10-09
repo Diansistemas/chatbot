@@ -157,21 +157,75 @@ dejar procesos huérfanos tras cancelar un shell.
 
 ---
 
+## Sesión — 8 de octubre de 2026
+
+### Paso 15 — 4ª comprobación de *Setup Python App* (pedido: "revisa")
+
+- Sesión fresca de cPanel (`cpsess5218875777`, recién logueada por el usuario).
+- Dashboard: **289.007 chars / 102 herramientas** → **0 coincidencias** "python";
+  URL directa con token nuevo → **HTTP 404**. Dashboard restaurado.
+- **Sin cambios**:4ª jornada comprobando (6, 7×3, 8 oct).
+- El usuario decide: **por ahora no contacta con Raiola**.
+
+### Paso 16 — Restauración de servicios (3ª del ciclo) (aprobada)
+
+1. Túnel nuevo: `https://coalition-taxes-sellers-change.trycloudflare.com` (registrado).
+2. `.env`: `favor-telecharger…` → `coalition-taxes…` (3 líneas).
+3. Puerto8000 verificado libre → Django limpio.
+4. Salud: `localhost/health` → **200** y `<túnel>/health` → **200**.
+
+### Paso 17 — E2E con la URL nueva (aprobada)
+
+- Batería: **4 OK / 0 FALLOS** (Referer WP 200, hostil 403, loader.js/css 200)
+  + CSP `frame-ancestors` con la URL nueva.
+
+### Paso 18 — Plan maestro de ejecución (pedido: "documenta paso a paso y simula…")
+
+- Creado `docs/plan_ejecucion_paso_a_paso.md`: plan con leyenda ✅ HECHO / ⏸️ SIMULADO:
+  - **Bloque B**: snippet en WordPress (7 pasos + checklist) — bloqueado por login WP.
+  - **Bloque C**: Raiola — mensaje listo +3 escenarios (A1 habilitan Python con14 pasos,
+    A2 contratar Hosting Python desde27,20 €/mes, A3 VPS).
+  - **Bloque D**: protocolo de restauración tras cada reinicio (4 pasos).
+  - **Bloque E**: checklist de producción end-to-end (11 puntos).
+  - **Bloque F**: Docker (instalación + `docker_setup.sh`).
+  - **Bloque G**: decisiones del usuario.
+- ⏳ Pendiente de commit en ese momento.
+
+---
+
+## Sesión — 9 de octubre de 2026
+
+### Paso 19 — Reinicio del entorno
+
+- Shells de fondo cancelados: **Django y túnel caídos** (patrón diario).
+  Ollama previsiblemente activo (se verifica al restaurar).
+- El snippet de WP ya apuntaba a una URL muerta → widget sigue roto.
+
+### Paso 20 — Actualización de la documentación (pedido repetido: "documenta… y simula…")
+
+- Log actualizado con8-9/oct (este apartado).
+- Plan maestro actualizado al estado real del9/oct (servicios caídos → Bloque D listo).
+- Ambos ficheros: pendientes de commit/push (con aprobación).
+
+---
+
 ## Estado al cierre de este log
 
 | Elemento | Estado |
 |---|---|
-| Django `:8000` | ✅ Activo (PID limpio, `.env` nuevo) |
-| Túnel | ✅ `https://favor-telecharger-complicated-excitement.trycloudflare.com` (reincorporado tras la 2ª caída) |
-| `.env` | ✅ 3 líneas con la URL actual |
+| Django `:8000` | ❌ Caído (reinicio 9/oct) — restauración: **Bloque D** del plan |
+| Túnel | ❌ Detenido — URL `coalition-taxes…` muerta; nueva URL al restaurar |
+| `.env` | ✅ 3 líneas con la última URL usada (se re-edita en cada restauración) |
 | Snippet en WP | ❌ **Obsoleto** — sigue con `favorites-window-parts-allied` → widget roto; requiere login en WP (paso 5 pendiente) |
-| cPanel *Setup Python App* | ❌ No habilitado (7/oct) — mensaje a Raiola pendiente |
+| cPanel *Setup Python App* | ❌ No habilitado (8/oct,4ª comprobación) — mensaje a Raiola pendiente |
 | Página de prueba WP | Decidir: mantener como demo o eliminar |
 
 ### Pendientes
 
-- [ ] Paso 5: iniciar sesión en WordPress y actualizar el snippet a `favor-telecharger…`
-- [x] Verificación E2E con URL nueva — **hecha 2 veces** (7/oct: pasos 9 y 14, 4/4 ambas)
-- [ ] Enviar el mensaje a Raiola (Apéndice C de `docs/despliegue_wordpress.md`)
-- [x] Commit + push de este log (`b0f8ad2` + actualización de continuidad)
+- [ ] Paso 5: iniciar sesión en WordPress y sustituir el snippet por la **URL actual del túnel** (Apéndice A del plan → Bloque B)
+- [x] Verificación E2E con URL nueva — **hecha 3 veces** (7/oct ×2 y 8/oct, 4/4 en todas)
+- [ ] Enviar el mensaje a Raiola (texto en el **Bloque C** del plan) — sin cambios tras la 4ª comprobación (8/oct)
+- [x] Commit + push de este log (`b0f8ad2` + `93d53b6`)
+- [ ] Commit + push del plan maestro `plan_ejecucion_paso_a_paso.md` + esta actualización (con aprobación)
+- [ ] Restaurar servicios caídos (protocolo del **Bloque D**) cuando el usuario lo pida
 - [ ] Cambios históricos: `docs/despliegue_wordpress.md` (ya pushado en `0a32fe4`)
